@@ -1,0 +1,69 @@
+@font-face {
+  font-family: "Satoshi";
+  src: url(./assets/fonts/Satoshi-Variable.ttf);
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Satoshi";
+  /* background-color: #1570ef; */
+  background-color: #f5f6fa;
+
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* svg {
+  fill: none;
+} */
+
+input {
+  font-family: inherit;
+  outline: none;
+}
