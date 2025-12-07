@@ -20,7 +20,7 @@ import {
 
 const owner = "Peter Parker";
 
-const MessageContainer = () => {
+const MessageContainer = ({ onOpenUserProfile }) => {
   const grouped = messages.reduce((acc, msg) => {
     const key = getDateKey(msg.createdAt);
     if (!acc[key]) acc[key] = [];
@@ -39,8 +39,9 @@ const MessageContainer = () => {
             {grouped[dateKey].map((message) => (
               <ChatWrapper key={message._id} isOwner={message.name === owner}>
                 <ChatImage>
-                  <Avatar>
-                    {/* <img
+                  {message.name !== owner && (
+                    <Avatar>
+                      {/* <img
                 src={
                   message.name === owner
                     ? authUser.profilePic || "/avatar.png"
@@ -48,18 +49,19 @@ const MessageContainer = () => {
                 }
                 alt="profile pic"
               /> */}
-                  </Avatar>
+                    </Avatar>
+                  )}
                 </ChatImage>
 
                 <div>
                   <ChatHeader>
-                    <ChatName>
+                    <ChatName onClick={onOpenUserProfile}>
                       {message.name === owner ? "You" : message.name}
                     </ChatName>
                     <ChatTime>{formatMessageTime(message.createdAt)}</ChatTime>
                   </ChatHeader>
 
-                  <ChatBubble>
+                  <ChatBubble isOwner={message.name === owner}>
                     {message.image && (
                       <ChatImageAttachment
                         src={message.image}

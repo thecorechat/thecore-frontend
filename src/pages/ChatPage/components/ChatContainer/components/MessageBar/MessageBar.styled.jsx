@@ -32,6 +32,7 @@ export const MessageBarInputStyle = styled.input`
   display: flex;
   flex: 1;
   padding: 1.25rem;
+  height: 48px;
   border-radius: 0.375rem;
   border: none;
   &:focus {
@@ -58,13 +59,4 @@ export const DropDownEmojiList = styled.div`
   position: absolute;
   bottom: 4rem;
   left: 0;
-`;
-
-export const CTAButton = styled.div`
-  padding: 1rem;
-  background-color: #1570ef;
-  font-size: 1.2rem;
-  color: white;
-  border-radius: 7px;
-  line-height: 90%;
 `;

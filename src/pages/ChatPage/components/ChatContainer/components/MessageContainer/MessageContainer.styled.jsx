@@ -50,7 +50,7 @@ export const ChatWrapper = styled.div`
 
 export const ChatImage = styled.div`
   display: flex;
-  align-items: center;
+  // align-items: center;
   margin-right: 0.5rem;
 `;
 
@@ -72,6 +72,7 @@ export const ChatHeader = styled.div`
 export const ChatName = styled.span`
   font-size: 0.875rem;
   font-weight: 500;
+  cursor: pointer;
 `;
 
 export const ChatTime = styled.time`
@@ -81,11 +82,21 @@ export const ChatTime = styled.time`
 `;
 
 export const ChatBubble = styled.div`
-  background: #f1f1f1;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
+  ${({ isOwner }) =>
+    isOwner
+      ? css`
+          background: var(--primary-60);
+          color: var(--gray-0);
+          border-radius: 0.5rem 0 0.5rem 0.5rem;
+        `
+      : css`
+          background: var(--gray-10);
+          color: var(--gray-100);
+          border-radius: 0 0.5rem 0.5rem 0.5rem;
+        `}
 `;
 
 export const ChatImageAttachment = styled.img`

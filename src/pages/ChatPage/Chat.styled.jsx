@@ -5,4 +5,5 @@ export const ChatMainContainerStyle = styled.div`
   height: 100vh;
   color: #242424;
   overflow: hidden;
+  position: relative;
 `;

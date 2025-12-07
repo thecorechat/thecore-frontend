@@ -45,6 +45,7 @@ export const LogoBoxContactsContainerStyle = styled.span`
   line-height: 90%;
   font-size: 18px;
   border-radius: 7px;
+  cursor: pointer;
 `;
 
 export const LogoTitleContactsContainerStyle = styled.span`

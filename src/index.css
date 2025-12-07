@@ -11,6 +11,19 @@
   box-sizing: border-box;
 }
 
+:root {
+  --gray-0: #ffffff;
+  --gray-10: #f5f6fa;
+  --gray-20: #dbdbe2;
+  --gray-40: #b6b6bc;
+  --gray-70: #686970;
+  --gray-90: #323236;
+  --gray-100: #18181a;
+  --primary-60: #1570ef;
+  --primary-70: #175cd3;
+  --system-error: #e00c00;
+}
+
 body {
   font-family: "Satoshi";
   /* background-color: #1570ef; */
@@ -37,6 +50,16 @@ h6,
 p {
   margin: 0;
   padding: 0;
+}
+
+h4 {
+  font-weight: 500;
+  line-height: 140%;
+  color: var(--gray-90);
+}
+
+p {
+  line-height: 100%;
 }
 
 a {

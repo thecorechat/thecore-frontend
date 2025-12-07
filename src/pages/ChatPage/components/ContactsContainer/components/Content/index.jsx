@@ -15,8 +15,9 @@ import { GoPlus } from "react-icons/go";
 import { SidebarRail } from "../SidebarRail";
 import { SidebarProvider } from "../SidebarRail/SidebarContext";
 import { sidebar } from "../../../../../../mock/data";
+import Button from "../../../../../../ui/Button";
 
-const Content = () => {
+const Content = ({ onOpenCreateChat }) => {
   const [openGroups, setOpenGroups] = useState({});
 
   const toggleGroup = (title) => {
@@ -28,11 +29,18 @@ const Content = () => {
 
   return (
     <SidebarProvider>
-      <AddButton />
+      <AddButtonStyle>
+        <Button
+          onClick={onOpenCreateChat}
+          children={<GoPlus size={24} />}
+          width="48px"
+          height="48px"
+        />
+      </AddButtonStyle>
       <SidebarWrapper>
         <SidebarRail />
         {sidebar.navMain.map((group) => {
-          const isOpen = openGroups[group.title] ?? true; // можно задать defaultOpen=true
+          const isOpen = openGroups[group.title] ?? true;
           return (
             <Group key={group.title}>
               <GroupHeader
@@ -48,7 +56,7 @@ const Content = () => {
                     <a href={item.url}>{item.title}</a>
                   </GroupItem>
                 ))}
-                <AddChat />
+                <AddChat onOpenCreateChat={onOpenCreateChat} />
               </GroupList>
             </Group>
           );
@@ -60,23 +68,13 @@ const Content = () => {
 
 export default Content;
 
-const AddChat = () => {
+const AddChat = ({ onOpenCreateChat }) => {
   return (
-    <AddChatStyle>
+    <AddChatStyle onClick={onOpenCreateChat}>
       <a href={"#"}>
         <GoPlus />
         <span>Add Chat</span>
       </a>
     </AddChatStyle>
-  );
-};
-
-const AddButton = () => {
-  return (
-    <AddButtonStyle>
-      <a href={"#"}>
-        <GoPlus />
-      </a>
-    </AddButtonStyle>
   );
 };

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  CTAButton,
   DropDownEmojiList,
   EmojiStickerBoxStyle,
   EmojiStickerButton,
@@ -14,6 +13,7 @@ import { GrAttachment } from "react-icons/gr";
 import { RiEmojiStickerLine } from "react-icons/ri";
 import { IoSend } from "react-icons/io5";
 import EmojiPicker from "emoji-picker-react";
+import Button from "../../../../../../ui/Button";
 
 const MessageBar = () => {
   const [message, setMessage] = useState("");
@@ -57,9 +57,7 @@ const MessageBar = () => {
           <GrAttachment />
         </EmojiStickerButton>
       </MessageBarSemiContainerStyle>
-      <CTAButton>
-        <IoSend />
-      </CTAButton>
+      <Button children={<IoSend size={20} />} width="48px" height="48px" />
     </MessageBarMainContainerStyle>
   );
 };

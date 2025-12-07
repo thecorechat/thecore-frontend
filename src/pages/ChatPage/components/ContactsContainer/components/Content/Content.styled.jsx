@@ -78,13 +78,6 @@ export const AddChatStyle = styled.div`
 `;
 
 export const AddButtonStyle = styled.div`
-  padding: 0.5rem;
-  background-color: #1570ef;
-  font-size: 24px;
-  color: white;
-  border-radius: 7px;
-  line-height: 90%;
-
   position: absolute;
   right: 20px;
   bottom: 15px;
