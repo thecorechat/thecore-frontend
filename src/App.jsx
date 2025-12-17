@@ -12,14 +12,22 @@ import MainSignIn from "./pages/MainSignIn/MainSignIn";
 import { Container } from "./styles/container";
 import Chat from "./pages/ChatPage/index";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
-// import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import VerifyCode from "./pages/VerifyCode";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import SuccessMessage from "./pages/ChangePassword/components/SuccessMessage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Chat />} />
-        <Route path="/signin" element={<MainSignIn />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/" element={<MainSignIn />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify" element={<VerifyCode />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/change-password/success" element={<SuccessMessage />} />
       </Routes>
     </BrowserRouter>
 

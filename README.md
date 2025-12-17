@@ -17,6 +17,8 @@ Note: This will impact Vite dev & build performances.
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
+# Structure
+
 ```diff
 ├── lib/
 │   ├── utils.js
@@ -99,7 +101,30 @@ If you are developing a production application, we recommend using TypeScript wi
 │   │   │   └── index.jsx
 │   │   │
 │   │   ├── MainSignIn/
-│   │   ├── SignIn /
+│   │   │   ├── MainSignIn.styled.jsx 📅 16.12.2025
+│   │   │   └── MainSignIn.jsx 📅 16.12.2025
+│   │   │
+│   │   ├── SignIn/
+│   │   │   ├── SignIn.styled.jsx 📅 17.12.2025
+│   │   │   └── SignIn.jsx 📅 17.12.2025
+│   │   │
+│   │   ├── ForgotPassword/
+│   │   │   ├── ForgotPassword.styled.jsx 📅 17.12.2025
+│   │   │   └── ForgotPassword.jsx 📅 17.12.2025
+│   │   │
+│   │   ├── VerifyCode/
+│   │   │   ├── VerifyCode.styled.jsx 📅 17.12.2025
+│   │   │   └── index.jsx 📅 17.12.2025
+│   │   │
+│   │   ├── ChangePassword/
+│   │   │   ├── components/
+│   │   │   │   └── SuccessMessage/
+│   │   │   │       ├── SuccessMessage.styled.jsx 📅 17.12.2025
+│   │   │   │       └── index.jsx 📅 17.12.2025
+│   │   │   │
+│   │   │   ├── ChangePassword.styled.jsx 📅 17.12.2025
+│   │   │   └── ChangePassword.jsx 📅 17.12.2025
+│   │   │
 │   │   ├── Chat.jsx
 │   │   ├── CreateAccount.jsx
 │   │   └── Main.jsx
@@ -131,4 +156,54 @@ If you are developing a production application, we recommend using TypeScript wi
 │   ├── index.css
 │   └── main.jsx
 
+```
+
+# Synchronization Process
+
+1. Adding the Upstream Remote
+
+```sh
+git remote add upstream https://github.com/Vasyl24/school-chat.git
+```
+
+2. Viewing Remotes
+
+```sh
+git remote -v
+```
+
+3. Fetching Changes
+
+```sh
+git fetch upstream
+```
+
+4. Merging Changes
+
+```sh
+git merge upstream/main --allow-unrelated-histories
+```
+
+5. Pushing Changes
+
+```sh
+git push origin main
+```
+
+6. Checking Status
+
+```sh
+git status
+```
+
+7. Forced Conflict Resolution
+
+```sh
+git checkout --theirs .
+```
+
+8. Staging Changes
+
+```sh
+git add .
 ```

@@ -1,32 +1,20 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const Container = styled.div`
+export const TitleBox = styled.div`
+  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  padding-bottom: 54px;
-`;
+  align-items: center;
+  gap: 8px;
 
-export const BtnContainer = styled.div`
-  padding-top: 16px;
-  padding-bottom: 16px;
-`;
-
-export const BtnLeft = styled.svg`
-  width: 24px;
-  height: 24px;
-
-  stroke: #000000;
-`;
-
-export const MainContainer = styled.div`
-  padding-top: 64px;
+  p {
+    color: var(--gray-50);
+  }
 `;
 
 export const Title = styled.h2`
-  margin-bottom: 40px;
-
-  color: #18181a;
+  margin-top: 64px;
+  color: var(--gray-100);
   text-align: center;
 
   font-family: Satoshi;
@@ -35,67 +23,120 @@ export const Title = styled.h2`
   line-height: 140%; /* 39.2px */
 `;
 
-export const Text = styled.p`
-  margin-bottom: 24px;
-  color: #686970;
-
-  font-family: Satoshi;
-  font-size: 14px;
-  font-weight: 500;
+export const Background = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;
 
-export const InputList = styled.ul`
-  margin-bottom: 8px;
-`;
-
-export const InputItem = styled.li`
+export const Content = styled.div`
+  padding: 16px 16px 56px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
 
-  &:first-child {
-    margin-bottom: 8px;
+  background-color: var(--gray-10);
+
+  // background-color: var(--gray-0);
+  width: 100%;
+  height: 100%;
+
+  /* from 768px */
+  @media (min-width: 768px) {
+    height: 700px;
+    width: 400px;
+    border-radius: 15px;
   }
 `;
 
+export const InputContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+export const ContentForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  flex: 1;
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Label = styled.label`
-  margin-bottom: 8px;
-
-  color: var(--Gray-100, #18181a);
-
-  font-family: Satoshi;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--gray-100);
+  margin-bottom: 0.25rem;
 `;
 
-export const Input = styled.input`
-  display: block;
-  width: 100%;
+export const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  // margin-bottom: 1rem;
+  position: relative;
+`;
+
+export const IconBox = styled.div`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-40%);
+  cursor: pointer;
+  color: var(--gray-50);
+  transition: 0.5s;
+  &:hover {
+    color: var(--gray-70);
+    transition: 0.5s;
+  }
+`;
+
+export const InputStyle = styled.input`
+  //   background-color: var(--gray-0);
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-20);
+  font-size: 16px;
+  transition: 0.2s;
   height: 48px;
-  padding: 8px 16px;
+  ${(props) =>
+    props.$error &&
+    `
+      border: 1px solid var(--system-error);
+    `}
 
-  font-family: Satoshi;
-  font-size: 16px;
-  font-weight: 500;
+  ${(props) =>
+    props.$success &&
+    `
+      border: 1px solid var(--success-70);
+    `}
 
-  color: var(--Gray-70, #686970);
-  border-radius: 8px;
-  border: 1px solid var(--Gray-20, #dbdbe2);
-  background: var(--Gray-0, #fff);
+  &:focus {
+    border-color: #8a5cff;
+    outline: none;
+    background-color: var(--gray-0);
+  }
 `;
 
-export const ButtonSend = styled.button`
-  margin-top: auto;
-  margin-bottom: 0;
-  width: 100%;
-  height: 44px;
-  padding: 10px;
+export const ButtonBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: top;
+  gap: 8px;
+`;
 
-  border-radius: 8px;
-  background: var(--Primary-60, #1570ef);
+export const Bottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
-  color: #fff;
-
-  font-family: Satoshi;
-  font-size: 16px;
-  font-weight: 700;
+export const ErrorMessage = styled.span`
+  color: var(--system-error);
+  font-size: 14px;
 `;

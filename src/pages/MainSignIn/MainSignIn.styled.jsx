@@ -1,24 +1,36 @@
-import styled from 'styled-components';
-// import { createGlobalStyle } from 'styled-components';
-
-// const GlobalStyle = createGlobalStyle`
-//       body {
-// background-color: #1570ef;
-//       }
-//     `;
+import styled from "styled-components";
 
 export const Background = styled.div`
-  padding-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
 
-  /* background-color: #1570ef; */
-  /* width: 100%;
-  height: 100%; */
+export const Content = styled.div`
+  padding: 248px 16px 56px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: var(--primary-60);
+  // background-color: var(--gray-0);
+  width: 100%;
+  height: 100%;
+
+  /* from 768px */
+  @media (min-width: 768px) {
+    height: 700px;
+    width: 400px;
+    border-radius: 15px;
+  }
 `;
 
 export const Title = styled.h1`
-  margin-bottom: 330px;
+  // margin-bottom: 330px;
 
-  color: #ffffff;
+  color: var(--gray-0);
   /* font-family: "Suisse Int'l Condensed Trial"; */
   font-size: 48px;
 
@@ -27,41 +39,14 @@ export const Title = styled.h1`
   text-align: center;
 `;
 
-export const ButtonList = styled.ul`
-  /* display: flex;
-  justify-content: center; */
+export const Bottom = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-
-  margin-bottom: 48px;
-`;
-
-export const Button = styled.button`
-  display: block;
-  width: 340px;
-  height: 44px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  text-align: center;
-
-  border-radius: 8px;
-  background: #ffffff;
-
-  color: #1570ef;
-
-  font-family: Satoshi;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  gap: 48px;
 `;
 
 export const Text = styled.p`
-  color: #ffffff;
+  color: var(--gray-0);
   text-align: center;
 
   /* Small Text */
@@ -71,7 +56,7 @@ export const Text = styled.p`
   font-weight: 500;
   line-height: 130%; /* 15.6px */
 
-  color: #ffffff;
+  color: var(--gray-0);
 `;
 
 export const Link = styled.a`
@@ -81,4 +66,11 @@ export const Link = styled.a`
   font-weight: 500;
   line-height: 130%;
   text-decoration-line: underline;
+`;
+
+export const ButtonBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: top;
+  gap: 8px;
 `;

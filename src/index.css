@@ -16,18 +16,20 @@
   --gray-10: #f5f6fa;
   --gray-20: #dbdbe2;
   --gray-40: #b6b6bc;
+  --gray-50: #8e8f96;
   --gray-70: #686970;
   --gray-90: #323236;
   --gray-100: #18181a;
   --primary-60: #1570ef;
   --primary-70: #175cd3;
   --system-error: #e00c00;
+  --success-70: #027a48;
 }
 
 body {
   font-family: "Satoshi";
   /* background-color: #1570ef; */
-  background-color: #f5f6fa;
+  /* background-color: #f5f6fa; */
 
   margin: 0;
   padding: 0;

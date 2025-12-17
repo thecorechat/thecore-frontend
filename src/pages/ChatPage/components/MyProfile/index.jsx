@@ -15,8 +15,13 @@ import HeaderBack from "../../../../ui/HeaderBack";
 import { MdBlock } from "react-icons/md";
 import { IoNotificationsOutline } from "react-icons/io5";
 import ToggleSwitch from "../../../../ui/ToggleSwitch";
+import { useNavigate } from "react-router-dom";
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
+  const navigate = useNavigate();
+  const handleLogOutClick = () => {
+    navigate("/");
+  };
   return (
     <MyProfileStyle $open={isOpen}>
       <div>
@@ -55,7 +60,7 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
         </MyProfileStyleBodyCenter>
       </div>
 
-      <MyProfileStyleBottom>
+      <MyProfileStyleBottom onClick={handleLogOutClick}>
         <LuLogOut /> Logout
       </MyProfileStyleBottom>
     </MyProfileStyle>

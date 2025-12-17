@@ -1,24 +1,54 @@
-import { Background, Title, ButtonList, Button, Text, Link } from './MainSignIn.styled';
-
+import {
+  Background,
+  Title,
+  Text,
+  Link,
+  ButtonBlock,
+  Content,
+  Bottom,
+} from "./MainSignIn.styled";
+import Button from "../../ui/Button";
+import { useNavigate } from "react-router-dom";
 function MainSignIn() {
+  const navigate = useNavigate();
+  const handleSignInClick = () => {
+    navigate("/signin");
+  };
+  const handleCreateAccountClick = () => {
+    navigate("/create-account");
+  };
   return (
     <Background>
-      <Title>The Core</Title>
+      <Content>
+        <Title>The Core</Title>
 
-      <ButtonList>
-        <li>
-          <Button>Create account</Button>
-        </li>
-        <li>
-          <Button>Sign in</Button>
-        </li>
-      </ButtonList>
+        <Bottom>
+          <ButtonBlock>
+            <Button
+              children="Create account"
+              background="white"
+              color="var(--primary-60)"
+              borderColor="var(--gray-70)"
+              hoverColor="var(--gray-10)"
+              onClick={handleCreateAccountClick}
+            />
+            <Button
+              children="Sign in"
+              background="white"
+              color="var(--primary-60)"
+              borderColor="var(--gray-70)"
+              hoverColor="var(--gray-10)"
+              onClick={handleSignInClick}
+            />
+          </ButtonBlock>
 
-      <Text>
-        By continuing, you agree to the
-        <Link href="#"> Terms of Service</Link> <br /> and
-        <Link href="#"> Privacy Policy</Link>.
-      </Text>
+          <Text>
+            By continuing, you agree to the
+            <Link href="#"> Terms of Service</Link> <br /> and
+            <Link href="#"> Privacy Policy</Link>.
+          </Text>
+        </Bottom>
+      </Content>
     </Background>
   );
 }
