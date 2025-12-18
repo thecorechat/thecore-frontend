@@ -125,6 +125,28 @@ If you are developing a production application, we recommend using TypeScript wi
 │   │   │   ├── ChangePassword.styled.jsx 📅 17.12.2025
 │   │   │   └── ChangePassword.jsx 📅 17.12.2025
 │   │   │
+│   │   ├── SelectAccount/
+│   │   │   ├── components/
+│   │   │   │   ├── AccessCode/
+│   │   │   │   │   ├── AccessCode.styled.jsx 📅 18.12.2025
+│   │   │   │   │   └── index.jsx 📅 18.12.2025
+│   │   │   │   │
+│   │   │   │   └── RadioSelect/
+│   │   │   │       ├── RadioSelect.styled.jsx 📅 18.12.2025
+│   │   │   │       └── index.jsx 📅 18.12.2025
+│   │   │   │
+│   │   │   ├── SelectAccount.styled.jsx 📅 18.12.2025
+│   │   │   └── index.jsx 📅 18.12.2025
+│   │   │
+│   │   ├── CreateAccount/
+│   │   │   ├── components/
+│   │   │   │   └── EmailPassword/
+│   │   │   │       ├── EmailPassword.styled.jsx 📅 18.12.2025
+│   │   │   │       └── index.jsx 📅 18.12.2025
+│   │   │   │
+│   │   │   ├── CreateAccount.styled.jsx 📅 18.12.2025
+│   │   │   └── index.jsx 📅 18.12.2025
+│   │   │
 │   │   ├── Chat.jsx
 │   │   ├── CreateAccount.jsx
 │   │   └── Main.jsx
@@ -152,8 +174,8 @@ If you are developing a production application, we recommend using TypeScript wi
 │   │       ├── ToggleSwitch.styled.jsx
 │   │       └── index.jsx
 │   │
-│   ├── App.jsx
-│   ├── index.css
+│   ├── App.jsx 📅 18.12.2025
+│   ├── index.css 📅 18.12.2025
 │   └── main.jsx
 
 ```

@@ -25,6 +25,7 @@ const CORRECT_CODE = "1111";
 function VerifyCode() {
   const location = useLocation();
   const sentEmail = location.state?.emailSent;
+  const fromPage = location.state?.from;
   const { handleSubmit } = useForm();
   //   const id = useId();
   const [isCodeInvalid, setIsCodeInvalid] = useState(false);
@@ -51,9 +52,13 @@ function VerifyCode() {
     if (combinedCode === CORRECT_CODE) {
       setIsCodeInvalid(false);
 
-      console.log("Code is correct. Navigating to /");
-
-      navigate("/change-password");
+      if (fromPage === "registration") {
+        navigate("/chat");
+      } else if (fromPage === "forgot-password") {
+        navigate("/change-password");
+      } else {
+        navigate("/");
+      }
     } else {
       setIsCodeInvalid(true);
       console.log("Code is incorrect.");

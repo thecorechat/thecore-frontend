@@ -9,6 +9,7 @@ const Button = ({
   borderColor,
   onClick,
   hoverColor,
+  nonactive,
 }) => {
   return (
     <ButtonStyle
@@ -19,6 +20,7 @@ const Button = ({
       $borderColor={borderColor}
       $hoverColor={hoverColor}
       $height={height}
+      disabled={nonactive}
     >
       {children || "Save"}
     </ButtonStyle>

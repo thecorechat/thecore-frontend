@@ -16,6 +16,10 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import VerifyCode from "./pages/VerifyCode";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import SuccessMessage from "./pages/ChangePassword/components/SuccessMessage";
+import AccessCode from "./pages/SelectAccount/components/AccessCode";
+import SelectAccountType from "./pages/SelectAccount/index";
+import CreateAccount from "./pages/CreateAccount/index";
+import EmailPassword from "./pages/CreateAccount/components/EmailPassword";
 
 function App() {
   return (
@@ -28,6 +32,15 @@ function App() {
         <Route path="/verify" element={<VerifyCode />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/change-password/success" element={<SuccessMessage />} />
+
+        <Route path="/select-account" element={<SelectAccountType />} />
+        <Route path="/select-account/access-code" element={<AccessCode />} />
+
+        <Route path="/create-account" element={<CreateAccount />} />
+        <Route
+          path="/create-account/email-password"
+          element={<EmailPassword />}
+        />
       </Routes>
     </BrowserRouter>
 

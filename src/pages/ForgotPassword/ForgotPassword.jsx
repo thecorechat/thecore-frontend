@@ -35,7 +35,9 @@ function ForgotPassword() {
       console.log("Form is valid. Attempting to send reset email for:", email);
 
       try {
-        navigate("/verify", { state: { emailSent: email } });
+        navigate("/verify", {
+          state: { emailSent: email, from: "forgot-password" },
+        });
       } catch (error) {
         console.error("Error sending reset email:", error);
       }

@@ -18,4 +18,12 @@ export const ButtonStyle = styled.button`
   &:hover {
     background-color: ${(props) => props.$hoverColor || "var(--primary-70)"};
   }
+
+  &:disabled {
+    background-color: var(--primary-20);
+    cursor: not-allowed;
+    opacity: 0.7;
+    border: none;
+    color: var(--gray-0);
+  }
 `;

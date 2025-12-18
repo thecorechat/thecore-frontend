@@ -15,7 +15,7 @@ function MainSignIn() {
     navigate("/signin");
   };
   const handleCreateAccountClick = () => {
-    navigate("/create-account");
+    navigate("/select-account");
   };
   return (
     <Background>
