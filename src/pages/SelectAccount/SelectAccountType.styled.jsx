@@ -13,6 +13,12 @@ export const Title = styled.h2`
   // margin-bottom: 40px;
 `;
 
+export const Image = styled.img`
+  height: 29px;
+  width: auto;
+  margin-right: 8px;
+`;
+
 export const TitleBox = styled.div`
   margin-bottom: 40px;
   display: flex;

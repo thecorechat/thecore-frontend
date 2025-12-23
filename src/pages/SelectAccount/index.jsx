@@ -7,6 +7,7 @@ import {
   ContentForm,
   TitleBox,
   SelectBox,
+  Image,
 } from "./SelectAccountType.styled";
 
 import HeaderBack from "../../ui/HeaderBack";
@@ -55,9 +56,17 @@ function SelectAccountType() {
                 value={accountType}
                 onChange={(e) => setAccountType(e.target.value)}
               >
-                <Radio value="student">Student</Radio>
-                <Radio value="teacher">Teacher</Radio>
-                <Radio value="parent">Parent</Radio>
+                <Radio value="student">
+                  <Image src="/icons/student.png" /> Student
+                </Radio>
+                <Radio value="teacher">
+                  <Image src="/icons/teacher.png" />
+                  Teacher
+                </Radio>
+                <Radio value="parent">
+                  <Image src="/icons/parent.png" />
+                  Parent
+                </Radio>
               </RadioGroup>
             </SelectBox>
 
