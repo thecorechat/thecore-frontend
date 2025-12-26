@@ -15,7 +15,7 @@ import { IoSend } from "react-icons/io5";
 import EmojiPicker from "emoji-picker-react";
 import Button from "../../../../../../ui/Button";
 
-const MessageBar = () => {
+const MessageBar = ({ onSend }) => {
   const [message, setMessage] = useState("");
   const emojiRef = useRef();
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
@@ -36,6 +36,13 @@ const MessageBar = () => {
     setMessage((msg) => msg + emoji.emoji);
   };
 
+  const handleSend = () => {
+    if (message.trim()) {
+      onSend(message); // Вызываем функцию из родителя
+      setMessage(""); // Очищаем поле
+    }
+  };
+
   return (
     <MessageBarMainContainerStyle>
       <MessageBarSemiContainerStyle>
@@ -52,12 +59,18 @@ const MessageBar = () => {
           placeholder="Type a message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <EmojiStickerButton>
           <GrAttachment />
         </EmojiStickerButton>
       </MessageBarSemiContainerStyle>
-      <Button children={<IoSend size={20} />} width="48px" height="48px" />
+      <Button
+        onClick={handleSend}
+        children={<IoSend size={20} />}
+        width="48px"
+        height="48px"
+      />
     </MessageBarMainContainerStyle>
   );
 };

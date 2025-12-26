@@ -121,3 +121,12 @@ export const DateDivider = styled.div`
     margin: 0 0.5rem;
   }
 `;
+
+export const Like = styled.div`
+  padding: 6px 12px;
+  display: flex;
+  // background-color: yellow;
+  border: 1px solid var(--gray-20);
+  border-radius: 10px;
+  cursor: pointer;
+`;
