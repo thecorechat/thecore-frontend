@@ -29,6 +29,7 @@ export const Content = styled.div`
 
 export const Title = styled.h1`
   // margin-bottom: 330px;
+  font-family: "Suisse";
 
   color: var(--gray-0);
   /* font-family: "Suisse Int'l Condensed Trial"; */

@@ -3,6 +3,11 @@
   src: url(./assets/fonts/Satoshi-Variable.ttf);
 }
 
+@font-face {
+  font-family: "Suisse";
+  src: url(./assets/fonts/SuisseIntlCondTrial-SemiBold.otf);
+}
+
 *,
 *:before,
 *:after {

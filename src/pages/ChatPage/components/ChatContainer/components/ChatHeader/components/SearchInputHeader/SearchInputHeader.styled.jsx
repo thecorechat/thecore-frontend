@@ -25,8 +25,8 @@ export const SearchInputHeaderStyle = styled.input`
   width: 100%;
   height: 2.25rem;
   border-radius: 0.375rem;
-  // border: 1px solid #d1d5db;
-  border: none;
+  border: 1px solid #e6eaf0ff;
+  // border: none;
   background: white;
   padding: 0.25rem 0.75rem 0.25rem 2rem;
   font-size: 0.875rem;

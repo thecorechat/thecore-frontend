@@ -44,8 +44,9 @@ function MainSignIn() {
 
           <Text>
             By continuing, you agree to the
-            <Link href="#"> Terms of Service</Link> <br /> and
-            <Link href="#"> Privacy Policy</Link>.
+            <Link href="#">Terms of Service</Link>
+            <br /> and
+            <Link href="#">Privacy Policy</Link>.
           </Text>
         </Bottom>
       </Content>
