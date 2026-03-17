@@ -13,14 +13,13 @@ import {
   ContentForm,
   ErrorMessage,
   TitleBox,
-} from "./ChangePasswordPage.styled";
+} from './ChangePasswordPage.styled';
 
-import HeaderBack from "../../ui/HeaderBack";
-import { useNavigate } from "react-router-dom";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useState } from "react";
-import Button from "../../ui/Button";
-import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useState } from 'react';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
 
 function ChangePassword() {
   const [show, setShow] = useState(false);
@@ -34,10 +33,10 @@ function ChangePassword() {
   const onSubmit = (data) => {
     console.log(data);
     if (isValid) {
-      console.log("Form is valid. Navigating to /chat.");
-      navigate("/change-password/success");
+      console.log('Form is valid. Navigating to /chat.');
+      navigate('/change-password/success');
     } else {
-      console.log("Form is invalid. Navigation prevented.");
+      console.log('Form is invalid. Navigation prevented.');
     }
   };
 
@@ -47,7 +46,7 @@ function ChangePassword() {
 
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/verify");
+    navigate('/verify');
   };
 
   return (
@@ -58,11 +57,7 @@ function ChangePassword() {
           <Title>Change password</Title>
         </TitleBox>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>
@@ -72,24 +67,20 @@ function ChangePassword() {
                     <InputStyle
                       $error={errors.password ? true : false}
                       $success={!errors.password && isSubmitted}
-                      type={show ? "text" : "password"}
+                      type={show ? 'text' : 'password'}
                       placeholder="Enter password"
                       //   value={password}
-                      {...register("password", {
-                        required: "Password is required",
+                      {...register('password', {
+                        required: 'Password is required',
                         minLength: {
                           value: 8,
-                          message: "Password must be at least 8 characters",
+                          message: 'Password must be at least 8 characters',
                         },
                       })}
                     />
-                    <IconBox onClick={handleShowClick}>
-                      {show ? <FiEye size={18} /> : <FiEyeOff size={18} />}
-                    </IconBox>
+                    <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
-                  {errors.password && (
-                    <ErrorMessage>{errors.password.message}</ErrorMessage>
-                  )}
+                  {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
                 </InputWrapper>
 
                 <InputWrapper>
@@ -98,27 +89,21 @@ function ChangePassword() {
                     <InputStyle
                       $error={errors.repeatPassword ? true : false}
                       $success={!errors.repeatPassword && isSubmitted}
-                      type={show ? "text" : "password"}
+                      type={show ? 'text' : 'password'}
                       placeholder="Enter password"
                       // value={repeatPassword}
-                      {...register("repeatPassword", {
-                        required: "Password is required",
+                      {...register('repeatPassword', {
+                        required: 'Password is required',
                         minLength: {
                           value: 8,
-                          message: "Password must be at least 8 characters",
+                          message: 'Password must be at least 8 characters',
                         },
-                        validate: (value) =>
-                          value === getValues("password") ||
-                          "Passwords do not match",
+                        validate: (value) => value === getValues('password') || 'Passwords do not match',
                       })}
                     />
-                    <IconBox onClick={handleShowClick}>
-                      {show ? <FiEye size={18} /> : <FiEyeOff size={18} />}
-                    </IconBox>
+                    <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
-                  {errors.repeatPassword && (
-                    <ErrorMessage>{errors.repeatPassword.message}</ErrorMessage>
-                  )}
+                  {errors.repeatPassword && <ErrorMessage>{errors.repeatPassword.message}</ErrorMessage>}
                 </InputWrapper>
               </InputContent>
             </div>

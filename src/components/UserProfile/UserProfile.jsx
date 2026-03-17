@@ -11,8 +11,8 @@ import {
   UserProfileStyleContainer,
   UserProfileStyleContent,
 } from './UserProfile.styled';
-import Button from '../../ui/Button';
-import { Avatar } from '../../ui/Avatar';
+import Button from '../../ui/Button/Button';
+import { Avatar } from '../../ui/Avatar/Avatar';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { MdBlock } from 'react-icons/md';
 

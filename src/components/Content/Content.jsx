@@ -1,21 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import {
-  AddButtonStyle,
-  AddChatStyle,
-  Group,
-  GroupHeader,
-  GroupItem,
-  GroupList,
-  SidebarWrapper,
-} from "./Content.styled";
-import { IoMdArrowDropright } from "react-icons/io";
-import { GoPlus } from "react-icons/go";
-import { SidebarRail } from "../SidebarRail";
-import { SidebarProvider } from "../SidebarRail/SidebarContext";
-import { sidebar } from "../../../../../../mock/data";
-import Button from "../../../../../../ui/Button";
+import { useState } from 'react';
+import { AddButtonStyle, AddChatStyle, Group, GroupHeader, GroupItem, GroupList, SidebarWrapper } from './Content.styled';
+import { IoMdArrowDropright } from 'react-icons/io';
+import { GoPlus } from 'react-icons/go';
+import { SidebarRail } from '../SidebarRail/SidebarRail';
+import { SidebarProvider } from '../SidebarRail/SidebarContext';
+import { sidebar } from '../../mock/data';
+import Button from '../../ui/Button/Button';
 
 const Content = ({ onOpenCreateChat }) => {
   const [openGroups, setOpenGroups] = useState({});
@@ -30,12 +22,7 @@ const Content = ({ onOpenCreateChat }) => {
   return (
     <SidebarProvider>
       <AddButtonStyle>
-        <Button
-          onClick={onOpenCreateChat}
-          children={<GoPlus size={24} />}
-          width="48px"
-          height="48px"
-        />
+        <Button onClick={onOpenCreateChat} children={<GoPlus size={24} />} width="48px" height="48px" />
       </AddButtonStyle>
       <SidebarWrapper>
         <SidebarRail />
@@ -43,10 +30,7 @@ const Content = ({ onOpenCreateChat }) => {
           const isOpen = openGroups[group.title] ?? true;
           return (
             <Group key={group.title}>
-              <GroupHeader
-                onClick={() => toggleGroup(group.title)}
-                $open={isOpen}
-              >
+              <GroupHeader onClick={() => toggleGroup(group.title)} $open={isOpen}>
                 <IoMdArrowDropright size={16} />
                 <span>{group.title}</span>
               </GroupHeader>
@@ -71,7 +55,7 @@ export default Content;
 const AddChat = ({ onOpenCreateChat }) => {
   return (
     <AddChatStyle onClick={onOpenCreateChat}>
-      <a href={"#"}>
+      <a href={'#'}>
         <GoPlus />
         <span>Add Chat</span>
       </a>

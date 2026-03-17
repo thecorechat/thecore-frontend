@@ -1,20 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { GoMute, GoUnmute } from "react-icons/go";
-import { IoMdSearch } from "react-icons/io";
-import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
-import { FiTrash } from "react-icons/fi";
-import {
-  Group,
-  Item,
-  Label,
-  Menu,
-  MenuButton,
-  Wrapper,
-} from "./DropDownMenu.styled";
-import { DeleteDialog } from "../DeleteDialog";
+import React, { useState, useRef, useEffect } from 'react';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { GoMute, GoUnmute } from 'react-icons/go';
+import { IoMdSearch } from 'react-icons/io';
+import { MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
+import { FiTrash } from 'react-icons/fi';
+import { Group, Item, Label, Menu, MenuButton, Wrapper } from './DropDownMenu.styled';
+import { DeleteDialog } from '../DeleteDialog/DeleteDialog';
 
 export const DropdownMenuDemo = ({ onSearchClick }) => {
   const [open, setOpen] = useState(false);
@@ -30,8 +23,8 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleToggleFavorite = () => {
@@ -58,7 +51,7 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
             <Group>
               <Item onClick={handleToggleMute}>
                 {isMuted ? <GoMute /> : <GoUnmute />}
-                {isMuted ? "Unmute notifications" : "Mute notifications"}
+                {isMuted ? 'Unmute notifications' : 'Mute notifications'}
               </Item>
               <Item onClick={onSearchClick}>
                 <IoMdSearch />
@@ -66,7 +59,7 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
               </Item>
               <Item onClick={handleToggleFavorite}>
                 {isFavorite ? <MdFavorite /> : <MdOutlineFavoriteBorder />}
-                {isFavorite ? "Remove from favorites" : "Add to favorite chats"}
+                {isFavorite ? 'Remove from favorites' : 'Add to favorite chats'}
               </Item>
               <Item onClick={handleDeleteChat}>
                 <FiTrash />

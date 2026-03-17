@@ -1,7 +1,7 @@
 import { ChatHeaderContainerStyle } from "./ChatHeader.styled";
-import MainChatHeader from "../../../../../../components/MainChatHeader";
+import MainChatHeader from "../../components/MainChatHeader/MainChatHeader";
 import { useState } from "react";
-import SearchInputHeader from "../../../../../../components/SearchInputHeader";
+import SearchInputHeader from "../../components/SearchInputHeader/SearchInputHeader";
 
 const ChatHeader = () => {
   const [isSearching, setIsSearching] = useState(false);

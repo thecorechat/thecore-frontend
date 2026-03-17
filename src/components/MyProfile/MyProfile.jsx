@@ -7,20 +7,20 @@ import {
   MyProfileStyleBodyCenterSettings,
   MyProfileStyleBodyCenterSettingsItem,
   MyProfileStyleBodyCenterSettingsItemLeft,
-} from "./MyProfile.styled";
-import { LuLogOut } from "react-icons/lu";
-import Button from "../../../../ui/Button";
-import { Avatar } from "../../../../ui/Avatar";
-import HeaderBack from "../../../../ui/HeaderBack";
-import { MdBlock } from "react-icons/md";
-import { IoNotificationsOutline } from "react-icons/io5";
-import ToggleSwitch from "../../../../ui/ToggleSwitch";
-import { useNavigate } from "react-router-dom";
+} from './MyProfile.styled';
+import { LuLogOut } from 'react-icons/lu';
+import Button from '../../ui/Button/Button';
+import { Avatar } from '../../ui/Avatar/Avatar';
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { MdBlock } from 'react-icons/md';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import ToggleSwitch from '../../ui/ToggleSwitch/ToggleSwitch';
+import { useNavigate } from 'react-router-dom';
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
   const navigate = useNavigate();
   const handleLogOutClick = () => {
-    navigate("/");
+    navigate('/');
   };
   return (
     <MyProfileStyle $open={isOpen}>

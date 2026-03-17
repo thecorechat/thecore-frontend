@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { CreateChat } from "../CreateChat";
+import { useState } from 'react';
+import { CreateChat } from '../CreateChat/CreateChat';
 import {
   Circle,
   ContactsContainerStyle,
@@ -7,10 +7,10 @@ import {
   LogoContactsContainerStyle,
   LogoMainContactsContainerStyle,
   LogoTitleContactsContainerStyle,
-} from "./ContactsContainer.styled";
-import Content from "./components/Content";
-import InputSearch from "./components/InputSearch";
-import { IoPersonOutline } from "react-icons/io5";
+} from './ContactsContainer.styled';
+import Content from '../../components/Content/Content';
+import InputSearch from '../../components/InputSearch/InputSearch';
+import { IoPersonOutline } from 'react-icons/io5';
 
 const ContactsContainer = ({ onOpenProfile }) => {
   const [showCreateChat, setShowCreateChat] = useState(false);
@@ -42,9 +42,7 @@ const Logo = ({ onOpenProfile }) => {
   return (
     <LogoMainContactsContainerStyle>
       <LogoContactsContainerStyle>
-        <LogoTitleContactsContainerStyle>
-          The Core
-        </LogoTitleContactsContainerStyle>
+        <LogoTitleContactsContainerStyle>The Core</LogoTitleContactsContainerStyle>
         <Avatar onClick={onOpenProfile} />
       </LogoContactsContainerStyle>
       <InputSearch />

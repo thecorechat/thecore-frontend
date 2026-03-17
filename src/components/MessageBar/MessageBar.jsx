@@ -13,7 +13,7 @@ import { GrAttachment } from 'react-icons/gr';
 import { RiEmojiStickerLine } from 'react-icons/ri';
 import { IoSend } from 'react-icons/io5';
 import EmojiPicker from 'emoji-picker-react';
-import Button from '../../ui/Button';
+import Button from '../../ui/Button/Button';
 
 const MessageBar = ({ onSend }) => {
   const [message, setMessage] = useState('');

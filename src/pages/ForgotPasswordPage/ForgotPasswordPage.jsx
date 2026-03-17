@@ -13,13 +13,13 @@ import {
   ContentForm,
   ErrorMessage,
   TitleBox,
-} from "./ForgotPassword.styled";
+} from './ForgotPasswordPage.styled';
 
-import HeaderBack from "../../ui/HeaderBack";
-import { useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
-import { useForm } from "react-hook-form";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 function ForgotPassword() {
   const {
@@ -32,23 +32,23 @@ function ForgotPassword() {
     const email = data.email;
     console.log(data);
     if (isValid) {
-      console.log("Form is valid. Attempting to send reset email for:", email);
+      console.log('Form is valid. Attempting to send reset email for:', email);
 
       try {
-        navigate("/verify", {
-          state: { emailSent: email, from: "forgot-password" },
+        navigate('/verify', {
+          state: { emailSent: email, from: 'forgot-password' },
         });
       } catch (error) {
-        console.error("Error sending reset email:", error);
+        console.error('Error sending reset email:', error);
       }
     } else {
-      console.log("Form is invalid. Navigation prevented.");
+      console.log('Form is invalid. Navigation prevented.');
     }
   };
 
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/signin");
+    navigate('/signin');
   };
 
   return (
@@ -60,11 +60,7 @@ function ForgotPassword() {
           <p>Enter your registered email address</p>
         </TitleBox>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>
@@ -77,26 +73,17 @@ function ForgotPassword() {
                       type="email"
                       placeholder="example@gmail.com"
                       //   value={email}
-                      {...register("email", {
-                        required: "Email is required",
+                      {...register('email', {
+                        required: 'Email is required',
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "Invalid email address",
+                          message: 'Invalid email address',
                         },
                       })}
                     />
-                    <IconBox>
-                      {!errors.email && isSubmitted && (
-                        <IoIosCheckmarkCircleOutline
-                          size={24}
-                          color={"var(--success-70)"}
-                        />
-                      )}
-                    </IconBox>
+                    <IconBox>{!errors.email && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
                   </InputBox>
-                  {errors.email && (
-                    <ErrorMessage>{errors.email.message}</ErrorMessage>
-                  )}
+                  {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
                 </InputWrapper>
               </InputContent>
             </div>

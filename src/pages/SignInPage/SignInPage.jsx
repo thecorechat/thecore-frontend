@@ -16,15 +16,15 @@ import {
   ContentForm,
   ErrorMessage,
   TitleBox,
-} from "./SignIn.styled";
+} from './SignInPage.styled';
 
-import HeaderBack from "../../ui/HeaderBack";
-import { useNavigate } from "react-router-dom";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useState } from "react";
-import Button from "../../ui/Button";
-import { useForm } from "react-hook-form";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useState } from 'react';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 function SignIn() {
   const [show, setShow] = useState(false);
@@ -37,10 +37,10 @@ function SignIn() {
   const onSubmit = (data) => {
     console.log(data);
     if (isValid) {
-      console.log("Form is valid. Navigating to /chat.");
-      navigate("/chat");
+      console.log('Form is valid. Navigating to /chat.');
+      navigate('/chat');
     } else {
-      console.log("Form is invalid. Navigation prevented.");
+      console.log('Form is invalid. Navigation prevented.');
     }
   };
 
@@ -50,10 +50,10 @@ function SignIn() {
 
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/");
+    navigate('/');
   };
   const handleForgotPasswordClick = () => {
-    navigate("/forgot-password");
+    navigate('/forgot-password');
   };
 
   return (
@@ -61,15 +61,11 @@ function SignIn() {
       <Content>
         <HeaderBack onClick={handleBackClick} />
         <TitleBox>
-          {" "}
+          {' '}
           <Title>Sign In</Title>
         </TitleBox>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>
@@ -82,26 +78,17 @@ function SignIn() {
                       type="email"
                       placeholder="example@gmail.com"
                       //   value={email}
-                      {...register("email", {
-                        required: "Email is required",
+                      {...register('email', {
+                        required: 'Email is required',
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "Invalid email address",
+                          message: 'Invalid email address',
                         },
                       })}
                     />
-                    <IconBox>
-                      {!errors.email && isSubmitted && (
-                        <IoIosCheckmarkCircleOutline
-                          size={24}
-                          color={"var(--success-70)"}
-                        />
-                      )}
-                    </IconBox>
+                    <IconBox>{!errors.email && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
                   </InputBox>
-                  {errors.email && (
-                    <ErrorMessage>{errors.email.message}</ErrorMessage>
-                  )}
+                  {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
                 </InputWrapper>
 
                 <InputWrapper>
@@ -110,29 +97,23 @@ function SignIn() {
                     <InputStyle
                       $error={errors.password ? true : false}
                       $success={!errors.password && isSubmitted}
-                      type={show ? "text" : "password"}
+                      type={show ? 'text' : 'password'}
                       placeholder="Enter password"
                       //   value={password}
-                      {...register("password", {
-                        required: "Password is required",
+                      {...register('password', {
+                        required: 'Password is required',
                         minLength: {
                           value: 8,
-                          message: "Password must be at least 8 characters",
+                          message: 'Password must be at least 8 characters',
                         },
                       })}
                     />
-                    <IconBox onClick={handleShowClick}>
-                      {show ? <FiEye size={18} /> : <FiEyeOff size={18} />}
-                    </IconBox>
+                    <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
-                  {errors.password && (
-                    <ErrorMessage>{errors.password.message}</ErrorMessage>
-                  )}
+                  {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
                 </InputWrapper>
               </InputContent>
-              <SemiLink onClick={handleForgotPasswordClick}>
-                Forgot Password
-              </SemiLink>
+              <SemiLink onClick={handleForgotPasswordClick}>Forgot Password</SemiLink>
             </div>
             <Bottom>
               <ButtonBlock>

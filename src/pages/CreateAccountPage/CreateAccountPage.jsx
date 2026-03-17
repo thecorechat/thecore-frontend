@@ -16,15 +16,15 @@ import {
   ContentForm,
   ErrorMessage,
   TitleBox,
-} from "./CreateAccount.styled";
+} from './CreateAccountPage.styled';
 
-import HeaderBack from "../../ui/HeaderBack";
-import { useNavigate } from "react-router-dom";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useState } from "react";
-import Button from "../../ui/Button";
-import { useForm } from "react-hook-form";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useState } from 'react';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 function CreateAccount() {
   const {
@@ -36,16 +36,16 @@ function CreateAccount() {
   const onSubmit = (data) => {
     console.log(data);
     if (isValid) {
-      console.log("Form is valid. Navigating to /chat.");
-      navigate("/create-account/email-password");
+      console.log('Form is valid. Navigating to /chat.');
+      navigate('/create-account/email-password');
     } else {
-      console.log("Form is invalid. Navigation prevented.");
+      console.log('Form is invalid. Navigation prevented.');
     }
   };
 
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/select-account/access-code");
+    navigate('/select-account/access-code');
   };
 
   return (
@@ -53,15 +53,11 @@ function CreateAccount() {
       <Content>
         <HeaderBack onClick={handleBackClick} />
         <TitleBox>
-          {" "}
+          {' '}
           <Title>Create Account</Title>
         </TitleBox>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>
@@ -74,22 +70,13 @@ function CreateAccount() {
                       type="text"
                       placeholder="Jane"
                       //   value={email}
-                      {...register("firstname", {
-                        required: "First name is required",
+                      {...register('firstname', {
+                        required: 'First name is required',
                       })}
                     />
-                    <IconBox>
-                      {!errors.firstname && isSubmitted && (
-                        <IoIosCheckmarkCircleOutline
-                          size={24}
-                          color={"var(--success-70)"}
-                        />
-                      )}
-                    </IconBox>
+                    <IconBox>{!errors.firstname && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
                   </InputBox>
-                  {errors.firstname && (
-                    <ErrorMessage>{errors.firstname.message}</ErrorMessage>
-                  )}
+                  {errors.firstname && <ErrorMessage>{errors.firstname.message}</ErrorMessage>}
                 </InputWrapper>
 
                 <InputWrapper>
@@ -101,22 +88,13 @@ function CreateAccount() {
                       type="text"
                       placeholder="Doe"
                       //   value={email}
-                      {...register("lastname", {
-                        required: "Last name is required",
+                      {...register('lastname', {
+                        required: 'Last name is required',
                       })}
                     />
-                    <IconBox>
-                      {!errors.lastname && isSubmitted && (
-                        <IoIosCheckmarkCircleOutline
-                          size={24}
-                          color={"var(--success-70)"}
-                        />
-                      )}
-                    </IconBox>
+                    <IconBox>{!errors.lastname && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
                   </InputBox>
-                  {errors.lastname && (
-                    <ErrorMessage>{errors.lastname.message}</ErrorMessage>
-                  )}
+                  {errors.lastname && <ErrorMessage>{errors.lastname.message}</ErrorMessage>}
                 </InputWrapper>
               </InputContent>
             </div>

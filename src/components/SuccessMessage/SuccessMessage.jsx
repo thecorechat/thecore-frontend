@@ -8,9 +8,9 @@ import {
   TitleBox,
 } from "./SuccessMessage.styled";
 
-import HeaderBack from "../../ui/HeaderBack";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import { useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
+import Button from "../../ui/Button/Button";
 
 function SuccessMessage() {
   const navigate = useNavigate();

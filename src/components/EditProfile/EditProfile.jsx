@@ -7,11 +7,11 @@ import {
   InputStyle,
   InputWrapper,
   Label,
-} from "./EditProfile.styled";
-import HeaderBack from "../../../../ui/HeaderBack";
-import Button from "../../../../ui/Button";
-import { Avatar } from "../../../../ui/Avatar";
-import { MdOutlineAddAPhoto } from "react-icons/md";
+} from './EditProfile.styled';
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import Button from '../../ui/Button/Button';
+import { Avatar } from '../../ui/Avatar/Avatar';
+import { MdOutlineAddAPhoto } from 'react-icons/md';
 
 const EditProfile = ({ isOpen, onClose }) => {
   return (
@@ -69,13 +69,7 @@ const EditProfile = ({ isOpen, onClose }) => {
           hoverColor="var(--gray-10)"
           onClick={onClose}
         />
-        <Button
-          children="Save"
-          background="var(--primary-60)"
-          color="var(--gray-0)"
-          borderColor="var(--primary-60)"
-          hoverColor="var(--primary-70)"
-        />
+        <Button children="Save" background="var(--primary-60)" color="var(--gray-0)" borderColor="var(--primary-60)" hoverColor="var(--primary-70)" />
       </EditProfileButtonBlock>
     </EditProfileStyle>
   );

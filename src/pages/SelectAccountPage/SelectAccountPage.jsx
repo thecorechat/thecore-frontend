@@ -4,7 +4,7 @@ import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../ui/Button/Button';
 import { useForm } from 'react-hook-form';
-import Radio, { RadioGroup } from './components/RadioSelect';
+import Radio, { RadioGroup } from '../../components/RadioSelect/RadioSelect';
 import { useState } from 'react';
 
 function SelectAccountType() {

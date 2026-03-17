@@ -1,4 +1,4 @@
-import { DropdownMenuDemo } from "../DropDownMenu";
+import { DropdownMenuDemo } from "../DropDownMenu/DropDownMenu";
 import { ArrowBack, SearchInputHeaderStyle } from "./SearchInputHeader.styled";
 import { IoIosArrowBack } from "react-icons/io";
 

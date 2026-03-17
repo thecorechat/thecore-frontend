@@ -1,51 +1,45 @@
-import { useEffect, useState } from "react";
-import { ChatContainerStyle } from "./ChatContainer.styled";
-import ChatHeader from "./components/ChatHeader";
-import MessageBar from "./components/MessageBar";
-import MessageContainer from "./components/MessageContainer";
-import { UserProfile } from "../UserProfile/UserProfile";
-import { socket } from "../../../../../helper/socket";
+import { useEffect, useState } from 'react';
+import { ChatContainerStyle } from './ChatContainer.styled';
+import ChatHeader from '../../components/ChatHeader/ChatHeader';
+import MessageBar from '../../components/MessageBar/MessageBar';
+import MessageContainer from '../../components/MessageContainer/MessageContainer';
+import { UserProfile } from '../UserProfile/UserProfile';
+import { socket } from '../../../helper/socket';
 
 const ChatContainer = () => {
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [realMessages, setRealMessages] = useState([]);
 
   useEffect(() => {
-    socket.on("receive_message", (newMessage) => {
+    socket.on('receive_message', (newMessage) => {
       setRealMessages((prev) => [...prev, newMessage]);
     });
 
-    return () => socket.off("receive_message");
+    return () => socket.off('receive_message');
   }, []);
 
   const handleSendMessage = (text) => {
     const newMessage = {
       _id: Date.now().toString(),
-      name: "Peter Parker",
+      name: 'Peter Parker',
       message: text,
       createdAt: new Date().toISOString(),
     };
 
-    socket.emit("send_message", newMessage);
+    socket.emit('send_message', newMessage);
 
     setRealMessages((prev) => [...prev, newMessage]);
   };
 
   useEffect(() => {
-    socket.on("message_liked", ({ messageId, likesCount, isLikedByMe }) => {
-      setRealMessages((prev) =>
-        prev.map((msg) =>
-          msg._id === messageId
-            ? { ...msg, likesCount: likesCount, isLiked: isLikedByMe }
-            : msg
-        )
-      );
+    socket.on('message_liked', ({ messageId, likesCount, isLikedByMe }) => {
+      setRealMessages((prev) => prev.map((msg) => (msg._id === messageId ? { ...msg, likesCount: likesCount, isLiked: isLikedByMe } : msg)));
     });
 
-    return () => socket.off("message_liked");
+    return () => socket.off('message_liked');
   }, []);
   const handleLikeMessage = (messageId) => {
-    socket.emit("like_message", { messageId });
+    socket.emit('like_message', { messageId });
 
     setRealMessages((prev) =>
       prev.map((msg) =>
@@ -53,23 +47,17 @@ const ChatContainer = () => {
           ? {
               ...msg,
               isLiked: !msg.isLiked,
-              likesCount: msg.isLiked
-                ? msg.likesCount - 1
-                : (msg.likesCount || 0) + 1,
+              likesCount: msg.isLiked ? msg.likesCount - 1 : (msg.likesCount || 0) + 1,
             }
-          : msg
-      )
+          : msg,
+      ),
     );
   };
   return (
     <>
       <ChatContainerStyle>
         <ChatHeader />
-        <MessageContainer
-          messages={realMessages}
-          onOpenUserProfile={() => setShowUserProfile(true)}
-          onLikeMessage={handleLikeMessage}
-        />
+        <MessageContainer messages={realMessages} onOpenUserProfile={() => setShowUserProfile(true)} onLikeMessage={handleLikeMessage} />
         <MessageBar onSend={handleSendMessage} />
       </ChatContainerStyle>
 

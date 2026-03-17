@@ -1,15 +1,15 @@
-import SignIn from './pages/SignIn/SignIn';
-import MainSignIn from './pages/MainSignIn/MainSignIn';
-import Chat from './pages/ChatPage/index';
+import SignIn from './pages/SignInPage/SignInPage';
+import MainSignIn from './pages/MainSignInPage/MainSignInPage';
+import Chat from './pages/ChatPage/ChatPage';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-import VerifyCode from './pages/VerifyCode';
-import ChangePassword from './pages/ChangePassword/ChangePassword';
-import SuccessMessage from './pages/ChangePassword/components/SuccessMessage';
-import AccessCode from './pages/SelectAccount/components/AccessCode';
-import SelectAccountType from './pages/SelectAccount/index';
-import CreateAccount from './pages/CreateAccount/index';
-import EmailPassword from './pages/CreateAccount/components/EmailPassword';
+import ForgotPassword from './pages/ForgotPasswordPage/ForgotPasswordPage';
+import VerifyCode from './pages/VerifyCodePage/VerifyCodePage';
+import ChangePassword from './pages/ChangePasswordPage/ChangePasswordPage';
+import SuccessMessage from './components/SuccessMessage/SuccessMessage';
+import AccessCode from './components/AccessCode/AccessCode';
+import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
+import CreateAccount from './pages/CreateAccountPage/CreateAccountPage';
+import EmailPassword from './components/EmailPassword/EmailPassword';
 
 function App() {
   return (

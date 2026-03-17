@@ -1,6 +1,6 @@
-import { Avatar } from "../../../../../ContactsContainer";
-import { DropdownMenuDemo } from "../DropDownMenu";
-import { ChatHeaderContainerLeftStyle } from "./MainChatHeader.styled";
+import { Avatar } from '../../components/ContactsContainer/ContactsContainer';
+import { DropdownMenuDemo } from '../DropDownMenu/DropDownMenu';
+import { ChatHeaderContainerLeftStyle } from './MainChatHeader.styled';
 
 const MainChatHeader = ({ onSearchClick }) => {
   return (

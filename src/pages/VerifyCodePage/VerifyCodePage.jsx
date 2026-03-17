@@ -11,16 +11,16 @@ import {
   TitleBox,
   Text,
   Link,
-} from "./VerifyCode.styled";
+} from './VerifyCodePage.styled';
 
-import HeaderBack from "../../ui/HeaderBack";
-import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
-import { useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
 
 const CODE_LENGTH = 4;
-const CORRECT_CODE = "1111";
+const CORRECT_CODE = '1111';
 
 function VerifyCode() {
   const location = useLocation();
@@ -30,7 +30,7 @@ function VerifyCode() {
   //   const id = useId();
   const [isCodeInvalid, setIsCodeInvalid] = useState(false);
   const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
-  const [code, setCode] = useState(new Array(CODE_LENGTH).fill(""));
+  const [code, setCode] = useState(new Array(CODE_LENGTH).fill(''));
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -39,12 +39,12 @@ function VerifyCode() {
     }
   }, []);
 
-  const combinedCode = code.join("");
+  const combinedCode = code.join('');
 
   const onSubmit = () => {
     setIsAttemptedSubmit(true);
     if (combinedCode.length !== CODE_LENGTH) {
-      console.log("Code is incomplete.");
+      console.log('Code is incomplete.');
       setIsCodeInvalid(true);
       return;
     }
@@ -52,26 +52,26 @@ function VerifyCode() {
     if (combinedCode === CORRECT_CODE) {
       setIsCodeInvalid(false);
 
-      if (fromPage === "registration") {
-        navigate("/chat");
-      } else if (fromPage === "forgot-password") {
-        navigate("/change-password");
+      if (fromPage === 'registration') {
+        navigate('/chat');
+      } else if (fromPage === 'forgot-password') {
+        navigate('/change-password');
       } else {
-        navigate("/");
+        navigate('/');
       }
     } else {
       setIsCodeInvalid(true);
-      console.log("Code is incorrect.");
+      console.log('Code is incorrect.');
     }
   };
 
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/forgot-password");
+    navigate('/forgot-password');
   };
 
   const handleKeyDown = (index, e) => {
-    if (e.key === "Backspace" && !code[index] && index > 0) {
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
@@ -99,16 +99,11 @@ function VerifyCode() {
         <TitleBox>
           <Title>Verify Code</Title>
           <p>
-            An 4-digit code has been sent to{" "}
-            <span>{sentEmail || "your email address"}</span>
+            An 4-digit code has been sent to <span>{sentEmail || 'your email address'}</span>
           </p>
         </TitleBox>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>

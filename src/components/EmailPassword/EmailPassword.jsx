@@ -13,15 +13,15 @@ import {
   ContentForm,
   ErrorMessage,
   TitleBox,
-} from "./EmailPassword.styled";
+} from './EmailPassword.styled';
 
-import HeaderBack from "../../ui/HeaderBack";
-import { useNavigate } from "react-router-dom";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useState } from "react";
-import Button from "../../ui/Button";
-import { useForm } from "react-hook-form";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useState } from 'react';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 function EmailPassword() {
   const [show, setShow] = useState(false);
@@ -35,12 +35,12 @@ function EmailPassword() {
   const onSubmit = (data) => {
     console.log(data);
     if (isValid) {
-      console.log("Form is valid. Navigating to /chat.");
-      navigate("/verify", {
-        state: { from: "registration" },
+      console.log('Form is valid. Navigating to /chat.');
+      navigate('/verify', {
+        state: { from: 'registration' },
       });
     } else {
-      console.log("Form is invalid. Navigation prevented.");
+      console.log('Form is invalid. Navigation prevented.');
     }
   };
 
@@ -50,7 +50,7 @@ function EmailPassword() {
 
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/create-account");
+    navigate('/create-account');
   };
 
   return (
@@ -61,11 +61,7 @@ function EmailPassword() {
           <Title>Create Account</Title>
         </TitleBox>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>
@@ -78,26 +74,17 @@ function EmailPassword() {
                       type="email"
                       placeholder="example@gmail.com"
                       //   value={email}
-                      {...register("email", {
-                        required: "Email is required",
+                      {...register('email', {
+                        required: 'Email is required',
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "Invalid email address",
+                          message: 'Invalid email address',
                         },
                       })}
                     />
-                    <IconBox>
-                      {!errors.email && isSubmitted && (
-                        <IoIosCheckmarkCircleOutline
-                          size={24}
-                          color={"var(--success-70)"}
-                        />
-                      )}
-                    </IconBox>
+                    <IconBox>{!errors.email && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
                   </InputBox>
-                  {errors.email && (
-                    <ErrorMessage>{errors.email.message}</ErrorMessage>
-                  )}
+                  {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
                 </InputWrapper>
                 <InputWrapper>
                   <Label>Password</Label>
@@ -105,24 +92,20 @@ function EmailPassword() {
                     <InputStyle
                       $error={errors.password ? true : false}
                       $success={!errors.password && isSubmitted}
-                      type={show ? "text" : "password"}
+                      type={show ? 'text' : 'password'}
                       placeholder="Enter password"
                       //   value={password}
-                      {...register("password", {
-                        required: "Password is required",
+                      {...register('password', {
+                        required: 'Password is required',
                         minLength: {
                           value: 8,
-                          message: "Password must be at least 8 characters",
+                          message: 'Password must be at least 8 characters',
                         },
                       })}
                     />
-                    <IconBox onClick={handleShowClick}>
-                      {show ? <FiEye size={18} /> : <FiEyeOff size={18} />}
-                    </IconBox>
+                    <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
-                  {errors.password && (
-                    <ErrorMessage>{errors.password.message}</ErrorMessage>
-                  )}
+                  {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
                 </InputWrapper>
 
                 <InputWrapper>
@@ -131,27 +114,21 @@ function EmailPassword() {
                     <InputStyle
                       $error={errors.repeatPassword ? true : false}
                       $success={!errors.repeatPassword && isSubmitted}
-                      type={show ? "text" : "password"}
+                      type={show ? 'text' : 'password'}
                       placeholder="Enter password"
                       // value={repeatPassword}
-                      {...register("repeatPassword", {
-                        required: "Password is required",
+                      {...register('repeatPassword', {
+                        required: 'Password is required',
                         minLength: {
                           value: 8,
-                          message: "Password must be at least 8 characters",
+                          message: 'Password must be at least 8 characters',
                         },
-                        validate: (value) =>
-                          value === getValues("password") ||
-                          "Passwords do not match",
+                        validate: (value) => value === getValues('password') || 'Passwords do not match',
                       })}
                     />
-                    <IconBox onClick={handleShowClick}>
-                      {show ? <FiEye size={18} /> : <FiEyeOff size={18} />}
-                    </IconBox>
+                    <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
-                  {errors.repeatPassword && (
-                    <ErrorMessage>{errors.repeatPassword.message}</ErrorMessage>
-                  )}
+                  {errors.repeatPassword && <ErrorMessage>{errors.repeatPassword.message}</ErrorMessage>}
                 </InputWrapper>
               </InputContent>
             </div>

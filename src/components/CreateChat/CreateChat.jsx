@@ -9,8 +9,8 @@ import {
   InputWrapper,
   Label,
 } from "./CreateChat.styled";
-import Button from "../../ui/Button";
-import HeaderBack from "../../ui/HeaderBack";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 
 export function CreateChat({ onCancel, onConfirm }) {
   const createRef = useRef();
