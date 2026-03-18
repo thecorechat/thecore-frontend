@@ -6,8 +6,8 @@ import ForgotPassword from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import VerifyCode from './pages/VerifyCodePage/VerifyCodePage';
 import ChangePassword from './pages/ChangePasswordPage/ChangePasswordPage';
 import SuccessMessage from './components/SuccessMessage/SuccessMessage';
-import AccessCode from './components/AccessCode/AccessCode';
-import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
+// import AccessCode from './components/AccessCode/AccessCode';
+// import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
 import CreateAccount from './pages/CreateAccountPage/CreateAccountPage';
 import EmailPassword from './components/EmailPassword/EmailPassword';
 
@@ -23,8 +23,8 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/change-password/success" element={<SuccessMessage />} />
 
-        <Route path="/select-account" element={<SelectAccountType />} />
-        <Route path="/select-account/access-code" element={<AccessCode />} />
+        {/* <Route path="/select-account" element={<SelectAccountType />} />
+        <Route path="/select-account/access-code" element={<AccessCode />} /> */}
 
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/create-account/email-password" element={<EmailPassword />} />

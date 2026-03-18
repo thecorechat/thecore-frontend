@@ -6,9 +6,9 @@ function MainSignIn() {
   const handleSignInClick = () => {
     navigate('/signin');
   };
-  const handleCreateAccountClick = () => {
-    navigate('/select-account');
-  };
+  // const handleCreateAccountClick = () => {
+  //   navigate('/select-account');
+  // };
   return (
     <Background>
       <Content>
@@ -16,14 +16,14 @@ function MainSignIn() {
 
         <Bottom>
           <ButtonBlock>
-            <Button
+            {/* <Button
               children="Create account"
               background="white"
               color="var(--primary-60)"
               borderColor="var(--gray-70)"
               hoverColor="var(--gray-10)"
               onClick={handleCreateAccountClick}
-            />
+            /> */}
             <Button
               children="Sign in"
               background="white"
