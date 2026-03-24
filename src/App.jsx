@@ -1,25 +1,15 @@
-// import { useState } from 'react';
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css';
-// import SignIn from './pages/SignIn/SignIn';
-// import MainSignIn from './pages/MainSignIn/MainSignIn';
-// import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-// import EnterCode from './pages/EnterCode/EnterCode';
-// import ChangePassword from './pages/ChangePassword/ChangePassword';
-import SignIn from "./pages/SignIn/SignIn";
-import MainSignIn from "./pages/MainSignIn/MainSignIn";
-import { Container } from "./styles/container";
-import Chat from "./pages/ChatPage/index";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
-import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-import VerifyCode from "./pages/VerifyCode";
-import ChangePassword from "./pages/ChangePassword/ChangePassword";
-import SuccessMessage from "./pages/ChangePassword/components/SuccessMessage";
-import AccessCode from "./pages/SelectAccount/components/AccessCode";
-import SelectAccountType from "./pages/SelectAccount/index";
-import CreateAccount from "./pages/CreateAccount/index";
-import EmailPassword from "./pages/CreateAccount/components/EmailPassword";
+import SignIn from './pages/SignInPage/SignInPage';
+import MainSignIn from './pages/MainSignInPage/MainSignInPage';
+import Chat from './pages/ChatPage/ChatPage';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import ForgotPassword from './pages/ForgotPasswordPage/ForgotPasswordPage';
+import VerifyCode from './pages/VerifyCodePage/VerifyCodePage';
+import ChangePassword from './pages/ChangePasswordPage/ChangePasswordPage';
+import SuccessMessage from './components/SuccessMessage/SuccessMessage';
+// import AccessCode from './components/AccessCode/AccessCode';
+// import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
+import CreateAccount from './pages/CreateAccountPage/CreateAccountPage';
+import EmailPassword from './components/EmailPassword/EmailPassword';
 
 function App() {
   return (
@@ -33,25 +23,13 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/change-password/success" element={<SuccessMessage />} />
 
-        <Route path="/select-account" element={<SelectAccountType />} />
-        <Route path="/select-account/access-code" element={<AccessCode />} />
+        {/* <Route path="/select-account" element={<SelectAccountType />} />
+        <Route path="/select-account/access-code" element={<AccessCode />} /> */}
 
         <Route path="/create-account" element={<CreateAccount />} />
-        <Route
-          path="/create-account/email-password"
-          element={<EmailPassword />}
-        />
+        <Route path="/create-account/email-password" element={<EmailPassword />} />
       </Routes>
     </BrowserRouter>
-
-    // {/* <Container> */}
-    // {/* <MainSignIn /> */}
-    // {/* <SignIn /> */}
-    // {/* <Chat />
-    // <ForgotPassword />
-    /* <EnterCode /> */
-    //         <ChangePassword />
-    // </Container> */}
   );
 }
 
