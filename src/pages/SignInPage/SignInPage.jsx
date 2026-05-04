@@ -23,22 +23,57 @@ import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useState } from 'react';
 import Button from '../../ui/Button/Button';
+import Loader from '../../ui/Loader/Loader';
 import { useForm } from 'react-hook-form';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
-function SignIn() {
+function SignInPage() {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitted, isValid },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const toastId = toast.loading('Вхід в систему...');
+
     if (isValid) {
-      console.log('Form is valid. Navigating to /chat.');
-      navigate('/chat');
+      try {
+        const response = await fetch('https://thecore-backend-nest.onrender.com/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        console.log(response);
+        if (response.ok) {
+          toast.success('Логін працює', { id: toastId });
+
+          if (result.token) {
+            localStorage.setItem('token', result.token);
+          }
+
+          setTimeout(() => navigate('/chat'), 1000);
+        } else if (response.status === 400) {
+          navigate('/verify', {
+            state: { from: 'registration', email: data.email },
+          });
+        } else {
+          toast.error(result.message || 'Помилка авторизації', { id: toastId });
+        }
+      } catch {
+        toast.error('Сервер недоступний', { id: toastId });
+      } finally {
+        setLoading(false);
+      }
     } else {
       console.log('Form is invalid. Navigation prevented.');
     }
@@ -77,7 +112,6 @@ function SignIn() {
                       $success={!errors.email && isSubmitted}
                       type="email"
                       placeholder="example@gmail.com"
-                      //   value={email}
                       {...register('email', {
                         required: 'Email is required',
                         pattern: {
@@ -99,7 +133,6 @@ function SignIn() {
                       $success={!errors.password && isSubmitted}
                       type={show ? 'text' : 'password'}
                       placeholder="Enter password"
-                      //   value={password}
                       {...register('password', {
                         required: 'Password is required',
                         minLength: {
@@ -116,13 +149,22 @@ function SignIn() {
               <SemiLink onClick={handleForgotPasswordClick}>Forgot Password</SemiLink>
             </div>
             <Bottom>
-              <ButtonBlock>
-                <Button children="Continue" type="submit" />
-              </ButtonBlock>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ButtonBlock>
+                  <Button children="Continue" type="submit" disabled={loading} />
+                </ButtonBlock>
+              )}
+              {/* <ButtonBlock>
+                <Button children="Continue" type="submit" disabled={loading}>
+                  {loading && 'Loading...'}
+                </Button>
+              </ButtonBlock> */}
 
               <Text>
                 Don't have an account yet?
-                <Link href="#"> Sign up</Link>
+                <Link href="/create-account"> Sign up</Link>
               </Text>
             </Bottom>
           </ContentForm>
@@ -132,4 +174,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignInPage;

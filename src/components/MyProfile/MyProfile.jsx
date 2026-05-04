@@ -19,8 +19,26 @@ import { useNavigate } from 'react-router-dom';
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
   const navigate = useNavigate();
-  const handleLogOutClick = () => {
-    navigate('/');
+  const handleLogOutClick = async () => {
+    try {
+      const response = await fetch('https://thecore-backend-nest.onrender.com/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      localStorage.removeItem('token');
+      navigate('/');
+    } catch (err) {
+      console.error('Помилка:', err.message);
+    }
   };
   return (
     <MyProfileStyle $open={isOpen}>

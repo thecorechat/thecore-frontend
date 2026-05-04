@@ -22,25 +22,62 @@ import { useState } from 'react';
 import Button from '../../ui/Button/Button';
 import { useForm } from 'react-hook-form';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { useLocation } from 'react-router-dom';
 
 function EmailPassword() {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isValid },
+    formState: { errors, isSubmitted },
     getValues,
   } = useForm();
+  const { state } = useLocation();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    if (isValid) {
-      console.log('Form is valid. Navigating to /chat.');
-      navigate('/verify', {
-        state: { from: 'registration' },
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  //   if (isValid) {
+  //     console.log('Form is valid. Navigating to /chat.');
+  //     navigate('/verify', {
+  //       state: { from: 'registration' },
+  //     });
+  //   } else {
+  //     console.log('Form is invalid. Navigation prevented.');
+  //   }
+  // };
+
+  const onSubmit = async (formData) => {
+    const fullData = {
+      firstName: state.firstName,
+      lastName: state.lastName,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    setLoading(true);
+    try {
+      const response = await fetch('https://thecore-backend-nest.onrender.com/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fullData),
       });
-    } else {
-      console.log('Form is invalid. Navigation prevented.');
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      navigate('/verify', {
+        state: {
+          email: formData.email,
+          from: 'registration',
+        },
+      });
+    } catch (err) {
+      console.error('Помилка:', err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,9 +170,16 @@ function EmailPassword() {
               </InputContent>
             </div>
             <Bottom>
-              <ButtonBlock>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ButtonBlock>
+                  <Button children="Send password" type="submit" disabled={loading} />
+                </ButtonBlock>
+              )}
+              {/* <ButtonBlock>
                 <Button children="Send password" type="submit" />
-              </ButtonBlock>
+              </ButtonBlock> */}
             </Bottom>
           </ContentForm>
         </form>
