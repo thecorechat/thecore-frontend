@@ -19,24 +19,62 @@ import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useState } from 'react';
 import Button from '../../ui/Button/Button';
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 
 function ChangePassword() {
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isValid },
+    formState: {
+      errors,
+      isSubmitted,
+      // isValid
+    },
     getValues,
   } = useForm();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log('state:', state);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    if (isValid) {
-      console.log('Form is valid. Navigating to /chat.');
-      navigate('/change-password/success');
-    } else {
-      console.log('Form is invalid. Navigation prevented.');
+  const onSubmit = async (data) => {
+    // console.log(data);
+    // if (isValid) {
+    //   console.log('Form is valid. Navigating to /chat.');
+    //   navigate('/change-password/success');
+    // } else {
+    //   console.log('Form is invalid. Navigation prevented.');
+    // }
+    // console.log(state?.token);
+
+    // const fullData = {
+    //   password: data.password,
+    // };
+    setLoading(true);
+
+    try {
+      const response = await fetch('https://thecore-backend-nest.onrender.com/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: state.token, // ← з попередньої сторінки
+          password: data.password, // ← новий пароль з інпуту
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      navigate('/change-password/success'); // ← успіх
+    } catch (err) {
+      console.error('Помилка:', err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,7 +82,6 @@ function ChangePassword() {
     setShow(!show);
   };
 
-  const navigate = useNavigate();
   const handleBackClick = () => {
     navigate('/verify');
   };
@@ -69,7 +106,6 @@ function ChangePassword() {
                       $success={!errors.password && isSubmitted}
                       type={show ? 'text' : 'password'}
                       placeholder="Enter password"
-                      //   value={password}
                       {...register('password', {
                         required: 'Password is required',
                         minLength: {
@@ -91,7 +127,6 @@ function ChangePassword() {
                       $success={!errors.repeatPassword && isSubmitted}
                       type={show ? 'text' : 'password'}
                       placeholder="Enter password"
-                      // value={repeatPassword}
                       {...register('repeatPassword', {
                         required: 'Password is required',
                         minLength: {
@@ -108,9 +143,13 @@ function ChangePassword() {
               </InputContent>
             </div>
             <Bottom>
-              <ButtonBlock>
-                <Button children="Send password" type="submit" />
-              </ButtonBlock>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ButtonBlock>
+                  <Button children="Send password" type="submit" disabled={loading} />
+                </ButtonBlock>
+              )}
             </Bottom>
           </ContentForm>
         </form>

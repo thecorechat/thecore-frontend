@@ -16,18 +16,17 @@ import {
 import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../ui/Button/Button';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
 
 const CODE_LENGTH = 4;
-const CORRECT_CODE = '1111';
+// const CORRECT_CODE = '1111';
 
 function VerifyCode() {
-  const location = useLocation();
-  const sentEmail = location.state?.emailSent;
-  const fromPage = location.state?.from;
-  const { handleSubmit } = useForm();
-  //   const id = useId();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const fromPage = state?.from;
+
   const [isCodeInvalid, setIsCodeInvalid] = useState(false);
   const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
   const [code, setCode] = useState(new Array(CODE_LENGTH).fill(''));
@@ -41,31 +40,59 @@ function VerifyCode() {
 
   const combinedCode = code.join('');
 
-  const onSubmit = () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
     setIsAttemptedSubmit(true);
-    if (combinedCode.length !== CODE_LENGTH) {
-      console.log('Code is incomplete.');
+
+    if (combinedCode.replace(/\s/g, '').length !== CODE_LENGTH) {
       setIsCodeInvalid(true);
       return;
     }
 
-    if (combinedCode === CORRECT_CODE) {
+    try {
+      const endpoint =
+        fromPage === 'forgot-password'
+          ? 'https://thecore-backend-nest.onrender.com/auth/verify-forgot-password'
+          : 'https://thecore-backend-nest.onrender.com/auth/verify-registration';
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: state.email,
+          code: combinedCode,
+        }),
+      });
+      const result = await response.json();
+
+      console.log(result);
+
+      if (!response.ok) {
+        // const error = await response.json();
+        setIsCodeInvalid(true);
+        throw new Error(result.message);
+      }
+
       setIsCodeInvalid(false);
 
       if (fromPage === 'registration') {
         navigate('/chat');
       } else if (fromPage === 'forgot-password') {
-        navigate('/change-password');
+        console.log(result);
+
+        navigate('/change-password', {
+          state: {
+            token: result.resetToken,
+          },
+        });
       } else {
-        navigate('/');
+        navigate('/chat');
       }
-    } else {
-      setIsCodeInvalid(true);
-      console.log('Code is incorrect.');
+    } catch (err) {
+      console.error('Невірний код:', err.message);
     }
   };
 
-  const navigate = useNavigate();
   const handleBackClick = () => {
     navigate('/forgot-password');
   };
@@ -99,11 +126,11 @@ function VerifyCode() {
         <TitleBox>
           <Title>Verify Code</Title>
           <p>
-            An 4-digit code has been sent to <span>{sentEmail || 'your email address'}</span>
+            An 4-digit code has been sent to <span>{'your email address'}</span>
           </p>
         </TitleBox>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <form onSubmit={handleFormSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>

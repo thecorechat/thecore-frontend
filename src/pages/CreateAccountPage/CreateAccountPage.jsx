@@ -7,9 +7,6 @@ import {
   Label,
   Bottom,
   ButtonBlock,
-  Link,
-  Text,
-  SemiLink,
   InputBox,
   IconBox,
   InputContent,
@@ -20,8 +17,6 @@ import {
 
 import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useNavigate } from 'react-router-dom';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { useState } from 'react';
 import Button from '../../ui/Button/Button';
 import { useForm } from 'react-hook-form';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
@@ -33,19 +28,44 @@ function CreateAccount() {
     formState: { errors, isSubmitted, isValid },
   } = useForm();
 
+  // const onSubmit = async (formData) => {
+  //   try {
+  //     const response = await fetch('https://thecore-backend-nest.onrender.com/auth/register', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (!response.ok) {
+  //       const error = await response.json();
+  //       throw new Error(error.message || `Помилка: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     console.log('Успішна реєстрація:', data);
+  //   } catch (err) {
+  //     console.error('Помилка реєстрації:', err.message);
+  //   }
+  // };
+
+  const navigate = useNavigate();
+  const handleBackClick = () => {
+    navigate('/');
+  };
+
   const onSubmit = (data) => {
     console.log(data);
     if (isValid) {
       console.log('Form is valid. Navigating to /chat.');
-      navigate('/create-account/email-password');
+      navigate('/create-account/email-password', {
+        state: {
+          firstName: data.firstname,
+          lastName: data.lastname,
+        },
+      });
     } else {
       console.log('Form is invalid. Navigation prevented.');
     }
-  };
-
-  const navigate = useNavigate();
-  const handleBackClick = () => {
-    navigate('/select-account/access-code');
   };
 
   return (
@@ -53,7 +73,6 @@ function CreateAccount() {
       <Content>
         <HeaderBack onClick={handleBackClick} />
         <TitleBox>
-          {' '}
           <Title>Create Account</Title>
         </TitleBox>
 
@@ -69,7 +88,6 @@ function CreateAccount() {
                       $success={!errors.firstname && isSubmitted}
                       type="text"
                       placeholder="Jane"
-                      //   value={email}
                       {...register('firstname', {
                         required: 'First name is required',
                       })}
@@ -87,7 +105,6 @@ function CreateAccount() {
                       $success={!errors.lastname && isSubmitted}
                       type="text"
                       placeholder="Doe"
-                      //   value={email}
                       {...register('lastname', {
                         required: 'Last name is required',
                       })}

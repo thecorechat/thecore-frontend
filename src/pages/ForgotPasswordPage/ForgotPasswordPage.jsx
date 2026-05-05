@@ -18,31 +18,78 @@ import {
 import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../ui/Button/Button';
+import Loader from '../../ui/Loader/Loader';
 import { useForm } from 'react-hook-form';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function ForgotPassword() {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitted, isValid },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const email = data.email;
     console.log(data);
     if (isValid) {
       console.log('Form is valid. Attempting to send reset email for:', email);
 
-      try {
-        navigate('/verify', {
-          state: { emailSent: email, from: 'forgot-password' },
-        });
-      } catch (error) {
-        console.error('Error sending reset email:', error);
+      //   try {
+      //     navigate('/verify', {
+      //       state: { emailSent: email, from: 'forgot-password' },
+      //     });
+      //   } catch (error) {
+      //     console.error('Error sending reset email:', error);
+      //   }
+      // } else {
+      //   console.log('Form is invalid. Navigation prevented.');
+      // }
+
+      setLoading(true);
+      const toastId = toast.loading('Вхід в систему...');
+
+      if (isValid) {
+        try {
+          const response = await fetch('https://thecore-backend-nest.onrender.com/auth/forgot-password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+          console.log(result);
+
+          console.log(response);
+          if (response.ok) {
+            toast.success('Логін працює', { id: toastId });
+
+            if (result.token) {
+              localStorage.setItem('token', result.token);
+            }
+
+            //   setTimeout(() => navigate('/verify'), 1000);
+            // } else {
+            //   toast.error(result.message || 'Помилка авторизації', { id: toastId });
+            // }
+
+            navigate('/verify', {
+              state: { from: 'forgot-password', email: data.email },
+            });
+          }
+        } catch {
+          toast.error('Сервер недоступний', { id: toastId });
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        console.log('Form is invalid. Navigation prevented.');
       }
-    } else {
-      console.log('Form is invalid. Navigation prevented.');
     }
   };
 
@@ -72,7 +119,6 @@ function ForgotPassword() {
                       $success={!errors.email && isSubmitted}
                       type="email"
                       placeholder="example@gmail.com"
-                      //   value={email}
                       {...register('email', {
                         required: 'Email is required',
                         pattern: {
@@ -87,10 +133,15 @@ function ForgotPassword() {
                 </InputWrapper>
               </InputContent>
             </div>
+
             <Bottom>
-              <ButtonBlock>
-                <Button children="Send" type="submit" />
-              </ButtonBlock>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ButtonBlock>
+                  <Button children="Send" type="submit" disabled={loading} />
+                </ButtonBlock>
+              )}
             </Bottom>
           </ContentForm>
         </form>
