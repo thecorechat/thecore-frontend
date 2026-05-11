@@ -1,3 +1,8 @@
+import { useForm } from "react-hook-form";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
   Title,
   Background,
@@ -93,19 +98,19 @@ function ForgotPassword() {
     }
   };
 
-  const navigate = useNavigate();
-  const handleBackClick = () => {
-    navigate('/signin');
-  };
+	const navigate = useNavigate();
+	const handleBackClick = () => {
+		navigate("/signin");
+	};
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          <Title>Forgot password?</Title>
-          <p>Enter your registered email address</p>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					<Title>Forgot password?</Title>
+					<p>Enter your registered email address</p>
+				</TitleBox>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>

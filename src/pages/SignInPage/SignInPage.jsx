@@ -1,3 +1,10 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
   Title,
   Background,
@@ -79,26 +86,26 @@ function SignInPage() {
     }
   };
 
-  const handleShowClick = () => {
-    setShow(!show);
-  };
+	const handleShowClick = () => {
+		setShow(!show);
+	};
 
-  const navigate = useNavigate();
-  const handleBackClick = () => {
-    navigate('/');
-  };
-  const handleForgotPasswordClick = () => {
-    navigate('/forgot-password');
-  };
+	const navigate = useNavigate();
+	const handleBackClick = () => {
+		navigate("/");
+	};
+	const handleForgotPasswordClick = () => {
+		navigate("/forgot-password");
+	};
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          {' '}
-          <Title>Sign In</Title>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					{" "}
+					<Title>Sign In</Title>
+				</TitleBox>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>

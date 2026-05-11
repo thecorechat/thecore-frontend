@@ -1,21 +1,21 @@
+import { IoNotificationsOutline } from "react-icons/io5";
+import { LuLogOut } from "react-icons/lu";
+import { MdBlock } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { Avatar } from "../../ui/Avatar/Avatar";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
+import ToggleSwitch from "../../ui/ToggleSwitch/ToggleSwitch";
 import {
-  MyProfileStyleBodyCenter,
-  MyProfileStyleBodyTop,
-  MyProfileStyleBodyTopRight,
-  MyProfileStyleBottom,
-  MyProfileStyle,
-  MyProfileStyleBodyCenterSettings,
-  MyProfileStyleBodyCenterSettingsItem,
-  MyProfileStyleBodyCenterSettingsItemLeft,
-} from './MyProfile.styled';
-import { LuLogOut } from 'react-icons/lu';
-import Button from '../../ui/Button/Button';
-import { Avatar } from '../../ui/Avatar/Avatar';
-import HeaderBack from '../../ui/HeaderBack/HeaderBack';
-import { MdBlock } from 'react-icons/md';
-import { IoNotificationsOutline } from 'react-icons/io5';
-import ToggleSwitch from '../../ui/ToggleSwitch/ToggleSwitch';
-import { useNavigate } from 'react-router-dom';
+	MyProfileStyle,
+	MyProfileStyleBodyCenter,
+	MyProfileStyleBodyCenterSettings,
+	MyProfileStyleBodyCenterSettingsItem,
+	MyProfileStyleBodyCenterSettingsItemLeft,
+	MyProfileStyleBodyTop,
+	MyProfileStyleBodyTopRight,
+	MyProfileStyleBottom,
+} from "./MyProfile.styled";
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -78,11 +78,11 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
         </MyProfileStyleBodyCenter>
       </div>
 
-      <MyProfileStyleBottom onClick={handleLogOutClick}>
-        <LuLogOut /> Logout
-      </MyProfileStyleBottom>
-    </MyProfileStyle>
-  );
+			<MyProfileStyleBottom onClick={handleLogOutClick}>
+				<LuLogOut /> Logout
+			</MyProfileStyleBottom>
+		</MyProfileStyle>
+	);
 };
 
 export default MyProfile;

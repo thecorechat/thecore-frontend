@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import Button from "../../ui/Button/Button";
 import {
   Title,
   Background,
@@ -78,21 +83,21 @@ function ChangePassword() {
     }
   };
 
-  const handleShowClick = () => {
-    setShow(!show);
-  };
+	const handleShowClick = () => {
+		setShow(!show);
+	};
 
   const handleBackClick = () => {
     navigate('/verify');
   };
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          <Title>Change password</Title>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					<Title>Change password</Title>
+				</TitleBox>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>

@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { IoMdSearch } from "react-icons/io";
+import styled from "styled-components";
 
 export const InputWrapper = styled.div`
   position: relative;

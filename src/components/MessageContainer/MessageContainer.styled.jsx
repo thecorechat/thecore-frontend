@@ -39,11 +39,11 @@ export const ChatWrapper = styled.div`
   margin-bottom: 1rem;
 
   ${({ isOwner }) =>
-    isOwner
-      ? css`
+		isOwner
+			? css`
           justify-content: flex-end;
         `
-      : css`
+			: css`
           justify-content: flex-start;
         `}
 `;
@@ -86,13 +86,13 @@ export const ChatBubble = styled.div`
   display: flex;
   flex-direction: column;
   ${({ isOwner }) =>
-    isOwner
-      ? css`
+		isOwner
+			? css`
           background: var(--primary-60);
           color: var(--gray-0);
           border-radius: 0.5rem 0 0.5rem 0.5rem;
         `
-      : css`
+			: css`
           background: var(--gray-10);
           color: var(--gray-100);
           border-radius: 0 0.5rem 0.5rem 0.5rem;
