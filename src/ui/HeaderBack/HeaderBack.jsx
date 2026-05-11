@@ -2,12 +2,12 @@ import ArrowBack from "../ArrowBack/ArrowBack";
 import { HeaderBackStyle } from "./HeaderBack.styled";
 
 const HeaderBack = ({ children, onClick }) => {
-  return (
-    <HeaderBackStyle>
-      <ArrowBack onClick={onClick} />
-      <p>{children}</p>
-    </HeaderBackStyle>
-  );
+	return (
+		<HeaderBackStyle>
+			<ArrowBack onClick={onClick} />
+			<p>{children}</p>
+		</HeaderBackStyle>
+	);
 };
 
 export default HeaderBack;

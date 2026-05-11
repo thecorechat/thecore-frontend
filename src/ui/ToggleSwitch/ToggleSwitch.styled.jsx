@@ -10,7 +10,7 @@ export const ToggleSwitchStyle = styled.div`
 
 export const ToggleSwitchStyleButton = styled.button`
   background-color: ${(props) =>
-    props.$toggled ? "var(--primary-60)" : "var(--gray-20)"};
+		props.$toggled ? "var(--primary-60)" : "var(--gray-20)"};
   border-radius: 99px;
   width: 44px;
   height: 24px;
@@ -29,5 +29,5 @@ export const ToggleSwitchStyleThumb = styled.div`
   transition: transform 0.15s ease;
 
   transform: ${(props) =>
-    props.$toggled ? "translateX(20px)" : "translateX(0)"};
+		props.$toggled ? "translateX(20px)" : "translateX(0)"};
 `;

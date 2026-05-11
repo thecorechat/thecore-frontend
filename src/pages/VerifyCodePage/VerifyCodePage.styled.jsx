@@ -58,14 +58,14 @@ export const InputStyle = styled.input`
   height: 64px;
   width: 64px;
   ${(props) =>
-    props.$error &&
-    `
+		props.$error &&
+		`
       border: 1px solid var(--system-error);
     `}
 
   ${(props) =>
-    props.$success &&
-    `
+		props.$success &&
+		`
       border: 1px solid var(--success-70);
     `}
 

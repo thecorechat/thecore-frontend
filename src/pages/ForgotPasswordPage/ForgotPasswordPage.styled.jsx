@@ -109,14 +109,14 @@ export const InputStyle = styled.input`
   transition: 0.2s;
   height: 48px;
   ${(props) =>
-    props.$error &&
-    `
+		props.$error &&
+		`
       border: 1px solid var(--system-error);
     `}
 
   ${(props) =>
-    props.$success &&
-    `
+		props.$success &&
+		`
       border: 1px solid var(--success-70);
     `}
 
