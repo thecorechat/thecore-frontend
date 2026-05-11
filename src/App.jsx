@@ -1,15 +1,15 @@
-import SignIn from './pages/SignInPage/SignInPage';
-import MainSignIn from './pages/MainSignInPage/MainSignInPage';
-import Chat from './pages/ChatPage/ChatPage';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import ForgotPassword from './pages/ForgotPasswordPage/ForgotPasswordPage';
-import VerifyCode from './pages/VerifyCodePage/VerifyCodePage';
-import ChangePassword from './pages/ChangePasswordPage/ChangePasswordPage';
-import SuccessMessage from './components/SuccessMessage/SuccessMessage';
+import SignIn from "./pages/SignInPage/SignInPage";
+import MainSignIn from "./pages/MainSignInPage/MainSignInPage";
+import Chat from "./pages/ChatPage/ChatPage";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import ForgotPassword from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import VerifyCode from "./pages/VerifyCodePage/VerifyCodePage";
+import ChangePassword from "./pages/ChangePasswordPage/ChangePasswordPage";
+import SuccessMessage from "./components/SuccessMessage/SuccessMessage";
 // import AccessCode from './components/AccessCode/AccessCode';
 // import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
-import CreateAccount from './pages/CreateAccountPage/CreateAccountPage';
-import EmailPassword from './components/EmailPassword/EmailPassword';
+import CreateAccount from "./pages/CreateAccountPage/CreateAccountPage";
+import EmailPassword from "./components/EmailPassword/EmailPassword";
 
 function App() {
   return (
@@ -27,7 +27,12 @@ function App() {
         <Route path="/select-account/access-code" element={<AccessCode />} /> */}
 
         <Route path="/create-account" element={<CreateAccount />} />
-        <Route path="/create-account/email-password" element={<EmailPassword />} />
+        <Route
+          path="/create-account/email-password"
+          element={<EmailPassword />}
+        />
+
+        <Route path="/create-workspace" element={<CreateWorkspace />} />
       </Routes>
     </BrowserRouter>
   );
