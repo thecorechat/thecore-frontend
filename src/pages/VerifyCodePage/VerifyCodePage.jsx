@@ -1,177 +1,190 @@
-import { useEffect, useRef, useState } from "react";
+// import { useForm } from 'react-hook-form';
+import {
+	useEffect,
+	useEffect,
+	useRef,
+	useRef,
+	useState,
+	useState,
+} from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+	useLocation,
+	useLocation,
+	useNavigate,
+	useNavigate,
+} from "react-router-dom";
+import Button from "../../ui/Button/Button";
 import Button from "../../ui/Button/Button";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
-  Title,
-  Background,
-  Content,
-  InputWrapper,
-  InputStyle,
-  Bottom,
-  ButtonBlock,
-  InputContent,
-  ContentForm,
-  TitleBox,
-  Text,
-  Link,
-} from './VerifyCodePage.styled';
-
-import HeaderBack from '../../ui/HeaderBack/HeaderBack';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../../ui/Button/Button';
-// import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+	Background,
+	Bottom,
+	ButtonBlock,
+	Content,
+	ContentForm,
+	InputContent,
+	InputStyle,
+	InputWrapper,
+	Link,
+	Text,
+	Title,
+	TitleBox,
+} from "./VerifyCodePage.styled";
 
 const CODE_LENGTH = 4;
 // const CORRECT_CODE = '1111';
 
 function VerifyCode() {
-  const { state } = useLocation();
-  const navigate = useNavigate();
-  const fromPage = state?.from;
+	const { state } = useLocation();
+	const navigate = useNavigate();
+	const fromPage = state?.from;
 
-  const [isCodeInvalid, setIsCodeInvalid] = useState(false);
-  const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
-  const [code, setCode] = useState(new Array(CODE_LENGTH).fill(''));
-  const inputRefs = useRef([]);
+	const [isCodeInvalid, setIsCodeInvalid] = useState(false);
+	const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
+	const [code, setCode] = useState(new Array(CODE_LENGTH).fill(""));
+	const inputRefs = useRef([]);
 
-  useEffect(() => {
-    if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
-    }
-  }, []);
+	useEffect(() => {
+		if (inputRefs.current[0]) {
+			inputRefs.current[0].focus();
+		}
+	}, []);
 
-  const combinedCode = code.join('');
+	const combinedCode = code.join("");
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setIsAttemptedSubmit(true);
+	const handleFormSubmit = async (e) => {
+		e.preventDefault();
+		setIsAttemptedSubmit(true);
 
-    if (combinedCode.replace(/\s/g, '').length !== CODE_LENGTH) {
-      setIsCodeInvalid(true);
-      return;
-    }
+		if (combinedCode.replace(/\s/g, "").length !== CODE_LENGTH) {
+			setIsCodeInvalid(true);
+			return;
+		}
 
-    try {
-      const endpoint =
-        fromPage === 'forgot-password'
-          ? 'https://thecore-backend-nest.onrender.com/auth/verify-forgot-password'
-          : 'https://thecore-backend-nest.onrender.com/auth/verify-registration';
+		try {
+			const endpoint =
+				fromPage === "forgot-password"
+					? "https://thecore-backend-nest.onrender.com/auth/verify-forgot-password"
+					: "https://thecore-backend-nest.onrender.com/auth/verify-registration";
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: state.email,
-          code: combinedCode,
-        }),
-      });
-      const result = await response.json();
+			const response = await fetch(endpoint, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					email: state.email,
+					code: combinedCode,
+				}),
+			});
+			const result = await response.json();
 
-      console.log(result);
+			console.log(result);
 
-      if (!response.ok) {
-        // const error = await response.json();
-        setIsCodeInvalid(true);
-        throw new Error(result.message);
-      }
+			if (!response.ok) {
+				// const error = await response.json();
+				setIsCodeInvalid(true);
+				throw new Error(result.message);
+			}
 
-      setIsCodeInvalid(false);
+			setIsCodeInvalid(false);
 
-      if (fromPage === 'registration') {
-        navigate('/chat');
-      } else if (fromPage === 'forgot-password') {
-        console.log(result);
+			if (fromPage === "registration") {
+				navigate("/chat");
+			} else if (fromPage === "forgot-password") {
+				console.log(result);
 
-        navigate('/change-password', {
-          state: {
-            token: result.resetToken,
-          },
-        });
-      } else {
-        navigate('/chat');
-      }
-    } catch (err) {
-      console.error('Невірний код:', err.message);
-    }
-  };
+				navigate("/change-password", {
+					state: {
+						token: result.resetToken,
+					},
+				});
+			} else {
+				navigate("/chat");
+			}
+		} catch (err) {
+			console.error("Невірний код:", err.message);
+		}
+	};
 
-  const handleBackClick = () => {
-    navigate('/forgot-password');
-  };
+	const handleBackClick = () => {
+		navigate("/forgot-password");
+	};
 
-  const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !code[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
-    }
-  };
+	const handleKeyDown = (index, e) => {
+		if (e.key === "Backspace" && !code[index] && index > 0) {
+			inputRefs.current[index - 1].focus();
+		}
+	};
 
-  const handleChange = (index, e) => {
-    setIsCodeInvalid(false);
+	const handleChange = (index, e) => {
+		setIsCodeInvalid(false);
 
-    const value = e.target.value;
-    if (isNaN(value)) return;
+		const value = e.target.value;
+		if (isNaN(value)) return;
 
-    const newCode = [...code];
-    newCode[index] = value.substring(value.length - 1);
-    setCode(newCode);
+		const newCode = [...code];
+		newCode[index] = value.substring(value.length - 1);
+		setCode(newCode);
 
-    const nextIndex = index + 1;
-    if (value && nextIndex < CODE_LENGTH) {
-      inputRefs.current[nextIndex].focus();
-    }
-  };
+		const nextIndex = index + 1;
+		if (value && nextIndex < CODE_LENGTH) {
+			inputRefs.current[nextIndex].focus();
+		}
+	};
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          <Title>Verify Code</Title>
-          <p>
-            An 4-digit code has been sent to <span>{'your email address'}</span>
-          </p>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					<Title>Verify Code</Title>
+					<p>
+						An 4-digit code has been sent to <span>{"your email address"}</span>
+					</p>
+				</TitleBox>
 
-        <form onSubmit={handleFormSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-          <ContentForm>
-            <div>
-              <InputContent>
-                <InputWrapper>
-                  {code.map((value, index) => {
-                    return (
-                      <InputStyle
-                        key={index}
-                        ref={(input) => (inputRefs.current[index] = input)}
-                        $error={isAttemptedSubmit && isCodeInvalid}
-                        type="tel"
-                        maxLength={1}
-                        placeholder="0"
-                        value={value}
-                        onChange={(e) => handleChange(index, e)}
-                        onKeyDown={(e) => handleKeyDown(index, e)}
-                      />
-                    );
-                  })}
-                </InputWrapper>
-                <Text>
-                  Don't get a code?
-                  <Link href="#"> Send again</Link>
-                </Text>
-              </InputContent>
-            </div>
-            <Bottom>
-              <ButtonBlock>
-                <Button children="Verify" type="submit" />
-              </ButtonBlock>
-            </Bottom>
-          </ContentForm>
-        </form>
-      </Content>
-    </Background>
-  );
+				<form
+					onSubmit={handleFormSubmit}
+					noValidate
+					style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
+				>
+					<ContentForm>
+						<div>
+							<InputContent>
+								<InputWrapper>
+									{code.map((value, index) => {
+										return (
+											<InputStyle
+												key={index}
+												ref={(input) => (inputRefs.current[index] = input)}
+												$error={isAttemptedSubmit && isCodeInvalid}
+												type="tel"
+												maxLength={1}
+												placeholder="0"
+												value={value}
+												onChange={(e) => handleChange(index, e)}
+												onKeyDown={(e) => handleKeyDown(index, e)}
+											/>
+										);
+									})}
+								</InputWrapper>
+								<Text>
+									Don't get a code?
+									<Link href="#"> Send again</Link>
+								</Text>
+							</InputContent>
+						</div>
+						<Bottom>
+							<ButtonBlock>
+								<Button children="Verify" type="submit" />
+							</ButtonBlock>
+						</Bottom>
+					</ContentForm>
+				</form>
+			</Content>
+		</Background>
+	);
 }
 
 export default VerifyCode;

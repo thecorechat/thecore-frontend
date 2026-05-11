@@ -8,7 +8,7 @@
 		"build": "vite build",
 		"lint": "eslint .",
 		"preview": "vite preview --host 0.0.0.0 --port $PORT",
-		"check-all": "biome check --write . && npx eslint . --fix"
+		"check-all": "biome check --write . && npx eslint . --fix && npm run typecheck -- --fix"
 	},
 	"lint-staged": {
 		"*.{js,ts,jsx,tsx,json,css}": [

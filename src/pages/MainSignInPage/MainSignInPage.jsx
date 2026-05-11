@@ -11,37 +11,37 @@ import {
 } from "./MainSignInPage.styled";
 
 function MainSignIn() {
-  const navigate = useNavigate();
-  const handleSignInClick = () => {
-    navigate('/signin');
-  };
-  const handleCreateAccountClick = () => {
-    navigate('/create-account');
-  };
-  return (
-    <Background>
-      <Content>
-        <Title>The Core</Title>
+	const navigate = useNavigate();
+	const handleSignInClick = () => {
+		navigate("/signin");
+	};
+	const handleCreateAccountClick = () => {
+		navigate("/create-account");
+	};
+	return (
+		<Background>
+			<Content>
+				<Title>The Core</Title>
 
-        <Bottom>
-          <ButtonBlock>
-            <Button
-              children="Create account"
-              background="white"
-              color="var(--primary-60)"
-              borderColor="var(--gray-70)"
-              hoverColor="var(--gray-10)"
-              onClick={handleCreateAccountClick}
-            />
-            <Button
-              children="Sign in"
-              background="white"
-              color="var(--primary-60)"
-              borderColor="var(--gray-70)"
-              hoverColor="var(--gray-10)"
-              onClick={handleSignInClick}
-            />
-          </ButtonBlock>
+				<Bottom>
+					<ButtonBlock>
+						<Button
+							children="Create account"
+							background="white"
+							color="var(--primary-60)"
+							borderColor="var(--gray-70)"
+							hoverColor="var(--gray-10)"
+							onClick={handleCreateAccountClick}
+						/>
+						<Button
+							children="Sign in"
+							background="white"
+							color="var(--primary-60)"
+							borderColor="var(--gray-70)"
+							hoverColor="var(--gray-10)"
+							onClick={handleSignInClick}
+						/>
+					</ButtonBlock>
 
 					<Text>
 						By continuing, you agree to the{" "}
