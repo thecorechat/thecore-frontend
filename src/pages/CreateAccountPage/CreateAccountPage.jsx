@@ -6,24 +6,27 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button/Button";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
-	Background,
-	Bottom,
-	ButtonBlock,
-	Content,
-	ContentForm,
-	ErrorMessage,
-	IconBox,
-	InputBox,
-	InputContent,
-	InputStyle,
-	InputWrapper,
-	Label,
-	Link,
-	SemiLink,
-	Text,
-	Title,
-	TitleBox,
-} from "./CreateAccountPage.styled";
+  Title,
+  Background,
+  Content,
+  InputWrapper,
+  InputStyle,
+  Label,
+  Bottom,
+  ButtonBlock,
+  InputBox,
+  IconBox,
+  InputContent,
+  ContentForm,
+  ErrorMessage,
+  TitleBox,
+} from './CreateAccountPage.styled';
+
+import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../ui/Button/Button';
+import { useForm } from 'react-hook-form';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 function CreateAccount() {
 	const {
@@ -32,103 +35,103 @@ function CreateAccount() {
 		formState: { errors, isSubmitted, isValid },
 	} = useForm();
 
-	const onSubmit = (data) => {
-		console.log(data);
-		if (isValid) {
-			console.log("Form is valid. Navigating to /chat.");
-			navigate("/create-account/email-password");
-		} else {
-			console.log("Form is invalid. Navigation prevented.");
-		}
-	};
+  // const onSubmit = async (formData) => {
+  //   try {
+  //     const response = await fetch('https://thecore-backend-nest.onrender.com/auth/register', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(formData),
+  //     });
 
-	const navigate = useNavigate();
-	const handleBackClick = () => {
-		navigate("/select-account/access-code");
-	};
+  //     if (!response.ok) {
+  //       const error = await response.json();
+  //       throw new Error(error.message || `Помилка: ${response.status}`);
+  //     }
 
-	return (
-		<Background>
-			<Content>
-				<HeaderBack onClick={handleBackClick} />
-				<TitleBox>
-					{" "}
-					<Title>Create Account</Title>
-				</TitleBox>
+  //     const data = await response.json();
+  //     console.log('Успішна реєстрація:', data);
+  //   } catch (err) {
+  //     console.error('Помилка реєстрації:', err.message);
+  //   }
+  // };
 
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					noValidate
-					style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-				>
-					<ContentForm>
-						<div>
-							<InputContent>
-								<InputWrapper>
-									<Label>First name</Label>
-									<InputBox>
-										<InputStyle
-											$error={errors.firstname ? true : false}
-											$success={!errors.firstname && isSubmitted}
-											type="text"
-											placeholder="Jane"
-											//   value={email}
-											{...register("firstname", {
-												required: "First name is required",
-											})}
-										/>
-										<IconBox>
-											{!errors.firstname && isSubmitted && (
-												<IoIosCheckmarkCircleOutline
-													size={24}
-													color={"var(--success-70)"}
-												/>
-											)}
-										</IconBox>
-									</InputBox>
-									{errors.firstname && (
-										<ErrorMessage>{errors.firstname.message}</ErrorMessage>
-									)}
-								</InputWrapper>
+  const navigate = useNavigate();
+  const handleBackClick = () => {
+    navigate('/');
+  };
 
-								<InputWrapper>
-									<Label>Last name</Label>
-									<InputBox>
-										<InputStyle
-											$error={errors.lastname ? true : false}
-											$success={!errors.lastname && isSubmitted}
-											type="text"
-											placeholder="Doe"
-											//   value={email}
-											{...register("lastname", {
-												required: "Last name is required",
-											})}
-										/>
-										<IconBox>
-											{!errors.lastname && isSubmitted && (
-												<IoIosCheckmarkCircleOutline
-													size={24}
-													color={"var(--success-70)"}
-												/>
-											)}
-										</IconBox>
-									</InputBox>
-									{errors.lastname && (
-										<ErrorMessage>{errors.lastname.message}</ErrorMessage>
-									)}
-								</InputWrapper>
-							</InputContent>
-						</div>
-						<Bottom>
-							<ButtonBlock>
-								<Button children="Continue" type="submit" />
-							</ButtonBlock>
-						</Bottom>
-					</ContentForm>
-				</form>
-			</Content>
-		</Background>
-	);
+  const onSubmit = (data) => {
+    console.log(data);
+    if (isValid) {
+      console.log('Form is valid. Navigating to /chat.');
+      navigate('/create-account/email-password', {
+        state: {
+          firstName: data.firstname,
+          lastName: data.lastname,
+        },
+      });
+    } else {
+      console.log('Form is invalid. Navigation prevented.');
+    }
+  };
+
+  return (
+    <Background>
+      <Content>
+        <HeaderBack onClick={handleBackClick} />
+        <TitleBox>
+          <Title>Create Account</Title>
+        </TitleBox>
+
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+          <ContentForm>
+            <div>
+              <InputContent>
+                <InputWrapper>
+                  <Label>First name</Label>
+                  <InputBox>
+                    <InputStyle
+                      $error={errors.firstname ? true : false}
+                      $success={!errors.firstname && isSubmitted}
+                      type="text"
+                      placeholder="Jane"
+                      {...register('firstname', {
+                        required: 'First name is required',
+                      })}
+                    />
+                    <IconBox>{!errors.firstname && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
+                  </InputBox>
+                  {errors.firstname && <ErrorMessage>{errors.firstname.message}</ErrorMessage>}
+                </InputWrapper>
+
+                <InputWrapper>
+                  <Label>Last name</Label>
+                  <InputBox>
+                    <InputStyle
+                      $error={errors.lastname ? true : false}
+                      $success={!errors.lastname && isSubmitted}
+                      type="text"
+                      placeholder="Doe"
+                      {...register('lastname', {
+                        required: 'Last name is required',
+                      })}
+                    />
+                    <IconBox>{!errors.lastname && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
+                  </InputBox>
+                  {errors.lastname && <ErrorMessage>{errors.lastname.message}</ErrorMessage>}
+                </InputWrapper>
+              </InputContent>
+            </div>
+            <Bottom>
+              <ButtonBlock>
+                <Button children="Continue" type="submit" />
+              </ButtonBlock>
+            </Bottom>
+          </ContentForm>
+        </form>
+      </Content>
+    </Background>
+  );
 }
 
 export default CreateAccount;
