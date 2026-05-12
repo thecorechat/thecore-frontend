@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { Avatar } from "../../ui/Avatar/Avatar";
 import Button from "../../ui/Button/Button";
@@ -14,10 +15,13 @@ import {
 } from "./EditProfile.styled";
 
 const EditProfile = ({ isOpen, onClose }) => {
+	const [, setFirstName] = useState("");
+	const [, setLastName] = useState("");
+	const [, setEmail] = useState("");
 	return (
 		<EditProfileStyle $open={isOpen}>
 			<div>
-				<HeaderBack children="Edit profile" onClick={onClose} />
+				<HeaderBack onClick={onClose}>Edit profile</HeaderBack>
 
 				<EditProfileBody>
 					<EditProfileIcon $size="120px">
@@ -33,7 +37,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 								type="text"
 								placeholder="John"
 								//   value={name}
-								onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setFirstName(e.target.value)}
 							/>
 						</InputWrapper>
 
@@ -43,7 +47,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 								type="text"
 								placeholder="Dorian"
 								//   value={name}
-								onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setLastName(e.target.value)}
 							/>
 						</InputWrapper>
 
@@ -62,20 +66,22 @@ const EditProfile = ({ isOpen, onClose }) => {
 
 			<EditProfileButtonBlock>
 				<Button
-					children="Return"
 					background="transparent"
 					color="var(--gray-70)"
 					borderColor="var(--gray-70)"
 					hoverColor="var(--gray-10)"
 					onClick={onClose}
-				/>
+				>
+					Return
+				</Button>
 				<Button
-					children="Save"
 					background="var(--primary-60)"
 					color="var(--gray-0)"
 					borderColor="var(--primary-60)"
 					hoverColor="var(--primary-70)"
-				/>
+				>
+					Save
+				</Button>
 			</EditProfileButtonBlock>
 		</EditProfileStyle>
 	);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiTrash } from "react-icons/fi";
 import { GoMute, GoUnmute } from "react-icons/go";
@@ -10,11 +10,15 @@ import { DeleteDialog } from "../DeleteDialog/DeleteDialog";
 import {
 	Group,
 	Item,
-	Label,
+	// Label,
 	Menu,
 	MenuButton,
 	Wrapper,
 } from "./DropDownMenu.styled";
+
+/**
+ * @param {{ onSearchClick?: (event?: any) => void }} props
+ */
 
 export const DropdownMenuDemo = ({ onSearchClick }) => {
 	const [open, setOpen] = useState(false);
@@ -22,7 +26,7 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
 	const [isMuted, setIsMuted] = useState(false);
 
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-	const ref = useRef();
+	const ref = useRef(null);
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {

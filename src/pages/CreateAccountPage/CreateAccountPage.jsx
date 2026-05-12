@@ -1,14 +1,9 @@
-import { useState } from "react";
-import { useForm, useForm } from "react-hook-form";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import {
-	IoIosCheckmarkCircleOutline,
-	IoIosCheckmarkCircleOutline,
-} from "react-icons/io";
-import { useNavigate, useNavigate } from "react-router-dom";
+// import { useState } from "react";
+import { useForm } from "react-hook-form";
+// import { FiEye, FiEyeOff } from "react-icons/fi";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button/Button";
-import Button from "../../ui/Button/Button";
-import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
 	Background,
@@ -94,7 +89,7 @@ function CreateAccount() {
 									<Label>First name</Label>
 									<InputBox>
 										<InputStyle
-											$error={errors.firstname ? true : false}
+											$error={!!errors.firstname}
 											$success={!errors.firstname && isSubmitted}
 											type="text"
 											placeholder="Jane"
@@ -112,7 +107,9 @@ function CreateAccount() {
 										</IconBox>
 									</InputBox>
 									{errors.firstname && (
-										<ErrorMessage>{errors.firstname.message}</ErrorMessage>
+										<ErrorMessage>
+											{String(errors.firstname.message)}
+										</ErrorMessage>
 									)}
 								</InputWrapper>
 
@@ -120,7 +117,7 @@ function CreateAccount() {
 									<Label>Last name</Label>
 									<InputBox>
 										<InputStyle
-											$error={errors.lastname ? true : false}
+											$error={!!errors.lastname}
 											$success={!errors.lastname && isSubmitted}
 											type="text"
 											placeholder="Doe"
@@ -138,14 +135,16 @@ function CreateAccount() {
 										</IconBox>
 									</InputBox>
 									{errors.lastname && (
-										<ErrorMessage>{errors.lastname.message}</ErrorMessage>
+										<ErrorMessage>
+											{String(errors.lastname.message)}
+										</ErrorMessage>
 									)}
 								</InputWrapper>
 							</InputContent>
 						</div>
 						<Bottom>
 							<ButtonBlock>
-								<Button children="Continue" type="submit" />
+								<Button type="submit">Continue</Button>
 							</ButtonBlock>
 						</Bottom>
 					</ContentForm>

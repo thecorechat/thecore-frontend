@@ -5,6 +5,11 @@ import {
 	ToggleSwitchStyleThumb,
 } from "./ToggleSwitch.styled";
 
+/**
+ * @param {{
+ * onClick?: (state: boolean) => void,
+ * }} props
+ */
 const ToggleSwitch = ({ onClick }) => {
 	const [toggled, setToggled] = useState(false);
 

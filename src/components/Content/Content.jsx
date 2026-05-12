@@ -30,12 +30,9 @@ const Content = ({ onOpenCreateChat }) => {
 	return (
 		<SidebarProvider>
 			<AddButtonStyle>
-				<Button
-					onClick={onOpenCreateChat}
-					children={<GoPlus size={24} />}
-					width="48px"
-					height="48px"
-				/>
+				<Button onClick={onOpenCreateChat} width="48px" height="48px">
+					<GoPlus size={24} />
+				</Button>
 			</AddButtonStyle>
 			<SidebarWrapper>
 				<SidebarRail />
@@ -71,10 +68,8 @@ export default Content;
 const AddChat = ({ onOpenCreateChat }) => {
 	return (
 		<AddChatStyle onClick={onOpenCreateChat}>
-			<a href={"#"}>
-				<GoPlus />
-				<span>Add Chat</span>
-			</a>
+			<GoPlus />
+			<span>Add Chat</span>
 		</AddChatStyle>
 	);
 };

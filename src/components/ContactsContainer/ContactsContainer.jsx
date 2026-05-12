@@ -52,7 +52,7 @@ const Logo = ({ onOpenProfile }) => {
 	);
 };
 
-export const Avatar = ({ onClick }) => {
+export const Avatar = ({ onClick = () => {} }) => {
 	return (
 		<LogoBoxContactsContainerStyle onClick={onClick}>
 			<Circle />

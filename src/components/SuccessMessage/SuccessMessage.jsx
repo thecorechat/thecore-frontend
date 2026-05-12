@@ -1,21 +1,14 @@
 // import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button/Button";
-import HeaderBack from "../../ui/HeaderBack/HeaderBack";
+// import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
 	Background,
-	Background,
-	Bottom,
 	Bottom,
 	ButtonBlock,
-	ButtonBlock,
-	Content,
 	Content,
 	ContentForm,
-	ContentForm,
 	Title,
-	Title,
-	TitleBox,
 	TitleBox,
 } from "./SuccessMessage.styled";
 
@@ -42,11 +35,9 @@ function SuccessMessage() {
 					<div></div>
 					<Bottom>
 						<ButtonBlock>
-							<Button
-								children="Continue"
-								type="submit"
-								onClick={handleSignInClick}
-							/>
+							<Button type="submit" onClick={handleSignInClick}>
+								Continue
+							</Button>
 						</ButtonBlock>
 					</Bottom>
 				</ContentForm>

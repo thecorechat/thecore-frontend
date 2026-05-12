@@ -16,8 +16,9 @@ import {
 	UserProfileStyleContent,
 } from "./UserProfile.styled";
 
-export function UserProfile({ onCancel }) {
-	const userProfileRef = useRef();
+export function UserProfile({ onCancel, onConfirm }) {
+	void onConfirm;
+	const userProfileRef = useRef(null);
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -33,44 +34,43 @@ export function UserProfile({ onCancel }) {
 	}, [onCancel]);
 
 	return (
-		<>
-			<UserProfileStyleContainer>
-				<UserProfileStyleContent ref={userProfileRef}>
-					<div>
-						<UserProfileStyleBodyTop>
-							<Avatar size="64px" iconSize="32px" />
-							<UserProfileStyleBodyTopRight>
-								<h4>John Dorian</h4>
-								<p>example@gmail.com</p>
-							</UserProfileStyleBodyTopRight>
-						</UserProfileStyleBodyTop>
-					</div>
+		<UserProfileStyleContainer>
+			<UserProfileStyleContent ref={userProfileRef}>
+				<div>
+					<UserProfileStyleBodyTop>
+						<Avatar size="64px" iconSize="32px" />
+						<UserProfileStyleBodyTopRight>
+							<h4>John Dorian</h4>
+							<p>example@gmail.com</p>
+						</UserProfileStyleBodyTopRight>
+					</UserProfileStyleBodyTop>
+				</div>
 
-					<UserProfileStyleBodyCenter>
-						<Button
-							children="Message"
-							background="transparent"
-							color="var(--gray-70)"
-							borderColor="var(--gray-70)"
-							hoverColor="var(--gray-10)"
-						/>
-						<UserProfileStyleBodyCenterSettings>
-							<UserProfileStyleBodyCenterSettingsItem>
-								<UserProfileStyleBodyCenterSettingsItemLeft>
-									<IoNotificationsOutline size={24} />
-									<p>Mute notifications</p>
-								</UserProfileStyleBodyCenterSettingsItemLeft>
-							</UserProfileStyleBodyCenterSettingsItem>
-							<UserProfileStyleBodyCenterSettingsItem>
-								<UserProfileStyleBodyCenterSettingsItemLeft>
-									<MdBlock size={24} />
-									<p>Blocked Users</p>
-								</UserProfileStyleBodyCenterSettingsItemLeft>
-							</UserProfileStyleBodyCenterSettingsItem>
-						</UserProfileStyleBodyCenterSettings>
-					</UserProfileStyleBodyCenter>
-				</UserProfileStyleContent>
-			</UserProfileStyleContainer>
-		</>
+				<UserProfileStyleBodyCenter>
+					<Button
+						background="transparent"
+						color="var(--gray-70)"
+						borderColor="var(--gray-70)"
+						hoverColor="var(--gray-10)"
+					>
+						Message
+					</Button>
+					<UserProfileStyleBodyCenterSettings>
+						<UserProfileStyleBodyCenterSettingsItem>
+							<UserProfileStyleBodyCenterSettingsItemLeft>
+								<IoNotificationsOutline size={24} />
+								<p>Mute notifications</p>
+							</UserProfileStyleBodyCenterSettingsItemLeft>
+						</UserProfileStyleBodyCenterSettingsItem>
+						<UserProfileStyleBodyCenterSettingsItem>
+							<UserProfileStyleBodyCenterSettingsItemLeft>
+								<MdBlock size={24} />
+								<p>Blocked Users</p>
+							</UserProfileStyleBodyCenterSettingsItemLeft>
+						</UserProfileStyleBodyCenterSettingsItem>
+					</UserProfileStyleBodyCenterSettings>
+				</UserProfileStyleBodyCenter>
+			</UserProfileStyleContent>
+		</UserProfileStyleContainer>
 	);
 }

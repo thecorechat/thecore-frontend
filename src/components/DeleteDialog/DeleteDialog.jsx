@@ -8,7 +8,7 @@ import {
 } from "./DeleteDialog.styled";
 
 export function DeleteDialog({ onCancel, onConfirm }) {
-	const deleteRef = useRef();
+	const deleteRef = useRef(null);
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -21,17 +21,15 @@ export function DeleteDialog({ onCancel, onConfirm }) {
 	}, [onCancel]);
 
 	return (
-		<>
-			<DeleteDialogContainer>
-				<DeleteDialogContent ref={deleteRef}>
-					<h2>Delete chat?</h2>
-					<p>This will permanently delete the chat</p>
-					<DeleteDialogFooter>
-						<ButtonCancel onClick={onCancel}>Cancel</ButtonCancel>
-						<ButtonDelete onClick={onConfirm}>Delete</ButtonDelete>
-					</DeleteDialogFooter>
-				</DeleteDialogContent>
-			</DeleteDialogContainer>
-		</>
+		<DeleteDialogContainer>
+			<DeleteDialogContent ref={deleteRef}>
+				<h2>Delete chat?</h2>
+				<p>This will permanently delete the chat</p>
+				<DeleteDialogFooter>
+					<ButtonCancel onClick={onCancel}>Cancel</ButtonCancel>
+					<ButtonDelete onClick={onConfirm}>Delete</ButtonDelete>
+				</DeleteDialogFooter>
+			</DeleteDialogContent>
+		</DeleteDialogContainer>
 	);
 }

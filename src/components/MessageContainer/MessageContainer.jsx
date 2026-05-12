@@ -81,7 +81,8 @@ const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
 									</ChatBubble>
 
 									<button
-										onClick={() => onLikeMessage && onLikeMessage(message._id)}
+										type="button"
+										onClick={() => onLikeMessage?.(message._id)}
 										style={{
 											background: "none",
 											border: "none",

@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { Input, Select } from "./RadioSelect.styled";
 
-const RadioContext = createContext();
+const RadioContext = createContext(null);
 
 export default function Radio({ children, ...props }) {
 	const { value, onChange } = useContext(RadioContext);
