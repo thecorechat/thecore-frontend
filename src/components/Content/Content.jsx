@@ -5,7 +5,7 @@ import { GoPlus } from "react-icons/go";
 import { IoMdArrowDropright } from "react-icons/io";
 import { sidebar } from "../../mock/data";
 import Button from "../../ui/Button/Button";
-import { SidebarProvider } from "../SidebarRail/SidebarContext";
+import { SidebarProvider } from "../SidebarRail/SidebarProvider";
 import { SidebarRail } from "../SidebarRail/SidebarRail";
 import {
 	AddButtonStyle,
