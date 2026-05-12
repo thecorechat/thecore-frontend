@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Title = styled.h2`
   margin-top: 64px;
@@ -153,13 +153,13 @@ export const ErrorMessage = styled.span`
 `;
 
 export const Link = styled.a`
-  /* Small Text */
-
   font-family: Satoshi;
   font-weight: 500;
   line-height: 130%;
   text-decoration-line: underline;
   color: var(--primary-60);
+
+  margin-left: 5px;
 `;
 
 export const Text = styled.p`

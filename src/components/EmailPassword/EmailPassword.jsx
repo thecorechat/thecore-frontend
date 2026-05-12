@@ -23,31 +23,21 @@ import Button from '../../ui/Button/Button';
 import { useForm } from 'react-hook-form';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 function EmailPassword() {
   const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, isSubmitting },
     getValues,
   } = useForm();
   const { state } = useLocation();
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   if (isValid) {
-  //     console.log('Form is valid. Navigating to /chat.');
-  //     navigate('/verify', {
-  //       state: { from: 'registration' },
-  //     });
-  //   } else {
-  //     console.log('Form is invalid. Navigation prevented.');
-  //   }
-  // };
-
   const onSubmit = async (formData) => {
+    const toastId = toast.loading('Loading...');
+
     const fullData = {
       firstName: state.firstName,
       lastName: state.lastName,
@@ -55,7 +45,6 @@ function EmailPassword() {
       password: formData.password,
     };
 
-    setLoading(true);
     try {
       const response = await fetch('https://thecore-backend-nest.onrender.com/auth/register', {
         method: 'POST',
@@ -68,16 +57,28 @@ function EmailPassword() {
         throw new Error(error.message);
       }
 
-      navigate('/verify', {
-        state: {
-          email: formData.email,
-          from: 'registration',
-        },
-      });
+      if (response.ok) {
+        toast.update(toastId, {
+          render: 'Login works',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
+        });
+
+        navigate('/verify', {
+          state: {
+            email: formData.email,
+            from: 'registration',
+          },
+        });
+      }
     } catch (err) {
-      console.error('Помилка:', err.message);
-    } finally {
-      setLoading(false);
+      toast.update(toastId, {
+        render: err.message || 'Server unavailable',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -98,6 +99,8 @@ function EmailPassword() {
           <Title>Create Account</Title>
         </TitleBox>
 
+        <ToastContainer />
+
         <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
@@ -110,7 +113,6 @@ function EmailPassword() {
                       $success={!errors.email && isSubmitted}
                       type="email"
                       placeholder="example@gmail.com"
-                      //   value={email}
                       {...register('email', {
                         required: 'Email is required',
                         pattern: {
@@ -131,7 +133,6 @@ function EmailPassword() {
                       $success={!errors.password && isSubmitted}
                       type={show ? 'text' : 'password'}
                       placeholder="Enter password"
-                      //   value={password}
                       {...register('password', {
                         required: 'Password is required',
                         minLength: {
@@ -153,7 +154,6 @@ function EmailPassword() {
                       $success={!errors.repeatPassword && isSubmitted}
                       type={show ? 'text' : 'password'}
                       placeholder="Enter password"
-                      // value={repeatPassword}
                       {...register('repeatPassword', {
                         required: 'Password is required',
                         minLength: {
@@ -170,16 +170,9 @@ function EmailPassword() {
               </InputContent>
             </div>
             <Bottom>
-              {loading ? (
-                <Loader />
-              ) : (
-                <ButtonBlock>
-                  <Button children="Send password" type="submit" disabled={loading} />
-                </ButtonBlock>
-              )}
-              {/* <ButtonBlock>
-                <Button children="Send password" type="submit" />
-              </ButtonBlock> */}
+              <ButtonBlock>
+                <Button children="Send password" type="submit" disabled={isSubmitting} />
+              </ButtonBlock>
             </Bottom>
           </ContentForm>
         </form>

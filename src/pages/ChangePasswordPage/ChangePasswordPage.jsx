@@ -19,21 +19,17 @@ import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useState } from 'react';
 import Button from '../../ui/Button/Button';
+import { ToastContainer, toast } from 'react-toastify';
 import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 
 function ChangePassword() {
-  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: {
-      errors,
-      isSubmitted,
-      // isValid
-    },
+    formState: { errors, isSubmitted, isSubmitting },
     getValues,
   } = useForm();
   const navigate = useNavigate();
@@ -41,40 +37,49 @@ function ChangePassword() {
   console.log('state:', state);
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    // if (isValid) {
-    //   console.log('Form is valid. Navigating to /chat.');
-    //   navigate('/change-password/success');
-    // } else {
-    //   console.log('Form is invalid. Navigation prevented.');
-    // }
-    // console.log(state?.token);
-
-    // const fullData = {
-    //   password: data.password,
-    // };
-    setLoading(true);
+    const toastId = toast.loading('Code submiting...');
 
     try {
       const response = await fetch('https://thecore-backend-nest.onrender.com/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          token: state.token, // ← з попередньої сторінки
-          password: data.password, // ← новий пароль з інпуту
+          token: state.token,
+          password: data.password,
         }),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.update(toastId, {
+          render: 'Your password successfully changed',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
+        });
+
+        if (result.accessToken) {
+          localStorage.setItem('token', result.accessToken);
+        }
+
+        navigate('/verify', {
+          state: { from: 'forgot-password', email: data.email },
+        });
+      } else {
+        toast.update(toastId, {
+          render: result.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
 
-      navigate('/change-password/success'); // ← успіх
+      navigate('/change-password/success', {
+        state: { passwordChanged: true },
+      });
     } catch (err) {
-      console.error('Помилка:', err.message);
-    } finally {
-      setLoading(false);
+      toast.error('Error:', err.message);
     }
   };
 
@@ -94,6 +99,8 @@ function ChangePassword() {
           <Title>Change password</Title>
         </TitleBox>
 
+        <ToastContainer />
+
         <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
@@ -112,7 +119,12 @@ function ChangePassword() {
                           value: 8,
                           message: 'Password must be at least 8 characters',
                         },
+                        pattern: {
+                          value: /^[A-Za-z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/,
+                          message: 'Password must contain only Latin letters',
+                        },
                       })}
+                      disabled={isSubmitting}
                     />
                     <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
@@ -135,6 +147,7 @@ function ChangePassword() {
                         },
                         validate: (value) => value === getValues('password') || 'Passwords do not match',
                       })}
+                      disabled={isSubmitting}
                     />
                     <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
@@ -143,13 +156,9 @@ function ChangePassword() {
               </InputContent>
             </div>
             <Bottom>
-              {loading ? (
-                <Loader />
-              ) : (
-                <ButtonBlock>
-                  <Button children="Send password" type="submit" disabled={loading} />
-                </ButtonBlock>
-              )}
+              <ButtonBlock>
+                <Button children="Send password" type="submit" disabled={isSubmitting} />
+              </ButtonBlock>
             </Bottom>
           </ContentForm>
         </form>

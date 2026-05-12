@@ -23,59 +23,65 @@ import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useState } from 'react';
 import Button from '../../ui/Button/Button';
-import Loader from '../../ui/Loader/Loader';
 import { useForm } from 'react-hook-form';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 function SignInPage() {
   const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isValid },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm();
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    const toastId = toast.loading('Вхід в систему...');
+    const toastId = toast.loading('Login...');
 
-    if (isValid) {
-      try {
-        const response = await fetch('https://thecore-backend-nest.onrender.com/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
+    try {
+      const response = await fetch('https://thecore-backend-nest.onrender.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.update(toastId, {
+          render: 'Login works',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
         });
 
-        const result = await response.json();
-
-        console.log(response);
-        if (response.ok) {
-          toast.success('Логін працює', { id: toastId });
-
-          if (result.token) {
-            localStorage.setItem('token', result.token);
-          }
-
-          setTimeout(() => navigate('/chat'), 1000);
-        } else if (response.status === 400) {
-          navigate('/verify', {
-            state: { from: 'registration', email: data.email },
-          });
-        } else {
-          toast.error(result.message || 'Помилка авторизації', { id: toastId });
+        if (result.accessToken) {
+          localStorage.setItem('token', result.accessToken);
         }
-      } catch {
-        toast.error('Сервер недоступний', { id: toastId });
-      } finally {
-        setLoading(false);
+
+        navigate('/chat');
+      } else if (response.status === 400) {
+        navigate('/verify', {
+          state: { from: 'registration', email: data.email },
+        });
+      } else {
+        toast.update(toastId, {
+          render: result.message || 'Authorization error',
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
-    } else {
-      console.log('Form is invalid. Navigation prevented.');
+    } catch {
+      toast.update(toastId, {
+        render: 'Server unavailable',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -83,7 +89,6 @@ function SignInPage() {
     setShow(!show);
   };
 
-  const navigate = useNavigate();
   const handleBackClick = () => {
     navigate('/');
   };
@@ -99,6 +104,8 @@ function SignInPage() {
           {' '}
           <Title>Sign In</Title>
         </TitleBox>
+
+        <ToastContainer />
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
@@ -119,6 +126,7 @@ function SignInPage() {
                           message: 'Invalid email address',
                         },
                       })}
+                      disabled={isSubmitting}
                     />
                     <IconBox>{!errors.email && isSubmitted && <IoIosCheckmarkCircleOutline size={24} color={'var(--success-70)'} />}</IconBox>
                   </InputBox>
@@ -140,6 +148,7 @@ function SignInPage() {
                           message: 'Password must be at least 8 characters',
                         },
                       })}
+                      disabled={isSubmitting}
                     />
                     <IconBox onClick={handleShowClick}>{show ? <FiEye size={18} /> : <FiEyeOff size={18} />}</IconBox>
                   </InputBox>
@@ -149,22 +158,13 @@ function SignInPage() {
               <SemiLink onClick={handleForgotPasswordClick}>Forgot Password</SemiLink>
             </div>
             <Bottom>
-              {loading ? (
-                <Loader />
-              ) : (
-                <ButtonBlock>
-                  <Button children="Continue" type="submit" disabled={loading} />
-                </ButtonBlock>
-              )}
-              {/* <ButtonBlock>
-                <Button children="Continue" type="submit" disabled={loading}>
-                  {loading && 'Loading...'}
-                </Button>
-              </ButtonBlock> */}
+              <ButtonBlock>
+                <Button children="Continue" type="submit" disabled={isSubmitting} />
+              </ButtonBlock>
 
               <Text>
                 Don't have an account yet?
-                <Link href="/create-account"> Sign up</Link>
+                <Link href="/create-account">Sign up</Link>
               </Text>
             </Bottom>
           </ContentForm>

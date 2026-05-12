@@ -1,16 +1,6 @@
-import { ButtonStyle } from "./Button.styled";
+import { ButtonStyle } from './Button.styled';
 
-const Button = ({
-  children,
-  background,
-  color,
-  width,
-  height,
-  borderColor,
-  onClick,
-  hoverColor,
-  nonactive,
-}) => {
+const Button = ({ children, background, color, width, height, borderColor, onClick, hoverColor, nonactive, disabled }) => {
   return (
     <ButtonStyle
       onClick={onClick}
@@ -20,9 +10,9 @@ const Button = ({
       $borderColor={borderColor}
       $hoverColor={hoverColor}
       $height={height}
-      disabled={nonactive}
+      disabled={nonactive || disabled}
     >
-      {children || "Save"}
+      {children || 'Save'}
     </ButtonStyle>
   );
 };

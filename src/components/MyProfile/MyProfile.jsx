@@ -16,10 +16,17 @@ import { MdBlock } from 'react-icons/md';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import ToggleSwitch from '../../ui/ToggleSwitch/ToggleSwitch';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { useState } from 'react';
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogOutClick = async () => {
+    const toastId = toast.loading('Logging out...');
+    setIsLoading(true);
+
     try {
       const response = await fetch('https://thecore-backend-nest.onrender.com/auth/logout', {
         method: 'POST',
@@ -34,15 +41,31 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
         throw new Error(error.message);
       }
 
+      toast.update(toastId, {
+        render: 'Successfully logged out',
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       localStorage.removeItem('token');
       navigate('/');
     } catch (err) {
-      console.error('Помилка:', err.message);
+      toast.update(toastId, {
+        render: err.message || 'Error logout',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <MyProfileStyle $open={isOpen}>
       <div>
+        <ToastContainer />
+
         <HeaderBack children="My profile" onClick={onClose} />
         <MyProfileStyleBodyTop>
           <Avatar size="64px" iconSize="32px" />
@@ -77,8 +100,7 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
           </MyProfileStyleBodyCenterSettings>
         </MyProfileStyleBodyCenter>
       </div>
-
-      <MyProfileStyleBottom onClick={handleLogOutClick}>
+      <MyProfileStyleBottom onClick={handleLogOutClick} disabled={isLoading}>
         <LuLogOut /> Logout
       </MyProfileStyleBottom>
     </MyProfileStyle>

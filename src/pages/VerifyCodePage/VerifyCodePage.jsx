@@ -15,20 +15,22 @@ import {
 
 import HeaderBack from '../../ui/HeaderBack/HeaderBack';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import Button from '../../ui/Button/Button';
-// import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 const CODE_LENGTH = 4;
-// const CORRECT_CODE = '1111';
-
 function VerifyCode() {
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm();
   const { state } = useLocation();
   const navigate = useNavigate();
   const fromPage = state?.from;
 
   const [isCodeInvalid, setIsCodeInvalid] = useState(false);
-  const [isAttemptedSubmit, setIsAttemptedSubmit] = useState(false);
   const [code, setCode] = useState(new Array(CODE_LENGTH).fill(''));
   const inputRefs = useRef([]);
 
@@ -40,14 +42,13 @@ function VerifyCode() {
 
   const combinedCode = code.join('');
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setIsAttemptedSubmit(true);
-
-    if (combinedCode.replace(/\s/g, '').length !== CODE_LENGTH) {
+  const onSubmit = async () => {
+    if (code.some((digit) => digit === '')) {
       setIsCodeInvalid(true);
       return;
     }
+
+    const toastId = toast.loading('Code submiting...');
 
     try {
       const endpoint =
@@ -65,12 +66,22 @@ function VerifyCode() {
       });
       const result = await response.json();
 
-      console.log(result);
-
       if (!response.ok) {
-        // const error = await response.json();
         setIsCodeInvalid(true);
         throw new Error(result.message);
+      }
+
+      if (response.ok) {
+        toast.update(toastId, {
+          render: 'Code is correct',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
+        });
+
+        if (result.accessToken) {
+          localStorage.setItem('token', result.accessToken);
+        }
       }
 
       setIsCodeInvalid(false);
@@ -78,8 +89,6 @@ function VerifyCode() {
       if (fromPage === 'registration') {
         navigate('/chat');
       } else if (fromPage === 'forgot-password') {
-        console.log(result);
-
         navigate('/change-password', {
           state: {
             token: result.resetToken,
@@ -89,7 +98,12 @@ function VerifyCode() {
         navigate('/chat');
       }
     } catch (err) {
-      console.error('Невірний код:', err.message);
+      toast.update(toastId, {
+        render: err.message || 'Невірний код',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -119,10 +133,53 @@ function VerifyCode() {
     }
   };
 
+  const handlePaste = (e) => {
+    e.preventDefault();
+
+    const pastedValue = e.clipboardData.getData('text').trim();
+
+    if (isNaN(pastedValue)) return;
+
+    const newCode = [...code];
+    pastedValue.split('').forEach((char, index) => {
+      if (index < CODE_LENGTH) {
+        newCode[index] = char;
+      }
+    });
+
+    setCode(newCode);
+
+    const lastIndex = Math.min(pastedValue.length, CODE_LENGTH) - 1;
+    inputRefs.current[lastIndex].focus();
+  };
+
+  const handleSendAgain = async () => {
+    try {
+      const response = await fetch('https://thecore-backend-nest.onrender.com/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: state.email,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (err) {
+      // console.error('Помилка:', err.message);
+      toast.error('Error:', err.message);
+    }
+  };
+
   return (
     <Background>
       <Content>
         <HeaderBack onClick={handleBackClick} />
+
+        <ToastContainer />
+
         <TitleBox>
           <Title>Verify Code</Title>
           <p>
@@ -130,7 +187,7 @@ function VerifyCode() {
           </p>
         </TitleBox>
 
-        <form onSubmit={handleFormSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <ContentForm>
             <div>
               <InputContent>
@@ -140,26 +197,29 @@ function VerifyCode() {
                       <InputStyle
                         key={index}
                         ref={(input) => (inputRefs.current[index] = input)}
-                        $error={isAttemptedSubmit && isCodeInvalid}
+                        $error={isCodeInvalid}
+                        name="code"
                         type="tel"
                         maxLength={1}
                         placeholder="0"
                         value={value}
                         onChange={(e) => handleChange(index, e)}
                         onKeyDown={(e) => handleKeyDown(index, e)}
+                        onPaste={handlePaste}
+                        disabled={isSubmitting}
                       />
                     );
                   })}
                 </InputWrapper>
                 <Text>
                   Don't get a code?
-                  <Link href="#"> Send again</Link>
+                  <Link onClick={handleSendAgain}>Send again</Link>
                 </Text>
               </InputContent>
             </div>
             <Bottom>
               <ButtonBlock>
-                <Button children="Verify" type="submit" />
+                <Button children="Verify" type="submit" disabled={isSubmitting} />
               </ButtonBlock>
             </Bottom>
           </ContentForm>

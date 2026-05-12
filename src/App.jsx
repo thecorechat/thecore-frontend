@@ -10,27 +10,64 @@ import SuccessMessage from './components/SuccessMessage/SuccessMessage';
 // import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
 import CreateAccount from './pages/CreateAccountPage/CreateAccountPage';
 import EmailPassword from './components/EmailPassword/EmailPassword';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import StateProtectedRoute from './components/StateProtectedRoute/StateProtectedRoute';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/chat" element={<Chat />} />
         <Route path="/" element={<MainSignIn />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/verify" element={<VerifyCode />} />
+        {/* <Route path="/verify" element={<VerifyCode />} /> */}
         <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/change-password/success" element={<SuccessMessage />} />
-
-        {/* <Route path="/select-account" element={<SelectAccountType />} />
-        <Route path="/select-account/access-code" element={<AccessCode />} /> */}
-
+        {/* <Route path="/change-password/success" element={<SuccessMessage />} /> */}
         <Route path="/create-account" element={<CreateAccount />} />
-        <Route path="/create-account/email-password" element={<EmailPassword />} />
+        {/* <Route path="/create-account/email-password" element={<EmailPassword />} /> */}
+
+        <Route
+          path="/create-account/email-password"
+          element={
+            <StateProtectedRoute requiredState={['firstName', 'lastName']}>
+              <EmailPassword />
+            </StateProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/verify"
+          element={
+            <StateProtectedRoute requiredState={['email']}>
+              <VerifyCode />
+            </StateProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/change-password/success"
+          element={
+            <StateProtectedRoute requiredState={['passwordChanged']}>
+              <SuccessMessage />
+            </StateProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
+}
+{
+  /* <Route path="/select-account" element={<SelectAccountType />} />
+<Route path="/select-account/access-code" element={<AccessCode />} /> */
 }
 
 export default App;
