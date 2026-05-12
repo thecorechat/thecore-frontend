@@ -17,7 +17,7 @@ import {
 
 const MessageBar = ({ onSend }) => {
 	const [message, setMessage] = useState("");
-	const emojiRef = useRef();
+	const emojiRef = useRef(null);
 	const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
 	useEffect(() => {
@@ -30,7 +30,7 @@ const MessageBar = ({ onSend }) => {
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
-	}, [emojiRef]);
+	}, []);
 
 	const handleAddEmoji = (emoji) => {
 		setMessage((msg) => msg + emoji.emoji);
@@ -65,12 +65,9 @@ const MessageBar = ({ onSend }) => {
 					<GrAttachment />
 				</EmojiStickerButton>
 			</MessageBarSemiContainerStyle>
-			<Button
-				onClick={handleSend}
-				children={<IoSend size={20} />}
-				width="48px"
-				height="48px"
-			/>
+			<Button onClick={handleSend} width="48px" height="48px">
+				<IoSend size={20} />
+			</Button>
 		</MessageBarMainContainerStyle>
 	);
 };

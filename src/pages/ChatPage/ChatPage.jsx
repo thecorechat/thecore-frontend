@@ -10,22 +10,20 @@ const Chat = () => {
 	const [isProfileOpen, setIsProfileOpen] = useState(false);
 	const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 	return (
-		<>
-			<ChatMainContainerStyle>
-				<ContactsContainer onOpenProfile={() => setIsProfileOpen(true)} />
-				{/* <EmptyChatContainer /> */}
-				<ChatContainer />
-				<MyProfile
-					isOpen={isProfileOpen}
-					onClose={() => setIsProfileOpen(false)}
-					onOpenEditProfile={() => setIsEditProfileOpen(true)}
-				/>
-				<EditProfile
-					isOpen={isEditProfileOpen}
-					onClose={() => setIsEditProfileOpen(false)}
-				/>
-			</ChatMainContainerStyle>
-		</>
+		<ChatMainContainerStyle>
+			<ContactsContainer onOpenProfile={() => setIsProfileOpen(true)} />
+			{/* <EmptyChatContainer /> */}
+			<ChatContainer />
+			<MyProfile
+				isOpen={isProfileOpen}
+				onClose={() => setIsProfileOpen(false)}
+				onOpenEditProfile={() => setIsEditProfileOpen(true)}
+			/>
+			<EditProfile
+				isOpen={isEditProfileOpen}
+				onClose={() => setIsEditProfileOpen(false)}
+			/>
+		</ChatMainContainerStyle>
 	);
 };
 

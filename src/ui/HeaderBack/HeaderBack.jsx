@@ -1,6 +1,9 @@
 import ArrowBack from "../ArrowBack/ArrowBack";
 import { HeaderBackStyle } from "./HeaderBack.styled";
 
+/**
+ * @param {{ children?: any, onClick?: () => void }} props
+ */
 const HeaderBack = ({ children, onClick }) => {
 	return (
 		<HeaderBackStyle>

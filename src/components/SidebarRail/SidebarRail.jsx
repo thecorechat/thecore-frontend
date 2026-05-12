@@ -1,5 +1,5 @@
-import { useSidebar } from "./SidebarContext";
 import { RailButton } from "./SidebarRail.styled";
+import { useSidebar } from "./useSidebar";
 
 export const SidebarRail = (props) => {
 	const { toggleSidebar } = useSidebar();

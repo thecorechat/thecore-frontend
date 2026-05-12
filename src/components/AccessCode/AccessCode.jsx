@@ -22,7 +22,7 @@ function AccessCode() {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitted, isValid },
+		formState: { errors, isSubmitted },
 	} = useForm();
 	const location = useLocation();
 	const account = location.state?.accountType;
@@ -45,7 +45,7 @@ function AccessCode() {
 	const currentReq = accountRequirements[account];
 
 	const onSubmit = (data) => {
-		const email = data.email;
+		// const email = data.email;
 
 		console.log(data);
 		navigate("/create-account");
@@ -91,7 +91,7 @@ function AccessCode() {
 									<Label>Code</Label>
 									<InputBox>
 										<InputStyle
-											$error={errors.code ? true : false}
+											$error={!!errors.code}
 											$success={!errors.code && isSubmitted}
 											type="text"
 											placeholder="Enter access code"
@@ -107,14 +107,14 @@ function AccessCode() {
 										/>
 									</InputBox>
 									{errors.code && (
-										<ErrorMessage>{errors.code.message}</ErrorMessage>
+										<ErrorMessage>{String(errors.code.message)}</ErrorMessage>
 									)}
 								</InputWrapper>
 							</InputContent>
 						</div>
 						<Bottom>
 							<ButtonBlock>
-								<Button children="Send" type="submit" />
+								<Button type="submit">Send</Button>
 							</ButtonBlock>
 						</Bottom>
 					</ContentForm>

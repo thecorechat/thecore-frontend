@@ -15,7 +15,9 @@ const ChatContainer = () => {
 			setRealMessages((prev) => [...prev, newMessage]);
 		});
 
-		return () => socket.off("receive_message");
+		return () => {
+			socket.off("receive_message");
+		};
 	}, []);
 
 	const handleSendMessage = (text) => {
@@ -42,7 +44,9 @@ const ChatContainer = () => {
 			);
 		});
 
-		return () => socket.off("message_liked");
+		return () => {
+			socket.off("message_liked");
+		};
 	}, []);
 	const handleLikeMessage = (messageId) => {
 		socket.emit("like_message", { messageId });
@@ -77,7 +81,6 @@ const ChatContainer = () => {
 				<UserProfile
 					onCancel={() => setShowUserProfile(false)}
 					onConfirm={() => {
-						// Тут можешь добавить создание чата
 						setShowUserProfile(false);
 					}}
 				/>

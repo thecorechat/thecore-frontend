@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseUrlRender = "";
 
-const baseUrlSwagger = "";
+// const baseUrlSwagger = "";
 
 const myAxios = axios.create({
 	baseURL: baseUrlRender,

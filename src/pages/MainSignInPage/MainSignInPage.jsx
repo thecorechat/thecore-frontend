@@ -26,21 +26,23 @@ function MainSignIn() {
 				<Bottom>
 					<ButtonBlock>
 						<Button
-							children="Create account"
 							background="white"
 							color="var(--primary-60)"
 							borderColor="var(--gray-70)"
 							hoverColor="var(--gray-10)"
 							onClick={handleCreateAccountClick}
-						/>
+						>
+							Create account
+						</Button>
 						<Button
-							children="Sign in"
 							background="white"
 							color="var(--primary-60)"
 							borderColor="var(--gray-70)"
 							hoverColor="var(--gray-10)"
 							onClick={handleSignInClick}
-						/>
+						>
+							Sign in
+						</Button>
 					</ButtonBlock>
 
 					<Text>
