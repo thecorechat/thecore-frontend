@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useForm, useForm } from "react-hook-form";
 import {
   Title,
   Background,
@@ -125,6 +127,7 @@ function ForgotPassword() {
       </Content>
     </Background>
   );
+
 }
 
 export default ForgotPassword;

@@ -4,7 +4,7 @@ export const Select = styled.label`
   padding: 16px;
   width: 100%;
   background: ${(props) =>
-    props.$isActive ? "var(--primary-10)" : "var(--gray-0)"};
+		props.$isActive ? "var(--primary-10)" : "var(--gray-0)"};
   display: flex;
   height: 61px;
   border-radius: 10px;

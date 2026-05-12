@@ -1,3 +1,6 @@
+import { useState, useState } from "react";
+import { useForm, useForm } from "react-hook-form";
+import { FiEye, FiEye, FiEyeOff, FiEyeOff } from "react-icons/fi";
 import {
   Title,
   Background,
@@ -52,10 +55,11 @@ function EmailPassword() {
         body: JSON.stringify(fullData),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message);
+			}
 
       if (response.ok) {
         toast.update(toastId, {
@@ -82,22 +86,22 @@ function EmailPassword() {
     }
   };
 
-  const handleShowClick = () => {
-    setShow(!show);
-  };
+	const handleShowClick = () => {
+		setShow(!show);
+	};
 
-  const navigate = useNavigate();
-  const handleBackClick = () => {
-    navigate('/create-account');
-  };
+	const navigate = useNavigate();
+	const handleBackClick = () => {
+		navigate("/create-account");
+	};
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          <Title>Create Account</Title>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					<Title>Create Account</Title>
+				</TitleBox>
 
         <ToastContainer />
 

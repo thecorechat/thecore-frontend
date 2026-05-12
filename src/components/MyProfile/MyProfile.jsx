@@ -1,3 +1,11 @@
+import { IoNotificationsOutline } from "react-icons/io5";
+import { LuLogOut } from "react-icons/lu";
+import { MdBlock } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { Avatar } from "../../ui/Avatar/Avatar";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
+import ToggleSwitch from "../../ui/ToggleSwitch/ToggleSwitch";
 import {
   MyProfileStyleBodyCenter,
   MyProfileStyleBodyTop,
@@ -36,11 +44,11 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
         },
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message);
+			}
+			
       toast.update(toastId, {
         render: 'Successfully logged out',
         type: 'success',

@@ -1,3 +1,6 @@
+import { useState, useState } from "react";
+import { useForm, useForm } from "react-hook-form";
+import { FiEye, FiEye, FiEyeOff, FiEyeOff } from "react-icons/fi";
 import {
   Title,
   Background,
@@ -85,9 +88,9 @@ function SignInPage() {
     }
   };
 
-  const handleShowClick = () => {
-    setShow(!show);
-  };
+	const handleShowClick = () => {
+		setShow(!show);
+	};
 
   const handleBackClick = () => {
     navigate('/');
@@ -96,14 +99,14 @@ function SignInPage() {
     navigate('/forgot-password');
   };
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          {' '}
-          <Title>Sign In</Title>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					{" "}
+					<Title>Sign In</Title>
+				</TitleBox>
 
         <ToastContainer />
 
@@ -173,5 +176,5 @@ function SignInPage() {
     </Background>
   );
 }
-
+									 
 export default SignInPage;

@@ -1,17 +1,18 @@
-import SignIn from './pages/SignInPage/SignInPage';
-import MainSignIn from './pages/MainSignInPage/MainSignInPage';
-import Chat from './pages/ChatPage/ChatPage';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import ForgotPassword from './pages/ForgotPasswordPage/ForgotPasswordPage';
-import VerifyCode from './pages/VerifyCodePage/VerifyCodePage';
-import ChangePassword from './pages/ChangePasswordPage/ChangePasswordPage';
-import SuccessMessage from './components/SuccessMessage/SuccessMessage';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import EmailPassword from "./components/EmailPassword/EmailPassword";
+import SuccessMessage from "./components/SuccessMessage/SuccessMessage";
+import ChangePassword from "./pages/ChangePasswordPage/ChangePasswordPage";
+import Chat from "./pages/ChatPage/ChatPage";
 // import AccessCode from './components/AccessCode/AccessCode';
 // import SelectAccountType from './pages/SelectAccountPage/SelectAccountPage';
 import CreateAccount from './pages/CreateAccountPage/CreateAccountPage';
 import EmailPassword from './components/EmailPassword/EmailPassword';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import StateProtectedRoute from './components/StateProtectedRoute/StateProtectedRoute';
+import ForgotPassword from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import MainSignIn from "./pages/MainSignInPage/MainSignInPage";
+import SignIn from "./pages/SignInPage/SignInPage";
+import VerifyCode from "./pages/VerifyCodePage/VerifyCodePage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         {/* <Route path="/change-password/success" element={<SuccessMessage />} /> */}
         <Route path="/create-account" element={<CreateAccount />} />
         {/* <Route path="/create-account/email-password" element={<EmailPassword />} /> */}
+// 			<Route path="/create-workspace" element={<CreateWorkspace />} />
 
         <Route
           path="/create-account/email-password"
@@ -64,10 +66,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
-{
-  /* <Route path="/select-account" element={<SelectAccountType />} />
-<Route path="/select-account/access-code" element={<AccessCode />} /> */
 }
 
 export default App;

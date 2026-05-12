@@ -1,0 +1,14 @@
+# #!/bin/sh
+
+# echo "\n🚀 [PRE-COMMIT] Running quality checks..."
+
+# echo "🧹 [1/3] Linting & Formatting..."
+# npx lint-staged || exit 1
+
+# echo "🧪 [2/3] Checking types..."
+# npm run check-all || exit 1
+
+# echo "🏗️  [3/3] Testing builds..."
+# npm run build || exit 1
+
+# echo "\n✨ [SUCCESS] Ready to commit!"

@@ -1,3 +1,10 @@
+import { useState, useState } from "react";
+import { useForm, useForm } from "react-hook-form";
+import { FiEye, FiEye, FiEyeOff, FiEyeOff } from "react-icons/fi";
+import { useLocation, useNavigate, useNavigate } from "react-router-dom";
+import Button from "../../ui/Button/Button";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
   Title,
   Background,
@@ -83,21 +90,21 @@ function ChangePassword() {
     }
   };
 
-  const handleShowClick = () => {
-    setShow(!show);
-  };
+	const handleShowClick = () => {
+		setShow(!show);
+	};
 
-  const handleBackClick = () => {
-    navigate('/verify');
-  };
+	const handleBackClick = () => {
+		navigate("/verify");
+	};
 
-  return (
-    <Background>
-      <Content>
-        <HeaderBack onClick={handleBackClick} />
-        <TitleBox>
-          <Title>Change password</Title>
-        </TitleBox>
+	return (
+		<Background>
+			<Content>
+				<HeaderBack onClick={handleBackClick} />
+				<TitleBox>
+					<Title>Change password</Title>
+				</TitleBox>
 
         <ToastContainer />
 
@@ -165,6 +172,7 @@ function ChangePassword() {
       </Content>
     </Background>
   );
+
 }
 
 export default ChangePassword;
