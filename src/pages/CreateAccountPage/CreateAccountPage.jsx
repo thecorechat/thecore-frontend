@@ -29,26 +29,6 @@ function CreateAccount() {
 		formState: { errors, isSubmitted, isValid },
 	} = useForm();
 
-	// const onSubmit = async (formData) => {
-	//   try {
-	//     const response = await fetch('https://thecore-backend-nest.onrender.com/auth/register', {
-	//       method: 'POST',
-	//       headers: { 'Content-Type': 'application/json' },
-	//       body: JSON.stringify(formData),
-	//     });
-
-	//     if (!response.ok) {
-	//       const error = await response.json();
-	//       throw new Error(error.message || `Помилка: ${response.status}`);
-	//     }
-
-	//     const data = await response.json();
-	//     console.log('Успішна реєстрація:', data);
-	//   } catch (err) {
-	//     console.error('Помилка реєстрації:', err.message);
-	//   }
-	// };
-
 	const navigate = useNavigate();
 	const handleBackClick = () => {
 		navigate("/");
