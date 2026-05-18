@@ -20,7 +20,7 @@ import {
 } from './MyProfile.styled';
 import { fetchWithAuth } from '../../utils/fetchWithAuth';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+// import 'react-loading-skeleton/dist/skeleton.css';
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
   const navigate = useNavigate();

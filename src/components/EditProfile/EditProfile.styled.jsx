@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const EditProfileStyle = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const EditProfileStyle = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
   border-right: 0.3px solid #4c4c4c;
-  transform: ${({ $open }) => ($open ? "translateX(0)" : "translateX(-100%)")};
+  transform: ${({ $open }) => ($open ? 'translateX(0)' : 'translateX(-100%)')};
 
   /* from 768px */
   @media (min-width: 768px) {
@@ -48,8 +48,8 @@ export const EditProfileButtonBlock = styled.div`
 
 export const EditProfileIcon = styled.div`
   position: relative;
-  width: ${(props) => props.$size || "100%"};
-  height: ${(props) => props.$size || "100%"};
+  width: ${(props) => props.$size || '100%'};
+  height: ${(props) => props.$size || '100%'};
 `;
 
 export const AddPhoto = styled.div`
@@ -65,6 +65,10 @@ export const AddPhoto = styled.div`
   justify-content: center;
   border-radius: 50%;
   border: 2px solid var(--gray-0);
+`;
+
+export const AddPhotoInput = styled.input`
+  display: none;
 `;
 
 export const InputWrapper = styled.div`
