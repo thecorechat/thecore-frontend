@@ -1,0 +1,15 @@
+import axios from "axios";
+import { API_URL, endpoints } from "../../../shared/api";
+
+export const handleGetMyWorkspaces = async () => {
+	const token = localStorage.getItem("token");
+	const response = await axios.get(
+		`${API_URL}${endpoints.workspace.my_workspaces}`,
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		},
+	);
+	return response.data;
+};

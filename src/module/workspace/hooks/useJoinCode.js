@@ -1,25 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { handleCreateWorkspace } from "../api/handleCreateWorkspace";
+import { handleJoinAndGetSlug } from "../api/handleJoinAndGetSlug";
 
-export const useCreateWorkspace = () => {
+export const useJoinCode = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: handleCreateWorkspace,
+		mutationFn: handleJoinAndGetSlug,
 
-		onSuccess: (newWorkspace) => {
+		onSuccess: (workspace) => {
 			queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-
-			toast.success("Workspace created successfully!");
-
-			navigate(`/workspace/${newWorkspace.slug}`);
+			navigate(`/workspace/${workspace.slug}`);
 		},
 
 		onError: (error) => {
-			console.error("Error creating workspace:", error.message);
+			console.error("Error joining workspace:", error.message);
+
 			toast.error(error.message);
 		},
 	});

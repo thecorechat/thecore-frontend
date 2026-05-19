@@ -17,9 +17,11 @@
 	},
 	"dependencies": {
 		"@tanstack/react-query": "^5.100.9",
+		"@tanstack/react-query-devtools": "^5.100.10",
 		"axios": "^1.13.2",
 		"emoji-picker-react": "^4.15.0",
 		"husky": "^9.1.7",
+		"js-cookie": "^3.0.7",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-hook-form": "^7.68.0",
