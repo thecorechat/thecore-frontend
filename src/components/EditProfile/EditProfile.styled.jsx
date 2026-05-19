@@ -67,6 +67,18 @@ export const AddPhoto = styled.div`
   border: 2px solid var(--gray-0);
 `;
 
+export const AddPhotoInput = styled.input`
+  display: none;
+`;
+
+export const Image = styled.img`
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50%;
+  border-radius: 8px;
+`;
+
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
