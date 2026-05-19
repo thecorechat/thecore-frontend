@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { MdOutlineAddAPhoto } from 'react-icons/md';
-import { Avatar } from '../../ui/Avatar/Avatar';
-import Button from '../../ui/Button/Button';
-import HeaderBack from '../../ui/HeaderBack/HeaderBack';
+import { useEffect, useRef, useState } from "react";
+import { MdOutlineAddAPhoto } from "react-icons/md";
+import { Avatar } from "../../ui/Avatar/Avatar";
+import Button from "../../ui/Button/Button";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
   AddPhoto,
   AddPhotoInput,
@@ -13,24 +13,92 @@ import {
   InputStyle,
   InputWrapper,
   Label,
-} from './EditProfile.styled';
+  Image,
+} from "./EditProfile.styled";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 const EditProfile = ({ isOpen, onClose }) => {
-  const [, setFirstName] = useState('');
-  const [, setLastName] = useState('');
-  const [, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    avatarUrl: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  const hiddenFileInput = useRef(null);
+  const [img, setImg] = useState(null);
 
-  async function handleAddPhoto() {
-    const response = await fetch('https://thecore-backend-nest.onrender.com/user/avatar', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+  async function handleGetInfo() {
+    try {
+      const response = await fetchWithAuth(
+        "https://thecore-backend-nest.onrender.com/user/me",
+      );
 
-    console.log(response);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      const data = await response.json();
+      const { avatarUrl, firstName, lastName, email } = data;
+
+      console.log(data);
+      setFormData({ avatarUrl, firstName, lastName, email });
+    } catch (err) {
+      console.error(err.message);
+    }
   }
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  useEffect(() => {
+    handleGetInfo();
+  }, []);
+  // console.log(img);
+
+  const handleImgClick = () => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleImgUpload = async (evt) => {
+    if (evt.target.files.length > 0) {
+      setImg({
+        src: URL.createObjectURL(evt.target.files[0]),
+      });
+    }
+
+    const formDataImg = new FormData();
+    formDataImg.append("file", evt.target.files[0]);
+
+    const response = await fetch(
+      "https://thecore-backend-nest.onrender.com/user/avatar",
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formDataImg,
+      },
+    );
+
+    const data = await response.json();
+    console.log(data);
+  };
+  //   const response = await fetch(
+  //     "https://thecore-backend-nest.onrender.com/user/avatar",
+  //     {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     },
+  //   );
+  //   console.log(response);
+  // }
+
+  // console.log(formData.avatarUrl)
 
   return (
     <EditProfileStyle $open={isOpen}>
@@ -39,30 +107,43 @@ const EditProfile = ({ isOpen, onClose }) => {
 
         <EditProfileBody>
           <EditProfileIcon $size="120px">
-            <Avatar size="120px" iconSize="36px" />
-            <AddPhoto>
+            {formData.avatarUrl === "" ? (
+              <Avatar size="120px" iconSize="36px" />
+            ) : (
+              <Image src={formData.avatarUrl} alt="User avatar" />
+            )}
+            <AddPhoto onClick={handleImgClick}>
               <MdOutlineAddAPhoto />
-              <AddPhotoInput type="file" accept="image/*" onClick={handleAddPhoto} />
+              <AddPhotoInput
+                type="file"
+                accept="image/*"
+                name="photo"
+                id="photo"
+                ref={hiddenFileInput}
+                onChange={handleImgUpload}
+              />
             </AddPhoto>
           </EditProfileIcon>
           <div>
             <InputWrapper>
-              <Label>First name</Label>
+              <Label htmlFor="firstName">First name</Label>
               <InputStyle
                 type="text"
-                placeholder="John"
-                //   value={name}
-                onChange={(e) => setFirstName(e.target.value)}
+                name="firstName"
+                id="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
               />
             </InputWrapper>
 
             <InputWrapper>
-              <Label>Last name</Label>
+              <Label htmlFor="lastName">Last name</Label>
               <InputStyle
                 type="text"
-                placeholder="Dorian"
-                //   value={name}
-                onChange={(e) => setLastName(e.target.value)}
+                name="lastName"
+                id="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
               />
             </InputWrapper>
 
@@ -70,9 +151,9 @@ const EditProfile = ({ isOpen, onClose }) => {
               <Label>Email</Label>
               <InputStyle
                 type="email"
-                placeholder="example@gmail.com"
-                //   value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={formData.email}
+                disabled
               />
             </InputWrapper>
           </div>
@@ -80,10 +161,22 @@ const EditProfile = ({ isOpen, onClose }) => {
       </div>
 
       <EditProfileButtonBlock>
-        <Button background="transparent" color="var(--gray-70)" borderColor="var(--gray-70)" hoverColor="var(--gray-10)" onClick={onClose}>
+        <Button
+          background="transparent"
+          color="var(--gray-70)"
+          borderColor="var(--gray-70)"
+          hoverColor="var(--gray-10)"
+          onClick={onClose}
+        >
           Return
         </Button>
-        <Button background="var(--primary-60)" color="var(--gray-0)" borderColor="var(--primary-60)" hoverColor="var(--primary-70)">
+        <Button
+          background="var(--primary-60)"
+          color="var(--gray-0)"
+          borderColor="var(--primary-60)"
+          hoverColor="var(--primary-70)"
+          type="submit"
+        >
           Save
         </Button>
       </EditProfileButtonBlock>
