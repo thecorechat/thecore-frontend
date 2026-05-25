@@ -14,8 +14,13 @@ import {
   InputWrapper,
   Label,
   Image,
+  InputBox,
+  IconBox,
+  ErrorMessage,
 } from "./EditProfile.styled";
 import { fetchWithAuth } from "../../utils/fetchWithAuth";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const EditProfile = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -25,7 +30,6 @@ const EditProfile = ({ isOpen, onClose }) => {
     email: "",
   });
   const hiddenFileInput = useRef(null);
-  const [img, setImg] = useState(null);
 
   async function handleGetInfo() {
     try {
@@ -48,25 +52,44 @@ const EditProfile = ({ isOpen, onClose }) => {
     }
   }
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSave = async () => {
+    const response = await fetch(
+      "https://thecore-backend-nest.onrender.com/user/update",
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        }),
+      },
+    );
+
+    const data = await response.json();
+    console.log(data);
   };
 
   useEffect(() => {
     handleGetInfo();
   }, []);
-  // console.log(img);
 
   const handleImgClick = () => {
     hiddenFileInput.current.click();
   };
 
   const handleImgUpload = async (evt) => {
-    if (evt.target.files.length > 0) {
-      setImg({
-        src: URL.createObjectURL(evt.target.files[0]),
-      });
-    }
+    // if (evt.target.files.length > 0) {
+    //   setImg({
+    //     src: URL.createObjectURL(evt.target.files[0]),
+    //   });
+    // }
 
     const formDataImg = new FormData();
     formDataImg.append("file", evt.target.files[0]);
@@ -84,34 +107,28 @@ const EditProfile = ({ isOpen, onClose }) => {
 
     const data = await response.json();
     console.log(data);
+    setFormData((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
   };
-  //   const response = await fetch(
-  //     "https://thecore-backend-nest.onrender.com/user/avatar",
-  //     {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     },
-  //   );
-  //   console.log(response);
-  // }
 
-  // console.log(formData.avatarUrl)
+  // console.log(formData);
 
   return (
     <EditProfileStyle $open={isOpen}>
       <div>
         <HeaderBack onClick={onClose}>Edit profile</HeaderBack>
-
+        {/* <form action=""> */}
         <EditProfileBody>
           <EditProfileIcon $size="120px">
-            {formData.avatarUrl === "" ? (
-              <Avatar size="120px" iconSize="36px" />
+            {formData ? (
+              formData.avatarUrl === "" ? (
+                <Avatar size="120px" iconSize="36px" />
+              ) : (
+                <Image src={formData.avatarUrl} alt="User avatar" />
+              )
             ) : (
-              <Image src={formData.avatarUrl} alt="User avatar" />
+              <Skeleton width={120} height={120} />
             )}
+
             <AddPhoto onClick={handleImgClick}>
               <MdOutlineAddAPhoto />
               <AddPhotoInput
@@ -176,6 +193,7 @@ const EditProfile = ({ isOpen, onClose }) => {
           borderColor="var(--primary-60)"
           hoverColor="var(--primary-70)"
           type="submit"
+          onClick={handleSave}
         >
           Save
         </Button>
