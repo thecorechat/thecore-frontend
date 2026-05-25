@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { WorkspaceRoutesEnum } from "../../../../shared/constants/routes";
+import { useSearchParams } from "react-router-dom";
 import Button from "../../../../ui/Button/Button";
 import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
 import { useJoinCode } from "../../hooks/useJoinCode";
@@ -20,19 +19,23 @@ import {
 } from "./JoinCode.styled";
 
 function JoinCode() {
+	const [, setSearchParams] = useSearchParams();
 	const [code, setCode] = useState("");
-	const navigate = useNavigate();
 
 	const { mutate: joinCode, isPending } = useJoinCode();
 
 	const handleBackClick = () => {
-		navigate(WorkspaceRoutesEnum.WORKSPACE_SETUP);
+		setSearchParams({ modal: "setup" });
 	};
 
 	function handleSubmit(e) {
 		e.preventDefault();
 		if (code.trim()) {
-			joinCode(code.trim());
+			joinCode(code.trim(), {
+				onSuccess: () => {
+					setSearchParams({}, { replace: true });
+				},
+			});
 		}
 	}
 

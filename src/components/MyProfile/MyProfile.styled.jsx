@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MyProfileStyle = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const MyProfileStyle = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
   border-right: 0.3px solid #4c4c4c;
-  transform: ${({ $open }) => ($open ? 'translateX(0)' : 'translateX(-100%)')};
+  transform: ${({ $open }) => ($open ? "translateX(0)" : "translateX(-100%)")};
 
   /* from 768px */
   @media (min-width: 768px) {

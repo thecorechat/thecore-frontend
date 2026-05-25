@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import StateProtectedRoute from "../components/StateProtectedRoute/StateProtectedRoute";
 import { workspaceRoutes } from "./workspaceRoutes";
@@ -14,10 +13,10 @@ const VerifyCode = lazy(() => import("../pages/VerifyCodePage/VerifyCodePage"));
 const ChangePassword = lazy(
 	() => import("../pages/ChangePasswordPage/ChangePasswordPage"),
 );
+const Chat = lazy(() => import("../pages/ChatPage/ChatPage"));
 const CreateAccount = lazy(
 	() => import("../pages/CreateAccountPage/CreateAccountPage"),
 );
-const Chat = lazy(() => import("../pages/ChatPage/ChatPage"));
 const EmailPassword = lazy(
 	() => import("../components/EmailPassword/EmailPassword"),
 );
@@ -25,24 +24,54 @@ const SuccessMessage = lazy(
 	() => import("../components/SuccessMessage/SuccessMessage"),
 );
 
-const withSuspense = (Component) => (
-	<Suspense fallback={<div>Loading...</div>}>
-		<Component />
-	</Suspense>
-);
-
 export const router = createBrowserRouter([
-	{ path: "/", element: withSuspense(MainSignIn) },
-	{ path: "/signin", element: withSuspense(SignIn) },
-	{ path: "/forgot-password", element: withSuspense(ForgotPassword) },
-	{ path: "/change-password", element: withSuspense(ChangePassword) },
-	{ path: "/create-account", element: withSuspense(CreateAccount) },
-	// { path: "/enter-access-code", element: <EnterAccessCodePage /> },
+	{
+		path: "/",
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<MainSignIn />
+			</Suspense>
+		),
+	},
+	{
+		path: "/signin",
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<SignIn />
+			</Suspense>
+		),
+	},
+	{
+		path: "/forgot-password",
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<ForgotPassword />
+			</Suspense>
+		),
+	},
+	{
+		path: "/change-password",
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<ChangePassword />
+			</Suspense>
+		),
+	},
+	{
+		path: "/create-account",
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<CreateAccount />
+			</Suspense>
+		),
+	},
 	{
 		path: "/create-account/email-password",
 		element: (
 			<StateProtectedRoute requiredState={["firstName", "lastName"]}>
-				{withSuspense(EmailPassword)}
+				<Suspense fallback={<div>Loading...</div>}>
+					<EmailPassword />
+				</Suspense>
 			</StateProtectedRoute>
 		),
 	},
@@ -50,7 +79,9 @@ export const router = createBrowserRouter([
 		path: "/verify",
 		element: (
 			<StateProtectedRoute requiredState={["email"]}>
-				{withSuspense(VerifyCode)}
+				<Suspense fallback={<div>Loading...</div>}>
+					<VerifyCode />
+				</Suspense>
 			</StateProtectedRoute>
 		),
 	},
@@ -58,15 +89,12 @@ export const router = createBrowserRouter([
 		path: "/change-password/success",
 		element: (
 			<StateProtectedRoute requiredState={["passwordChanged"]}>
-				{withSuspense(SuccessMessage)}
+				<Suspense fallback={<div>Loading...</div>}>
+					<SuccessMessage />
+				</Suspense>
 			</StateProtectedRoute>
 		),
 	},
-	{
-		path: "/chat",
-		element: <ProtectedRoute>{withSuspense(Chat)}</ProtectedRoute>,
-	},
-	// WORKSPACE ROUTES
 	{
 		path: "/",
 		children: [...workspaceRoutes],
