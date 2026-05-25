@@ -2,8 +2,10 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
 	const token = localStorage.getItem("token");
+	const isInvalidToken = !token || token === "null" || token === "undefined";
 
-	if (!token) {
+	if (isInvalidToken) {
+		localStorage.clear();
 		return <Navigate to="/" replace />;
 	}
 

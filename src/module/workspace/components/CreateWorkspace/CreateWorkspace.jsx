@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { WorkspaceRoutesEnum } from "../../../../shared/constants/routes";
+import { useSearchParams } from "react-router-dom";
 import Button from "../../../../ui/Button/Button";
 import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
 import { useCreateWorkspace } from "../../hooks/useCreateWorkspace";
@@ -20,19 +19,23 @@ import {
 } from "./CreateWorkspace.styled";
 
 function CreateWorkspace() {
+	const [, setSearchParams] = useSearchParams();
 	const [name, setName] = useState("");
-	const navigate = useNavigate();
 
 	const { mutate: createWorkspace, isPending } = useCreateWorkspace();
 
 	const handleBackClick = () => {
-		navigate(WorkspaceRoutesEnum.WORKSPACE_SETUP);
+		setSearchParams({ modal: "setup" });
 	};
 
 	function handleSubmit(e) {
 		e.preventDefault();
 		if (name.trim()) {
-			createWorkspace(name.trim());
+			createWorkspace(name.trim(), {
+				onSuccess: () => {
+					setSearchParams({}, { replace: true });
+				},
+			});
 		}
 	}
 

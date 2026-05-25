@@ -30,6 +30,7 @@ export const Background = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
 `;
 
 export const Content = styled.div`
