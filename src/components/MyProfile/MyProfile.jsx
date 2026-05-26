@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { MdBlock } from "react-icons/md";
@@ -72,10 +72,10 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
     }
   };
 
-  async function handleGetInfo() {
+  	const handleGetInfo = useCallback(async () => {
     try {
       const response = await fetchWithAuth(
-        "https://thecore-backend-nest.onrender.com/user/me",
+        "https://backend-nest.onrender.com/user/me",
       );
 
 			if (!response.ok) {
@@ -86,24 +86,37 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
       const data = await response.json();
       setUserInfo(data);
       console.log(data);
-    } catch (err) {
-      console.error(err.message);
+    } catch (error) {
+      console.error(error.message);
     }
-  }
+  }, [])
   
-  useEffect(() => {
-    handleGetInfo();
-  }, []);
-// 			const data = await response.json();
-// 			setUserInfo(data);
-// 		} catch (error) {
-// 			console.error(error);
-// 		}
-// 	}, []);
+	useEffect(() => {
+		handleGetInfo();
+	}, [handleGetInfo]);
 
-// 	useEffect(() => {
-// 		handleGetInfo();
-// 	}, [handleGetInfo]);
+  // async function handleGetInfo() {
+  //   try {
+  //     const response = await fetchWithAuth(
+  //       "https://thecore-backend-nest.onrender.com/user/me",
+  //     );
+
+  //           if (!response.ok) {
+  //               const error = await response.json();
+  //               throw new Error(error.message);
+  //           }
+
+  //     const data = await response.json();
+  //     setUserInfo(data);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // }
+  
+  // useEffect(() => {
+  //   handleGetInfo();
+  // }, []);
 
 	console.log(userInfo);
 	return (
