@@ -106,3 +106,29 @@ export const InputStyle = styled.input`
     background-color: var(--gray-0);
   }
 `;
+
+export const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  // margin-bottom: 1rem;
+  position: relative;
+`;
+
+export const IconBox = styled.div`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-40%);
+  cursor: pointer;
+  color: var(--gray-50);
+  transition: 0.5s;
+  &:hover {
+    color: var(--gray-70);
+    transition: 0.5s;
+  }
+`;
+
+export const ErrorMessage = styled.span`
+  color: var(--system-error);
+  font-size: 14px;
+`;
