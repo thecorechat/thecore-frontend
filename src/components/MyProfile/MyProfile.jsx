@@ -24,9 +24,9 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+	const [userInfo, setUserInfo] = useState(null);
 
   const handleLogOutClick = async () => {
     const toastId = toast.loading("Logging out...");
@@ -44,10 +44,12 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
         },
       );
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message);
+			}
+
 
       toast.update(toastId, {
         render: "Successfully logged out",
@@ -76,10 +78,10 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
         "https://thecore-backend-nest.onrender.com/user/me",
       );
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message);
+			}
 
       const data = await response.json();
       setUserInfo(data);
@@ -88,18 +90,26 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
       console.error(err.message);
     }
   }
-
- 
-
+  
   useEffect(() => {
     handleGetInfo();
   }, []);
+// 			const data = await response.json();
+// 			setUserInfo(data);
+// 		} catch (error) {
+// 			console.error(error);
+// 		}
+// 	}, []);
 
-  console.log(userInfo);
-  return (
-    <MyProfileStyle $open={isOpen}>
-      <div>
-        <ToastContainer />
+// 	useEffect(() => {
+// 		handleGetInfo();
+// 	}, [handleGetInfo]);
+
+	console.log(userInfo);
+	return (
+		<MyProfileStyle $open={isOpen}>
+			<div>
+				{/* <ToastContainer /> */}
 
         <HeaderBack onClick={onClose}>My profile</HeaderBack>
         <MyProfileStyleBodyTop>

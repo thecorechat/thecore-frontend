@@ -1,40 +1,31 @@
 "use client";
 
-import { useState } from "react";
 import { GoPlus } from "react-icons/go";
-import { IoMdArrowDropright } from "react-icons/io";
-import { sidebar } from "../../mock/data";
+
+import { useSearchParams } from "react-router-dom";
+
+import WorkspaceList from "../../module/workspace/components/WorkspaceList/WorkspaceList";
 import Button from "../../ui/Button/Button";
 import { SidebarProvider } from "../SidebarRail/SidebarProvider";
-import { SidebarRail } from "../SidebarRail/SidebarRail";
-import {
-	AddButtonStyle,
-	AddChatStyle,
-	Group,
-	GroupHeader,
-	GroupItem,
-	GroupList,
-	SidebarWrapper,
-} from "./Content.styled";
+
+import { AddButtonStyle, AddChatStyle } from "./Content.styled";
 
 const Content = ({ onOpenCreateChat }) => {
-	const [openGroups, setOpenGroups] = useState({});
+	const [, setSearchParams] = useSearchParams();
 
-	const toggleGroup = (title) => {
-		setOpenGroups((prev) => ({
-			...prev,
-			[title]: !prev[title],
-		}));
+	const handleOpenCreateChat = () => {
+		setSearchParams({ modal: "setup" });
 	};
 
 	return (
 		<SidebarProvider>
 			<AddButtonStyle>
-				<Button onClick={onOpenCreateChat} width="48px" height="48px">
+				<Button onClick={handleOpenCreateChat} width="48px" height="48px">
 					<GoPlus size={24} />
 				</Button>
 			</AddButtonStyle>
-			<SidebarWrapper>
+			<WorkspaceList onOpenCreateChat={onOpenCreateChat} />
+			{/* <SidebarWrapper>
 				<SidebarRail />
 				{sidebar.navMain.map((group) => {
 					const isOpen = openGroups[group.title] ?? true;
@@ -58,18 +49,18 @@ const Content = ({ onOpenCreateChat }) => {
 						</Group>
 					);
 				})}
-			</SidebarWrapper>
+			</SidebarWrapper> */}
 		</SidebarProvider>
 	);
 };
 
 export default Content;
 
-const AddChat = ({ onOpenCreateChat }) => {
-	return (
-		<AddChatStyle onClick={onOpenCreateChat}>
-			<GoPlus />
-			<span>Add Chat</span>
-		</AddChatStyle>
-	);
-};
+// const AddChat = ({ onOpenCreateChat }) => {
+// 	return (
+// 		<AddChatStyle onClick={onOpenCreateChat}>
+// 			<GoPlus />
+// 			<span>Add Chat</span>
+// 		</AddChatStyle>
+// 	);
+// };

@@ -24,52 +24,51 @@
 // );
 
 function App() {
-	return (
-// 		<BrowserRouter>
-// 			<Routes>
-// 				<Route path="/" element={<MainSignIn />} />
-// 				<Route path="/signin" element={<SignIn />} />
-// 				<Route path="/forgot-password" element={<ForgotPassword />} />
-// 				<Route path="/change-password" element={<ChangePassword />} />
-// 				<Route path="/create-account" element={<CreateAccount />} />
-// 				{/* // <Route path="/create-workspace" element={<CreateWorkspace />} /> */}
-// 				<Route
-// 					path="/create-account/email-password"
-// 					element={
-// 						<StateProtectedRoute requiredState={["firstName", "lastName"]}>
-// 							<EmailPassword />
-// 						</StateProtectedRoute>
-// 					}
-// 				/>
-// 				<Route
-// 					path="/verify"
-// 					element={
-// 						<StateProtectedRoute requiredState={["email"]}>
-// 							<VerifyCode />
-// 						</StateProtectedRoute>
-// 					}
-// 				/>
-// 				<Route
-// 					path="/change-password/success"
-// 					element={
-// 						<StateProtectedRoute requiredState={["passwordChanged"]}>
-// 							<SuccessMessage />
-// 						</StateProtectedRoute>
-// 					}
-// 				/>
-// 				<Route
-// 					path="/chat"
-// 					element={
-// 						<ProtectedRoute>
-// 							<Chat />
-// 						</ProtectedRoute>
-// 					}
-// 				/>
-// 			</Routes>
-// 		</BrowserRouter>
-// 	);
+	// return (
+	// 		<BrowserRouter>
+	// 			<Routes>
+	// 				<Route path="/" element={<MainSignIn />} />
+	// 				<Route path="/signin" element={<SignIn />} />
+	// 				<Route path="/forgot-password" element={<ForgotPassword />} />
+	// 				<Route path="/change-password" element={<ChangePassword />} />
+	// 				<Route path="/create-account" element={<CreateAccount />} />
+	// 				{/* // <Route path="/create-workspace" element={<CreateWorkspace />} /> */}
+	// 				<Route
+	// 					path="/create-account/email-password"
+	// 					element={
+	// 						<StateProtectedRoute requiredState={["firstName", "lastName"]}>
+	// 							<EmailPassword />
+	// 						</StateProtectedRoute>
+	// 					}
+	// 				/>
+	// 				<Route
+	// 					path="/verify"
+	// 					element={
+	// 						<StateProtectedRoute requiredState={["email"]}>
+	// 							<VerifyCode />
+	// 						</StateProtectedRoute>
+	// 					}
+	// 				/>
+	// 				<Route
+	// 					path="/change-password/success"
+	// 					element={
+	// 						<StateProtectedRoute requiredState={["passwordChanged"]}>
+	// 							<SuccessMessage />
+	// 						</StateProtectedRoute>
+	// 					}
+	// 				/>
+	// 				<Route
+	// 					path="/chat"
+	// 					element={
+	// 						<ProtectedRoute>
+	// 							<Chat />
+	// 						</ProtectedRoute>
+	// 					}
+	// 				/>
+	// 			</Routes>
+	// 		</BrowserRouter>
+	// 	);
 
-	
 	return null;
 }
 
