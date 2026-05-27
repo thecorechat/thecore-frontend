@@ -72,39 +72,16 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
     }
   };
 
-  	const handleGetInfo = useCallback(async () => {
-    try {
-      const response = await fetchWithAuth(
-        "https://backend-nest.onrender.com/user/me",
-      );
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.message);
-			}
-
-      const data = await response.json();
-      setUserInfo(data);
-      console.log(data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }, [])
-  
-	useEffect(() => {
-		handleGetInfo();
-	}, [handleGetInfo]);
-
-  // async function handleGetInfo() {
+  // 	const handleGetInfo = useCallback(async () => {
   //   try {
   //     const response = await fetchWithAuth(
-  //       "https://thecore-backend-nest.onrender.com/user/me",
+  //       "https://backend-nest.onrender.com/user/me",
   //     );
 
-  //           if (!response.ok) {
-  //               const error = await response.json();
-  //               throw new Error(error.message);
-  //           }
+	// 		if (!response.ok) {
+	// 			const error = await response.json();
+	// 			throw new Error(error.message);
+	// 		}
 
   //     const data = await response.json();
   //     setUserInfo(data);
@@ -112,11 +89,34 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
   //   } catch (error) {
   //     console.error(error.message);
   //   }
-  // }
+  // }, [])
   
-  // useEffect(() => {
-  //   handleGetInfo();
-  // }, []);
+	// useEffect(() => {
+	// 	handleGetInfo();
+	// }, [handleGetInfo]);
+
+  async function handleGetInfo() {
+    try {
+      const response = await fetchWithAuth(
+        "https://thecore-backend-nest.onrender.com/user/me",
+      );
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message);
+            }
+
+      const data = await response.json();
+      setUserInfo(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  
+  useEffect(() => {
+    handleGetInfo();
+  }, []);
 
 	console.log(userInfo);
 	return (

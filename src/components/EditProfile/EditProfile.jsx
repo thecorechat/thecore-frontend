@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { Avatar } from "../../ui/Avatar/Avatar";
 import Button from "../../ui/Button/Button";
@@ -18,8 +18,15 @@ import {
 } from "./EditProfile.styled";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+// import { useForm } from "react-hook-form";
 
 const EditProfile = ({ isOpen, onClose }) => {
+  //   const { register, handleSubmit, formState: { errors } } = useForm({
+  //   defaultValues: {
+  //     firstName: "",
+  //     lastName: "",
+  //   }
+  // });
   const [formData, setFormData] = useState({
     avatarUrl: "",
     firstName: "",
@@ -49,34 +56,34 @@ const EditProfile = ({ isOpen, onClose }) => {
   //   }
   // }
 
-  	const handleGetInfo = useCallback(async () => {
-		try {
-			const response = await fetchWithAuth(
-				"https://thecore-backend-nest.onrender.com/user/me",
-			);
+  const handleGetInfo = useCallback(async () => {
+    try {
+      const response = await fetchWithAuth(
+        "https://thecore-backend-nest.onrender.com/user/me",
+      );
 
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.message);
-			}
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
 
-			const data = await response.json();
-			const { avatarUrl, firstName, lastName, email } = data;
+      const data = await response.json();
+      const { avatarUrl, firstName, lastName, email } = data;
 
-			console.log(data);
-			setFormData({ avatarUrl, firstName, lastName, email });
-		} catch (err) {
-			console.error(err.message);
-		}
-	}, []);
+      console.log(data);
+      setFormData({ avatarUrl, firstName, lastName, email });
+    } catch (err) {
+      console.error(err.message);
+    }
+  }, []);
 
   const handleChange = async (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  	useEffect(() => {
-		handleGetInfo();
-	}, [handleGetInfo]);
+  useEffect(() => {
+    handleGetInfo();
+  }, [handleGetInfo]);
 
   const handleSave = async () => {
     const response = await fetch(
