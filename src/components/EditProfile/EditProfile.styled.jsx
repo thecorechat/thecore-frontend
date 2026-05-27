@@ -77,6 +77,7 @@ export const Image = styled.img`
   background-size: contain;
   background-position: 50%;
   border-radius: 8px;
+  object-fit: cover;
 `;
 
 export const InputWrapper = styled.div`

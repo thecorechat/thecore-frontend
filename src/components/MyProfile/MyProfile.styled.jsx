@@ -88,4 +88,5 @@ export const ProfileImg = styled.img`
   width: 64px;
   height: 64px;
   border-radius: 8px;
+  object-fit: cover;
 `;
