@@ -70,7 +70,7 @@ const EditProfile = ({ isOpen, onClose }) => {
       const data = await response.json();
       const { avatarUrl, firstName, lastName, email } = data;
 
-      console.log(data);
+      // console.log(data);
       setFormData({ avatarUrl, firstName, lastName, email });
     } catch (err) {
       console.error(err.message);
@@ -102,7 +102,7 @@ const EditProfile = ({ isOpen, onClose }) => {
     );
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
   };
 
   // useEffect(() => {
@@ -135,7 +135,7 @@ const EditProfile = ({ isOpen, onClose }) => {
     );
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setFormData((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
   };
 

@@ -104,22 +104,16 @@ export const InputStyle = styled.input`
   font-size: 16px;
   transition: 0.2s;
   height: 48px;
-  ${(props) =>
-		props.$error &&
-		`
-      border: 1px solid var(--system-error);
-    `}
-
-  ${(props) =>
-		props.$success &&
-		`
-      border: 1px solid var(--success-70);
-    `}
+  ${(props) => props.$error && `border: 1px solid var(--system-error);`}
+  ${(props) => props.$success && `border: 1px solid var(--success-70);`}
 
   &:focus {
-    border-color: #8a5cff;
     outline: none;
     background-color: var(--gray-0);
+    ${(props) => !props.$error && !props.$success && `border-color: #8a5cff;`}
+    ${(props) => props.$error && `border-color: var(--system-error);`}
+    ${(props) => props.$success && `border-color: var(--success-70);`}
+  }
   }
 `;
 

@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const InputWrapper = styled.div`
   position: relative;
   width: 100%;
-  max-width: 20rem;
+  // max-width: 20rem;
 `;
 
 export const SearchIcon = styled(IoMdSearch)`
