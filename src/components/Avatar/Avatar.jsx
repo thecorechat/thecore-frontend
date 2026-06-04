@@ -24,7 +24,7 @@ export const Avatar = ({ onClick = () => {} }) => {
 
       const data = await response.json();
       setUserInfo(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error(error.message);
     }
@@ -37,12 +37,12 @@ export const Avatar = ({ onClick = () => {} }) => {
   return userInfo ? (
     <ProfileImgContainerStyle onClick={onClick}>
       <Circle />
-      <ProfileImg src={userInfo?.avatarUrl} alt="Profile image" width="32px" />
+      <ProfileImg src={userInfo?.avatarUrl} alt="Profile image" />
     </ProfileImgContainerStyle>
   ) : (
     <LogoBoxContactsContainerStyle onClick={onClick}>
       <Circle />
-      <IoPersonOutline />
+      <IoPersonOutline size={20} />
     </LogoBoxContactsContainerStyle>
   );
 };
