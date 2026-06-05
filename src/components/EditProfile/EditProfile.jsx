@@ -15,18 +15,24 @@ import {
   InputWrapper,
   Label,
   Image,
+  ErrorMessage,
+  InputBox,
+  IconBox,
 } from "./EditProfile.styled";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-// import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const EditProfile = ({ isOpen, onClose }) => {
-  //   const { register, handleSubmit, formState: { errors } } = useForm({
-  //   defaultValues: {
-  //     firstName: "",
-  //     lastName: "",
-  //   }
-  // });
+  const {
+    register,
+    watch,
+    reset,
+    formState: { errors, touchedFields, isValid, isDirty },
+  } = useForm({
+    mode: "onChange",
+  });
   const [formData, setFormData] = useState({
     avatarUrl: "",
     firstName: "",
@@ -34,27 +40,8 @@ const EditProfile = ({ isOpen, onClose }) => {
     email: "",
   });
   const hiddenFileInput = useRef(null);
-
-  // async function handleGetInfo() {
-  //   try {
-  //     const response = await fetchWithAuth(
-  //       "https://thecore-backend-nest.onrender.com/user/me",
-  //     );
-
-  //     if (!response.ok) {
-  //       const error = await response.json();
-  //       throw new Error(error.message);
-  //     }
-
-  //     const data = await response.json();
-  //     const { avatarUrl, firstName, lastName, email } = data;
-
-  //     console.log(data);
-  //     setFormData({ avatarUrl, firstName, lastName, email });
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // }
+  const firstNameValue = watch("firstName");
+  const lastNameValue = watch("lastName");
 
   const handleGetInfo = useCallback(async () => {
     try {
@@ -70,56 +57,48 @@ const EditProfile = ({ isOpen, onClose }) => {
       const data = await response.json();
       const { avatarUrl, firstName, lastName, email } = data;
 
-      // console.log(data);
       setFormData({ avatarUrl, firstName, lastName, email });
+      reset({ firstName, lastName });
     } catch (err) {
       console.error(err.message);
     }
   }, []);
-
-  const handleChange = async (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
   useEffect(() => {
     handleGetInfo();
   }, [handleGetInfo]);
 
   const handleSave = async () => {
-    const response = await fetch(
-      "https://thecore-backend-nest.onrender.com/user/update",
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
+    try {
+      const response = await fetch(
+        "https://thecore-backend-nest.onrender.com/user/update",
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: firstNameValue || formData.firstName,
+            lastName: lastNameValue || formData.lastName,
+          }),
         },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-        }),
-      },
-    );
+      );
 
-    const data = await response.json();
-    // console.log(data);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
   };
-
-  // useEffect(() => {
-  //   handleGetInfo();
-  // }, []);
 
   const handleImgClick = () => {
     hiddenFileInput.current.click();
   };
 
   const handleImgUpload = async (evt) => {
-    // if (evt.target.files.length > 0) {
-    //   setImg({
-    //     src: URL.createObjectURL(evt.target.files[0]),
-    //   });
-    // }
-
     const formDataImg = new FormData();
     formDataImg.append("file", evt.target.files[0]);
 
@@ -135,11 +114,8 @@ const EditProfile = ({ isOpen, onClose }) => {
     );
 
     const data = await response.json();
-    // console.log(data);
     setFormData((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
   };
-
-  // console.log(formData);
 
   return (
     <EditProfileStyle $open={isOpen}>
@@ -173,24 +149,68 @@ const EditProfile = ({ isOpen, onClose }) => {
           <div>
             <InputWrapper>
               <Label htmlFor="firstName">First name</Label>
-              <InputStyle
-                type="text"
-                name="firstName"
-                id="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-              />
+              <InputBox>
+                <InputStyle
+                  type="text"
+                  id="firstName"
+                  $error={!!errors.firstName}
+                  $success={!errors.firstName && touchedFields.firstName}
+                  {...register("firstName", {
+                    required: "First name is required",
+                    pattern: {
+                      value: /^[a-zA-Z]+$/,
+                      message: "Only Latin letters",
+                    },
+                  })}
+                />
+
+                {errors.firstName && (
+                  <ErrorMessage>
+                    {String(errors.firstName.message)}
+                  </ErrorMessage>
+                )}
+
+                <IconBox>
+                  {!errors.firstName && touchedFields.firstName && (
+                    <IoIosCheckmarkCircleOutline
+                      size={24}
+                      color={"var(--success-70)"}
+                    />
+                  )}
+                </IconBox>
+              </InputBox>
             </InputWrapper>
 
             <InputWrapper>
               <Label htmlFor="lastName">Last name</Label>
-              <InputStyle
-                type="text"
-                name="lastName"
-                id="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-              />
+              <InputBox>
+                <InputStyle
+                  type="text"
+                  $error={!!errors.lastName}
+                  $success={!errors.lastName && touchedFields.lastName}
+                  id="lastName"
+                  {...register("lastName", {
+                    required: "Last name is required",
+                    pattern: {
+                      value: /^[a-zA-Z]+$/,
+                      message: "Only Latin letters",
+                    },
+                  })}
+                />
+
+                {errors.lastName && (
+                  <ErrorMessage>{String(errors.lastName.message)}</ErrorMessage>
+                )}
+
+                <IconBox>
+                  {!errors.lastName && touchedFields.lastName && (
+                    <IoIosCheckmarkCircleOutline
+                      size={24}
+                      color={"var(--success-70)"}
+                    />
+                  )}
+                </IconBox>
+              </InputBox>
             </InputWrapper>
 
             <InputWrapper>
@@ -223,6 +243,7 @@ const EditProfile = ({ isOpen, onClose }) => {
           hoverColor="var(--primary-70)"
           type="submit"
           onClick={handleSave}
+          disabled={!isValid || !isDirty}
         >
           Save
         </Button>

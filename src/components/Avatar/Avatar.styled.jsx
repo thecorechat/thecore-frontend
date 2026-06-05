@@ -11,22 +11,23 @@ export const Circle = styled.div`
   background-color: #7ff999ff;
 `;
 
-export const LogoBoxContactsContainerStyle = styled.span`
+export const LogoBoxContactsContainerStyle = styled.div`
   position: relative;
-  padding: 0.5rem 0.6rem;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #eaeaeaff;
   color: #bcbcbcff;
-  line-height: 90%;
-  font-size: 18px;
   border-radius: 7px;
   cursor: pointer;
 `;
 
-export const ProfileImgContainerStyle = styled.span`
+export const ProfileImgContainerStyle = styled.div`
   position: relative;
   background-color: #eaeaeaff;
   color: #bcbcbcff;
-  line-height: 90%;
+  line-height: 10%;
   font-size: 18px;
   border-radius: 7px;
   cursor: pointer;
