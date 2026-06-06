@@ -43,6 +43,12 @@ const MessageBar = ({ onSend }) => {
 		}
 	};
 
+	const handleInput = (e) => {
+		e.preventDefault();
+		e.target.style.height = "45px";
+		e.target.style.height = e.target.scrollHeight + "px";
+	};
+
 	return (
 		<MessageBarMainContainerStyle>
 			<MessageBarSemiContainerStyle>
@@ -55,11 +61,13 @@ const MessageBar = ({ onSend }) => {
 					</DropDownEmojiList>
 				</EmojiStickerBoxStyle>
 				<MessageBarInputStyle
-					type="text"
+					name="messageBar"
 					placeholder="Type a message"
 					value={message}
+					rows={1}
 					onChange={(e) => setMessage(e.target.value)}
 					onKeyDown={(e) => e.key === "Enter" && handleSend()}
+					onInput={handleInput}
 				/>
 				<EmojiStickerButton>
 					<GrAttachment />

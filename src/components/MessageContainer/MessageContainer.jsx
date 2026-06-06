@@ -77,7 +77,8 @@ const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
 												alt="Attachment"
 											/>
 										)}
-										{message.message && <p>{message.message}</p>}
+										{message.message && message.message}
+										{/* {message.message && <p>{message.message}</p>} */}
 									</ChatBubble>
 
 									<button

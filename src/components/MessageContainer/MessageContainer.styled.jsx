@@ -5,7 +5,7 @@ export const MessageContainerStyle = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
-  padding-x: 2rem;
+  /* padding-x: 2rem; */
   width: 100%;
 
   /* from 768px */
@@ -38,7 +38,7 @@ export const ChatWrapper = styled.div`
   flex: 1;
   margin-bottom: 1rem;
 
-  ${({ isOwner }) =>
+  ${(isOwner) =>
 		isOwner
 			? css`
           justify-content: flex-end;
@@ -83,19 +83,18 @@ export const ChatTime = styled.time`
 
 export const ChatBubble = styled.div`
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  ${({ isOwner }) =>
+word-break: break-word;
+  max-width: 500px;
+  border-radius: 0.5rem 0 0.5rem 0.5rem;
+  ${(isOwner) =>
 		isOwner
 			? css`
           background: var(--primary-60);
           color: var(--gray-0);
-          border-radius: 0.5rem 0 0.5rem 0.5rem;
         `
 			: css`
           background: var(--gray-10);
           color: var(--gray-100);
-          border-radius: 0 0.5rem 0.5rem 0.5rem;
         `}
 `;
 

@@ -10,7 +10,6 @@ export const MessageBarMainContainerStyle = styled.div`
   margin: 1.5rem 0;
   gap: 1.5rem;
   border-top: 0.3px solid #4c4c4c;
-  }
 `;
 
 export const MessageBarSemiContainerStyle = styled.div`
@@ -21,23 +20,29 @@ export const MessageBarSemiContainerStyle = styled.div`
   padding-right:1.25rem;
   border-radius: 0.375rem;
   border: 1px solid #4c4c4c;
- 
-  
-  
-  }
 `;
 
-export const MessageBarInputStyle = styled.input`
+export const MessageBarInputStyle = styled.textarea`
   background-color: transparent;
-  display: flex;
   flex: 1;
   padding: 1.25rem;
-  height: 48px;
+  height: 45px;
+  min-height: 45px;
+  max-height: 116px;
   border-radius: 0.375rem;
   border: none;
+
+  overflow-y: auto;
+  resize: none;
   &:focus {
     border: none;
     outline: none;
+  }
+
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none; 
   }
 `;
 
