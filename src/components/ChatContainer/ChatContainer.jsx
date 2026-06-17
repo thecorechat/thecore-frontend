@@ -20,11 +20,13 @@ const ChatContainer = () => {
 		};
 	}, []);
 
-	const handleSendMessage = (text) => {
+	const handleSendMessage = (text, file) => {
 		const newMessage = {
 			_id: Date.now().toString(),
 			name: "Peter Parker",
 			message: text,
+			file: file ? URL.createObjectURL(file) : null,
+			fileName: file?.name,
 			createdAt: new Date().toISOString(),
 		};
 
@@ -48,6 +50,7 @@ const ChatContainer = () => {
 			socket.off("message_liked");
 		};
 	}, []);
+
 	const handleLikeMessage = (messageId) => {
 		socket.emit("like_message", { messageId });
 

@@ -4,6 +4,7 @@ import {
 	formatMessageTime,
 	getDateKey,
 } from "../../../lib/utils";
+import icon from "../../assets/icons/sprite.svg";
 // import { messages } from "../../../../../../mock/data";
 import {
 	Avatar,
@@ -15,6 +16,11 @@ import {
 	ChatTime,
 	ChatWrapper,
 	DateDivider,
+	FileContainer,
+	FileIcon,
+	FileIconContainer,
+	FileName,
+	FileSize,
 	Like,
 	MessageContainerStyle,
 	MessagesList,
@@ -80,6 +86,18 @@ const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
 										{message.message && message.message}
 										{/* {message.message && <p>{message.message}</p>} */}
 									</ChatBubble>
+
+									<FileContainer>
+										<FileIconContainer>
+											<FileIcon>
+												<use href={`${icon}#icon-image`}></use>
+											</FileIcon>
+										</FileIconContainer>
+										<div>
+											<FileName>school_message.jpg</FileName>
+											<FileSize>1,2 MB</FileSize>
+										</div>
+									</FileContainer>
 
 									<button
 										type="button"

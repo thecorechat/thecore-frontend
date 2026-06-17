@@ -13,7 +13,8 @@ export const EditProfileStyle = styled.div`
   background: var(--gray-0);
   width: 100%;
   transition: transform 0.3s ease;
-  border-right: 0.3px solid #4c4c4c;
+  /* border-right: 0.3px solid #4c4c4c; */
+  border-right: 1px solid  var(--gray-20);
   transform: ${({ $open }) => ($open ? "translateX(0)" : "translateX(-100%)")};
 
   /* from 768px */

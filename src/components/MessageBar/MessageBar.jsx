@@ -5,11 +5,18 @@ import { useEffect, useRef, useState } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { RiEmojiStickerLine } from "react-icons/ri";
+import icon from "../../assets/icons/sprite.svg";
 import Button from "../../ui/Button/Button";
 import {
 	DropDownEmojiList,
 	EmojiStickerBoxStyle,
 	EmojiStickerButton,
+	FileContainer,
+	FileIcon,
+	FileIconContainer,
+	FileList,
+	FileName,
+	FileSize,
 	MessageBarInputStyle,
 	MessageBarMainContainerStyle,
 	MessageBarSemiContainerStyle,
@@ -18,7 +25,10 @@ import {
 const MessageBar = ({ onSend }) => {
 	const [message, setMessage] = useState("");
 	const emojiRef = useRef(null);
+	const [files, setFiles] = useState([]);
 	const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+	const heightRef = useRef(null);
+	const hiddenFileInput = useRef(null);
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -37,29 +47,84 @@ const MessageBar = ({ onSend }) => {
 	};
 
 	const handleSend = () => {
-		if (message.trim()) {
-			onSend(message); // Вызываем функцию из родителя
-			setMessage(""); // Очищаем поле
-		}
+		if (!message.trim() && files.length < 0) return;
+
+		onSend(message, files);
+		setMessage("");
+		setFiles([]);
+		heightRef.current.style.height = "22px";
+
+		// if (message.trim()) {
+		// 	onSend(message);
+		// 	setMessage("");
+		// 	heightRef.current.style.height = "22px";
+		// }
 	};
 
 	const handleInput = (e) => {
 		e.preventDefault();
-		e.target.style.height = "45px";
+		e.target.style.height = "22px";
 		e.target.style.height = e.target.scrollHeight + "px";
+	};
+
+	const handleClick = () => {
+		hiddenFileInput.current.click();
+	};
+
+	const handleAddFile = (e) => {
+		setFiles((prev) => [...prev, e.target.files[0]]);
 	};
 
 	return (
 		<MessageBarMainContainerStyle>
+			{files.length > 0 && (
+				<FileList>
+					{files.map((file) => (
+						<li key={Math.random()}>
+							<FileContainer>
+								<FileIconContainer>
+									<FileIcon>
+										<use href={`${icon}#icon-image`}></use>
+									</FileIcon>
+								</FileIconContainer>
+
+								<div>
+									<FileName>{file.name}</FileName>
+									<FileSize>
+										{Math.round(file.size / 1024)}
+										{file.size / 1024 >= 1000 ? "Mb" : "Kb"}
+									</FileSize>
+								</div>
+							</FileContainer>
+						</li>
+					))}
+				</FileList>
+			)}
+
 			<MessageBarSemiContainerStyle>
 				<EmojiStickerBoxStyle>
+					<EmojiStickerButton
+						type="button"
+						onClick={() => setEmojiPickerOpen(true)}
+					>
+						<svg width={22} height={22}>
+							<use href={`${icon}#icon-smile`}></use>
+						</svg>
+					</EmojiStickerButton>
+
+					<DropDownEmojiList ref={emojiRef}>
+						<EmojiPicker open={emojiPickerOpen} onEmojiClick={handleAddEmoji} />
+					</DropDownEmojiList>
+				</EmojiStickerBoxStyle>
+
+				{/* <EmojiStickerBoxStyle>
 					<EmojiStickerButton onClick={() => setEmojiPickerOpen(true)}>
 						<RiEmojiStickerLine />
 					</EmojiStickerButton>
 					<DropDownEmojiList ref={emojiRef}>
 						<EmojiPicker open={emojiPickerOpen} onEmojiClick={handleAddEmoji} />
 					</DropDownEmojiList>
-				</EmojiStickerBoxStyle>
+				</EmojiStickerBoxStyle> */}
 				<MessageBarInputStyle
 					name="messageBar"
 					placeholder="Type a message"
@@ -68,10 +133,25 @@ const MessageBar = ({ onSend }) => {
 					onChange={(e) => setMessage(e.target.value)}
 					onKeyDown={(e) => e.key === "Enter" && handleSend()}
 					onInput={handleInput}
+					ref={heightRef}
 				/>
-				<EmojiStickerButton>
+
+				<button type="button" onClick={handleClick}>
+					<svg width={22} height={22}>
+						<use href={`${icon}#icon-paperclip`}></use>
+					</svg>
+				</button>
+
+				{/* <EmojiStickerButton onClick={handleClick}>
 					<GrAttachment />
-				</EmojiStickerButton>
+				</EmojiStickerButton> */}
+
+				<input
+					type="file"
+					ref={hiddenFileInput}
+					style={{ display: "none" }}
+					onChange={handleAddFile}
+				/>
 			</MessageBarSemiContainerStyle>
 			<Button onClick={handleSend} width="48px" height="48px">
 				<IoSend size={20} />

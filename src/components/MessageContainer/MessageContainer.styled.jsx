@@ -129,3 +129,43 @@ export const Like = styled.div`
   border-radius: 10px;
   cursor: pointer;
 `;
+
+export const FileContainer = styled.div`
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  border: 1px solid var(--gray-20);
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+export const FileIconContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+width: 32px;
+height: 32px;
+padding: 4px;
+border-radius: 100px;
+background: var(--Primary-10, #D1E9FF);
+`;
+
+export const FileIcon = styled.svg`
+  width: 18px;
+height: 18px;
+`;
+
+export const FileName = styled.p`
+color: var(--Gray-100, #18181A);
+
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 4px;
+`;
+
+export const FileSize = styled.p`
+color: var(--Gray-70, #686970);
+
+font-size: 14px;
+font-weight: 500;
+`;
