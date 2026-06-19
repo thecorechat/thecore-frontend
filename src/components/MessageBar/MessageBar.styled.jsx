@@ -7,10 +7,11 @@ export const MessageBarMainContainerStyle = styled.div`
   justify-content: center;
   align-items: end;
   flex-wrap: wrap;
-  padding: 24px 24px 32px 24px;
+  padding: 24px;
   /* padding: 1.5rem 2rem 0; */
   /* margin: 1.5rem 0; */
-  gap: 1.5rem;
+  column-gap: 1.5rem;
+  row-gap: 10px;
   /* border-top: 0.3px solid #4c4c4c; */
   border-top: 1px solid var(--gray-20);
 `;

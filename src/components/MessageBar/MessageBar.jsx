@@ -2,9 +2,9 @@
 
 import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
-import { GrAttachment } from "react-icons/gr";
+// import { GrAttachment } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
-import { RiEmojiStickerLine } from "react-icons/ri";
+// import { RiEmojiStickerLine } from "react-icons/ri";
 import icon from "../../assets/icons/sprite.svg";
 import Button from "../../ui/Button/Button";
 import {
@@ -47,12 +47,13 @@ const MessageBar = ({ onSend }) => {
 	};
 
 	const handleSend = () => {
-		if (!message.trim() && files.length < 0) return;
+		if (!message.trim() && files.length === 0) return;
 
 		onSend(message, files);
 		setMessage("");
 		setFiles([]);
 		heightRef.current.style.height = "22px";
+		scrollIntoView({ behavior: "instant", block: "end" });
 
 		// if (message.trim()) {
 		// 	onSend(message);
@@ -91,8 +92,9 @@ const MessageBar = ({ onSend }) => {
 								<div>
 									<FileName>{file.name}</FileName>
 									<FileSize>
-										{Math.round(file.size / 1024)}
-										{file.size / 1024 >= 1000 ? "Mb" : "Kb"}
+										{file.size >= 1024 * 1024
+											? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+											: `${Math.round(file.size / 1024)} KB`}
 									</FileSize>
 								</div>
 							</FileContainer>

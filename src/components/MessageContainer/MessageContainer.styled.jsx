@@ -85,6 +85,7 @@ export const ChatBubble = styled.div`
   padding: 1rem;
 word-break: break-word;
   max-width: 500px;
+  margin-bottom: 6px;
   border-radius: 0.5rem 0 0.5rem 0.5rem;
   ${(isOwner) =>
 		isOwner
@@ -128,6 +129,16 @@ export const Like = styled.div`
   border: 1px solid var(--gray-20);
   border-radius: 10px;
   cursor: pointer;
+`;
+
+export const FileList = styled.ul`
+  margin-bottom: 6px;
+`;
+
+export const FileItem = styled.li`
+&:not(:last-child){
+  margin-bottom: 6px;
+}
 `;
 
 export const FileContainer = styled.div`

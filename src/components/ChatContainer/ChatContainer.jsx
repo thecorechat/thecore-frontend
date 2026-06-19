@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { socket } from "../../../helper/socket";
 import ChatHeader from "../../components/ChatHeader/ChatHeader";
 import MessageBar from "../../components/MessageBar/MessageBar";
@@ -9,6 +9,7 @@ import { ChatContainerStyle } from "./ChatContainer.styled";
 const ChatContainer = () => {
 	const [showUserProfile, setShowUserProfile] = useState(false);
 	const [realMessages, setRealMessages] = useState([]);
+	const ref = useRef(null);
 
 	useEffect(() => {
 		socket.on("receive_message", (newMessage) => {
@@ -20,13 +21,18 @@ const ChatContainer = () => {
 		};
 	}, []);
 
-	const handleSendMessage = (text, file) => {
+	const handleSendMessage = (text, files) => {
 		const newMessage = {
 			_id: Date.now().toString(),
 			name: "Peter Parker",
 			message: text,
-			file: file ? URL.createObjectURL(file) : null,
-			fileName: file?.name,
+			// file: file ? URL.createObjectURL(file) : null,
+			files: files.map((file) => ({
+				url: URL.createObjectURL(file),
+				name: file.name,
+				size: file.size,
+				type: file.type,
+			})),
 			createdAt: new Date().toISOString(),
 		};
 
@@ -76,6 +82,7 @@ const ChatContainer = () => {
 					messages={realMessages}
 					onOpenUserProfile={() => setShowUserProfile(true)}
 					onLikeMessage={handleLikeMessage}
+					ref={srollDownRef}
 				/>
 				<MessageBar onSend={handleSendMessage} />
 			</ChatContainerStyle>
