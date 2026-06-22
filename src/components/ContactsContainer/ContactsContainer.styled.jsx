@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const ContactsContainerStyle = styled.div`
+display: none;
   background-color: white;
   position: relative;
   width: 100%;

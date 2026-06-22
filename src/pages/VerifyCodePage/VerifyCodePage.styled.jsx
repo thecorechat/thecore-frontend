@@ -57,15 +57,20 @@ export const InputStyle = styled.input`
   transition: 0.2s;
   height: 64px;
   width: 64px;
+
+&:focus::placeholder {
+  color: transparent;
+}
+
   ${(props) =>
-    props.$error &&
-    `
+		props.$error &&
+		`
       border: 1px solid var(--system-error);
     `}
 
   ${(props) =>
-    props.$success &&
-    `
+		props.$success &&
+		`
       border: 1px solid var(--success-70);
     `}
 
@@ -163,8 +168,8 @@ export const Link = styled.button`
   margin-left: 5px;
 
   ${(props) =>
-    props.disabled &&
-    `
+		props.disabled &&
+		`
     color: var(--gray-40);
     cursor: not-allowed;
     pointer-events: none;

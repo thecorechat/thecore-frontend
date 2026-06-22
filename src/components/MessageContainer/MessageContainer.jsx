@@ -1,4 +1,5 @@
 // import { useRef } from "react";
+
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {
 	formatDividerDate,
@@ -10,6 +11,7 @@ import icon from "../../assets/icons/sprite.svg";
 import {
 	Avatar,
 	ChatBubble,
+	ChatContainer,
 	ChatHeader,
 	ChatImage,
 	ChatImageAttachment,
@@ -31,17 +33,12 @@ import {
 
 const owner = "Peter Parker";
 
-const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
-	// const grouped = messages.reduce((acc, msg) => {
-	//   const key = getDateKey(msg.createdAt);
-	//   if (!acc[key]) acc[key] = [];
-	//   acc[key].push(msg);
-	//   return acc;
-	// }, {});
-
-	// console.log(messages);
-	
-
+const MessageContainer = ({
+	onOpenUserProfile,
+	messages,
+	onLikeMessage,
+	ref,
+}) => {
 	const grouped = (messages || []).reduce((acc, msg) => {
 		const key = getDateKey(msg.createdAt);
 		if (!acc[key]) acc[key] = [];
@@ -51,11 +48,10 @@ const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
 
 	const sortedDates = Object.keys(grouped).sort();
 	console.log(messages);
-	
 
 	return (
 		<MessageContainerStyle>
-			<MessagesList>
+			<MessagesList ref={ref}>
 				{sortedDates.map((dateKey) => (
 					<div key={dateKey}>
 						<DateDivider>{formatDividerDate(dateKey)}</DateDivider>
@@ -78,7 +74,7 @@ const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
 								</ChatImage>
 
 								{(message.message || message.files.length > 0) && (
-									<div style={{ marginBottom: "15px" }}>
+									<ChatContainer>
 										<ChatHeader>
 											<ChatName onClick={onOpenUserProfile}>
 												{message.name === owner ? "You" : message.name}
@@ -154,12 +150,13 @@ const MessageContainer = ({ onOpenUserProfile, messages, onLikeMessage }) => {
 												)}
 											</Like>
 										</button>
-									</div>
+									</ChatContainer>
 								)}
 							</ChatWrapper>
 						))}
 					</div>
 				))}
+				{/* <div ref={ref} /> */}
 			</MessagesList>
 		</MessageContainerStyle>
 	);

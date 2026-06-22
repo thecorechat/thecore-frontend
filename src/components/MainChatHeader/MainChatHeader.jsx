@@ -1,18 +1,27 @@
+import icon from "../../assets/icons/sprite.svg";
 import { Avatar } from "../../components/Avatar/Avatar";
 import { DropdownMenuDemo } from "../DropDownMenu/DropDownMenu";
-import { ChatHeaderContainerLeftStyle } from "./MainChatHeader.styled";
+import {
+	ChatHeaderContainerLeftStyle,
+	ReturnArrow,
+} from "./MainChatHeader.styled";
 
 const MainChatHeader = ({ onSearchClick }) => {
-  return (
-    <>
-      <ChatHeaderContainerLeftStyle>
-        <Avatar />
-        John Dorian
-      </ChatHeaderContainerLeftStyle>
+	return (
+		<>
+			<ChatHeaderContainerLeftStyle>
+				<button type="button">
+					<ReturnArrow aria-hidden="true">
+						<use href={`${icon}#icon-left`}></use>
+					</ReturnArrow>
+				</button>
+				<Avatar />
+				John Dorian
+			</ChatHeaderContainerLeftStyle>
 
-      <DropdownMenuDemo onSearchClick={onSearchClick} />
-    </>
-  );
+			<DropdownMenuDemo onSearchClick={onSearchClick} />
+		</>
+	);
 };
 
 export default MainChatHeader;

@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
+// import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiTrash } from "react-icons/fi";
 import { GoMute, GoUnmute } from "react-icons/go";
 import { IoMdSearch } from "react-icons/io";
 import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
+import icon from "../../assets/icons/sprite.svg";
 import { DeleteDialog } from "../DeleteDialog/DeleteDialog";
 import {
+	Dots,
 	Group,
 	Item,
 	// Label,
@@ -55,7 +57,10 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
 		<>
 			<Wrapper ref={ref}>
 				<MenuButton onClick={() => setOpen((o) => !o)}>
-					<BsThreeDotsVertical />
+					<Dots aria-hidden="true" width={24} height={24}>
+						<use href={`${icon}#icon-dots`}></use>
+					</Dots>
+					{/* <BsThreeDotsVertical /> */}
 				</MenuButton>
 				{open && (
 					<Menu>

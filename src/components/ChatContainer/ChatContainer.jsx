@@ -11,6 +11,18 @@ const ChatContainer = () => {
 	const [realMessages, setRealMessages] = useState([]);
 	const ref = useRef(null);
 
+	// useEffect(() => {
+	// 	ref.current?.scrollIntoView({ behavior: "smooth" });
+	// }, [realMessages]);
+
+	// useEffect(() => {
+	// 	ref.current?.scrollIntoView({ behavior: "instant" });
+	// }, []);
+	useEffect(() => {
+		const container = ref.current;
+		container.scrollTop = container.scrollHeight;
+	}, []);
+
 	useEffect(() => {
 		socket.on("receive_message", (newMessage) => {
 			setRealMessages((prev) => [...prev, newMessage]);
@@ -39,6 +51,11 @@ const ChatContainer = () => {
 		socket.emit("send_message", newMessage);
 
 		setRealMessages((prev) => [...prev, newMessage]);
+
+		setTimeout(() => {
+			const container = ref.current;
+			container.scrollTop = container.scrollHeight;
+		}, 50);
 	};
 
 	useEffect(() => {
@@ -82,9 +99,9 @@ const ChatContainer = () => {
 					messages={realMessages}
 					onOpenUserProfile={() => setShowUserProfile(true)}
 					onLikeMessage={handleLikeMessage}
-					ref={srollDownRef}
+					ref={ref}
 				/>
-				<MessageBar onSend={handleSendMessage} />
+				<MessageBar onSend={handleSendMessage} containerRef={ref} />
 			</ChatContainerStyle>
 
 			{showUserProfile && (

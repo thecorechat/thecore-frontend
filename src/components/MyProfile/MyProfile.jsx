@@ -140,6 +140,7 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
 									{userInfo?.firstName} {userInfo?.lastName}
 								</h4>
 								<p>{userInfo?.email}</p>
+								<p>#{userInfo?.username}</p>
 							</MyProfileStyleBodyTopRight>
 						</>
 					) : (

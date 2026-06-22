@@ -22,7 +22,7 @@ import {
 	MessageBarSemiContainerStyle,
 } from "./MessageBar.styled";
 
-const MessageBar = ({ onSend }) => {
+const MessageBar = ({ onSend, containerRef }) => {
 	const [message, setMessage] = useState("");
 	const emojiRef = useRef(null);
 	const [files, setFiles] = useState([]);
@@ -53,7 +53,7 @@ const MessageBar = ({ onSend }) => {
 		setMessage("");
 		setFiles([]);
 		heightRef.current.style.height = "22px";
-		scrollIntoView({ behavior: "instant", block: "end" });
+		// scrollIntoView({ behavior: "instant", block: "end" });
 
 		// if (message.trim()) {
 		// 	onSend(message);
@@ -66,6 +66,11 @@ const MessageBar = ({ onSend }) => {
 		e.preventDefault();
 		e.target.style.height = "22px";
 		e.target.style.height = e.target.scrollHeight + "px";
+
+		setTimeout(() => {
+			const container = containerRef.current;
+			if (container) container.scrollTop = container.scrollHeight;
+		}, 0);
 	};
 
 	const handleClick = () => {
@@ -103,18 +108,18 @@ const MessageBar = ({ onSend }) => {
 				</FileList>
 			)}
 
-			<MessageBarSemiContainerStyle>
+			<MessageBarSemiContainerStyle ref={emojiRef}>
 				<EmojiStickerBoxStyle>
 					<EmojiStickerButton
 						type="button"
-						onClick={() => setEmojiPickerOpen(true)}
+						onClick={() => setEmojiPickerOpen(!emojiPickerOpen)}
 					>
-						<svg width={22} height={22}>
+						<svg width={22} height={22} aria-hidden="true">
 							<use href={`${icon}#icon-smile`}></use>
 						</svg>
 					</EmojiStickerButton>
 
-					<DropDownEmojiList ref={emojiRef}>
+					<DropDownEmojiList>
 						<EmojiPicker open={emojiPickerOpen} onEmojiClick={handleAddEmoji} />
 					</DropDownEmojiList>
 				</EmojiStickerBoxStyle>
@@ -139,7 +144,7 @@ const MessageBar = ({ onSend }) => {
 				/>
 
 				<button type="button" onClick={handleClick}>
-					<svg width={22} height={22}>
+					<svg width={22} height={22} aria-hidden="true">
 						<use href={`${icon}#icon-paperclip`}></use>
 					</svg>
 				</button>

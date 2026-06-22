@@ -6,14 +6,14 @@ export const MessageBarMainContainerStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: end;
-  flex-wrap: wrap;
   padding: 24px;
-  /* padding: 1.5rem 2rem 0; */
-  /* margin: 1.5rem 0; */
   column-gap: 1.5rem;
   row-gap: 10px;
-  /* border-top: 0.3px solid #4c4c4c; */
   border-top: 1px solid var(--gray-20);
+
+  @media(min-width: 768px){
+  flex-wrap: wrap;
+  }
 `;
 
 export const MessageBarSemiContainerStyle = styled.div`
@@ -63,12 +63,7 @@ export const EmojiStickerBoxStyle = styled.div`
 `;
 
 export const EmojiStickerButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  line-height: 2rem;
-  color: #4c4c4c;
+  display: block;
 `;
 
 export const DropDownEmojiList = styled.div`

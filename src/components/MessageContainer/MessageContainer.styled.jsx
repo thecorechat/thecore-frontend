@@ -36,7 +36,10 @@ export const MessagesList = styled.div`
 export const ChatWrapper = styled.div`
   display: flex;
   flex: 1;
-  margin-bottom: 1rem;
+  
+  &:not(:last-child){
+    margin-bottom: 1rem;
+  }
 
   ${(isOwner) =>
 		isOwner
@@ -60,6 +63,12 @@ export const Avatar = styled.div`
   border-radius: 10px;
   border: 1px solid #ccc;
   overflow: hidden;
+`;
+
+export const ChatContainer = styled.div`
+ &:not(:last-child){
+    margin-bottom: 15px;
+  }
 `;
 
 export const ChatHeader = styled.div`

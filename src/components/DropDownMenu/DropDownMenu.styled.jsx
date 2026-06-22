@@ -6,14 +6,20 @@ export const Wrapper = styled.div`
 `;
 
 export const MenuButton = styled.button`
-  padding: 0.5rem 1rem;
+  // padding: 0.5rem 1rem;
+  display: block;
   background: transparent;
   border-radius: 6px;
   cursor: pointer;
   font-size: 20px;
+  line-height: 0;
   &:hover {
     color: #4c4c4c;
   }
+`;
+
+export const Dots = styled.svg`
+stroke: black;
 `;
 
 export const Menu = styled.div`
