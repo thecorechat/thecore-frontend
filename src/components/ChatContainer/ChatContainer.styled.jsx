@@ -6,14 +6,14 @@ export const ChatContainerStyle = styled.div`
   height: 100vh;
   width: 100vw;
   background-color: white;
-  display: flex;
-  // display: none;
+  // display: flex;
+  display: none;
   flex-direction: column;
 
   /* from 768px */
-  // @media (min-width: 768px) {
-    // display: flex;
-    // position: static;
-    // flex: 1;
-  // }
+  @media (min-width: 768px) {
+    display: flex;
+    position: static;
+    flex: 1;
+  }
 `;
