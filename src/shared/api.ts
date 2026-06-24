@@ -6,4 +6,9 @@ export const endpoints = {
 		join_space: "/workspace/join/",
 		my_workspaces: "/workspace/my",
 	},
+	room: {
+		create_room: "/workspaces/{workspaceId}/rooms",
+		delete_room: "/workspaces/{workspaceId}/rooms/{roomId}",
+		my_rooms: "/workspaces/{workspaceId}/rooms",
+	},
 };

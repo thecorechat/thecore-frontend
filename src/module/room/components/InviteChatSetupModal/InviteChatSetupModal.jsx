@@ -4,9 +4,8 @@ import { useSearchParams } from "react-router-dom";
 import Radio, {
 	RadioGroup,
 } from "../../../../components/RadioSelect/RadioSelect";
+import { ChatModalEnum } from "../../../../shared/constants/routes";
 import Button from "../../../../ui/Button/Button";
-import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
-import { useWorkspaceCheck } from "../../hooks/useWorkspaceCheck";
 import {
 	Background,
 	Bottom,
@@ -14,16 +13,12 @@ import {
 	Content,
 	ContentForm,
 	SelectBox,
-	Title,
-	TitleBox,
-} from "./WorkspaceSetup.styled";
+} from "./InviteChatSetupModal.styled";
 
 const STORAGE_KEY = "workspaceSetupType";
 
-function WorkspaceSetup() {
-	const [, setSearchParams] = useSearchParams();
-	const { workspaces } = useWorkspaceCheck();
-	const hasWorkspaces = workspaces.length > 0;
+function InviteChatSetupModal() {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [accountType, setAccountType] = useState(
 		() => sessionStorage.getItem(STORAGE_KEY) ?? "",
 	);
@@ -34,43 +29,46 @@ function WorkspaceSetup() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (accountType === "join") {
-			setSearchParams({ modal: "join" });
-		}
+		// if (accountType === "join") {
+		// 	setSearchParams({ modal: WorkspaceModalEnum.JOIN }, { replace: true });
+		// }
 		if (accountType === "create") {
-			setSearchParams({ modal: "create" });
+			setSearchParams((prev) => {
+				prev.set("modal", ChatModalEnum.SETUP);
+
+				return prev;
+			});
 		}
 	}
 	const handleClose = () => {
 		setSearchParams({}, { replace: true });
 	};
 
+	const workspaceId = searchParams.get("workspaceId");
+	console.log("Invite Chat Setup", workspaceId);
+
 	return (
 		<Background>
 			<Content>
-				{hasWorkspaces && (
-					<button
-						type="button"
-						onClick={handleClose}
-						style={{
-							position: "absolute",
-							top: "20px",
-							right: "20px",
-							background: "none",
-							border: "none",
-							cursor: "pointer",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-							padding: "4px",
-						}}
-					>
-						<IoClose size={24} color="#555" />
-					</button>
-				)}
-				<TitleBox>
-					<Title>Start with Spaces</Title>
-				</TitleBox>
+				<button
+					type="button"
+					onClick={handleClose}
+					style={{
+						position: "absolute",
+						top: "20px",
+						left: "20px",
+						background: "none",
+						border: "none",
+						cursor: "pointer",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "4px",
+					}}
+				>
+					<IoClose size={24} color="#555" />
+				</button>
+
 				<form
 					onSubmit={handleSubmit}
 					noValidate
@@ -82,8 +80,8 @@ function WorkspaceSetup() {
 								value={accountType}
 								onChange={handleAccountTypeChange}
 							>
-								<Radio value="create">Create Space</Radio>
-								<Radio value="join">Join a Space</Radio>
+								<Radio value="create">Create a Chat</Radio>
+								<Radio value="invite">Invite a person</Radio>
 							</RadioGroup>
 						</SelectBox>
 						<Bottom>
@@ -100,4 +98,4 @@ function WorkspaceSetup() {
 	);
 }
 
-export default WorkspaceSetup;
+export default InviteChatSetupModal;

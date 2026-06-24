@@ -41,7 +41,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 			const data = await response.json();
 			const { avatarUrl, firstName, lastName, email } = data;
 
-			console.log(data);
+			// console.log(data);
 			setFormData({ avatarUrl, firstName, lastName, email });
 		} catch (err) {
 			console.error(err.message);
@@ -71,19 +71,19 @@ const EditProfile = ({ isOpen, onClose }) => {
 		const formDataImg = new FormData();
 		formDataImg.append("file", evt.target.files[0]);
 
-		const response = await fetch(
-			"https://thecore-backend-nest.onrender.com/user/avatar",
-			{
-				method: "PATCH",
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
-				},
-				body: formDataImg,
-			},
-		);
+		// const response = await fetch(
+		// 	"https://thecore-backend-nest.onrender.com/user/avatar",
+		// 	{
+		// 		method: "PATCH",
+		// 		headers: {
+		// 			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		// 		},
+		// 		body: formDataImg,
+		// 	},
+		// );
 
-		const data = await response.json();
-		console.log(data);
+		// const data = await response.json();
+		// console.log(data);
 	};
 	//   const response = await fetch(
 	//     "https://thecore-backend-nest.onrender.com/user/avatar",

@@ -1,18 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { GoPlus } from "react-icons/go";
-import { IoMdArrowDropright } from "react-icons/io";
+import { useSearchParams } from "react-router-dom";
+import { ChatModalEnum } from "../../../../shared/constants/routes";
+import RoomsGroup from "../../../room/components/RoomsGroup/RoomsGroup";
 import { handleGetMyWorkspaces } from "../../api/handleGetMyWorkspaces";
-import {
-	AddChatStyle,
-	Group,
-	GroupHeader,
-	GroupItem,
-	GroupList,
-	SidebarWrapper,
-} from "./WorkspaceList.styled";
+import { SidebarWrapper } from "./WorkspaceList.styled";
 
-function WorkspaceList({ onOpenCreateChat }) {
+function WorkspaceList() {
+	const [, setSearchParams] = useSearchParams();
 	const [openGroups, setOpenGroups] = useState({});
 
 	const { data: workspaces = [], isLoading } = useQuery({
@@ -27,38 +22,27 @@ function WorkspaceList({ onOpenCreateChat }) {
 		}));
 	};
 
+	const handleAddRoomClick = (workspaceId) => {
+		setSearchParams((prev) => {
+			prev.set("modal", ChatModalEnum.MAIN_SETUP);
+			prev.set("workspaceId", workspaceId);
+			return prev;
+		});
+	};
+
 	if (isLoading) return null;
 
 	return (
 		<SidebarWrapper>
-			{workspaces.map((workspace) => {
-				const isOpen = openGroups[workspace.id] ?? false;
-				const channels = workspace.channels ?? [];
-				return (
-					<Group key={workspace.id}>
-						<GroupHeader
-							onClick={() => toggleGroup(workspace.id)}
-							$open={isOpen}
-						>
-							<IoMdArrowDropright size={16} />
-							<span>{workspace.name}</span>
-						</GroupHeader>
-						<GroupList $open={isOpen}>
-							{channels.map((channel) => (
-								<GroupItem key={channel._id}>
-									<a href={`/workspace/${workspace.id}/${channel._id}`}>
-										{channel.name}
-									</a>
-								</GroupItem>
-							))}
-							<AddChatStyle onClick={onOpenCreateChat}>
-								<GoPlus />
-								<span>Add Room</span>
-							</AddChatStyle>
-						</GroupList>
-					</Group>
-				);
-			})}
+			{workspaces.map((workspace) => (
+				<RoomsGroup
+					key={workspace.id}
+					workspace={workspace}
+					isOpen={openGroups[workspace.id] ?? false}
+					onToggle={() => toggleGroup(workspace.id)}
+					onAddRoom={() => handleAddRoomClick(workspace.id)}
+				/>
+			))}
 		</SidebarWrapper>
 	);
 }

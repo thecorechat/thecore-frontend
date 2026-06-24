@@ -4,7 +4,8 @@ import { LuLogOut } from "react-icons/lu";
 import { MdBlock } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Avatar } from "../../ui/Avatar/Avatar";
 import Button from "../../ui/Button/Button";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
@@ -91,7 +92,7 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
 		handleGetInfo();
 	}, [handleGetInfo]);
 
-	console.log(userInfo);
+	// console.log(userInfo);
 	return (
 		<MyProfileStyle $open={isOpen}>
 			<div>
