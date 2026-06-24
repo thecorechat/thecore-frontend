@@ -77,6 +77,7 @@ export const Image = styled.img`
   background-size: contain;
   background-position: 50%;
   border-radius: 8px;
+  object-fit: cover;
 `;
 
 export const InputWrapper = styled.div`
@@ -100,9 +101,39 @@ export const InputStyle = styled.input`
   transition: 0.2s;
   height: 48px;
 
+${(props) => props.$error && `border: 1px solid var(--system-error);`}
+  ${(props) => props.$success && `border: 1px solid var(--success-70);`}
+
   &:focus {
-    border-color: #8a5cff;
     outline: none;
     background-color: var(--gray-0);
+    ${(props) => !props.$error && !props.$success && `border-color: #8a5cff;`}
+    ${(props) => props.$error && `border-color: var(--system-error);`}
+    ${(props) => props.$success && `border-color: var(--success-70);`}
+`;
+
+export const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  // margin-bottom: 1rem;
+  position: relative;
+`;
+
+export const IconBox = styled.div`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-40%);
+  cursor: pointer;
+  color: var(--gray-50);
+  transition: 0.5s;
+  &:hover {
+    color: var(--gray-70);
+    transition: 0.5s;
   }
+`;
+
+export const ErrorMessage = styled.span`
+  color: var(--system-error);
+  font-size: 14px;
 `;

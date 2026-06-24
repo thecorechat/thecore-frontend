@@ -58,14 +58,14 @@ export const InputStyle = styled.input`
   height: 64px;
   width: 64px;
   ${(props) =>
-		props.$error &&
-		`
+    props.$error &&
+    `
       border: 1px solid var(--system-error);
     `}
 
   ${(props) =>
-		props.$success &&
-		`
+    props.$success &&
+    `
       border: 1px solid var(--success-70);
     `}
 
@@ -152,12 +152,32 @@ export const ErrorMessage = styled.span`
   font-size: 14px;
 `;
 
-export const Link = styled.a`
+export const Link = styled.button`
   font-family: Satoshi;
+  font-size: 16px;
   font-weight: 500;
   line-height: 130%;
   text-decoration-line: underline;
   color: var(--primary-60);
+
+  margin-left: 5px;
+
+  ${(props) =>
+    props.disabled &&
+    `
+    color: var(--gray-40);
+    cursor: not-allowed;
+    pointer-events: none;
+  `}
+`;
+
+export const TimerText = styled.span`
+  display: inline-block;
+  width: 30px;
+  font-family: Satoshi;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 130%;
 
   margin-left: 5px;
 `;
