@@ -24,7 +24,7 @@ const CODE_LENGTH = 4;
 function VerifyCode() {
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting },
   } = useForm();
   const { state } = useLocation();
   const navigate = useNavigate();

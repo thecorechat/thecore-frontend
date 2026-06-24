@@ -60,13 +60,14 @@ export const Text = styled.p`
   color: var(--gray-0);
 `;
 
-export const Link = styled.a`
+export const Link = styled.button`
   /* Small Text */
 
   font-family: Satoshi;
   font-weight: 500;
   line-height: 130%;
   text-decoration-line: underline;
+  color: var(--gray-0);
 `;
 
 export const ButtonBlock = styled.div`

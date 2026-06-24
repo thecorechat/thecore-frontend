@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { socket } from "../../../helper/socket";
 import ChatHeader from "../../components/ChatHeader/ChatHeader";
 import MessageBar from "../../components/MessageBar/MessageBar";
@@ -9,6 +9,19 @@ import { ChatContainerStyle } from "./ChatContainer.styled";
 const ChatContainer = () => {
 	const [showUserProfile, setShowUserProfile] = useState(false);
 	const [realMessages, setRealMessages] = useState([]);
+	const ref = useRef(null);
+
+	// useEffect(() => {
+	// 	ref.current?.scrollIntoView({ behavior: "smooth" });
+	// }, [realMessages]);
+
+	// useEffect(() => {
+	// 	ref.current?.scrollIntoView({ behavior: "instant" });
+	// }, []);
+	useEffect(() => {
+		const container = ref.current;
+		container.scrollTop = container.scrollHeight;
+	}, []);
 
 	useEffect(() => {
 		socket.on("receive_message", (newMessage) => {
@@ -20,17 +33,29 @@ const ChatContainer = () => {
 		};
 	}, []);
 
-	const handleSendMessage = (text) => {
+	const handleSendMessage = (text, files) => {
 		const newMessage = {
 			_id: Date.now().toString(),
 			name: "Peter Parker",
 			message: text,
+			// file: file ? URL.createObjectURL(file) : null,
+			files: files.map((file) => ({
+				url: URL.createObjectURL(file),
+				name: file.name,
+				size: file.size,
+				type: file.type,
+			})),
 			createdAt: new Date().toISOString(),
 		};
 
 		socket.emit("send_message", newMessage);
 
 		setRealMessages((prev) => [...prev, newMessage]);
+
+		setTimeout(() => {
+			const container = ref.current;
+			container.scrollTop = container.scrollHeight;
+		}, 50);
 	};
 
 	useEffect(() => {
@@ -48,6 +73,7 @@ const ChatContainer = () => {
 			socket.off("message_liked");
 		};
 	}, []);
+
 	const handleLikeMessage = (messageId) => {
 		socket.emit("like_message", { messageId });
 
@@ -73,8 +99,9 @@ const ChatContainer = () => {
 					messages={realMessages}
 					onOpenUserProfile={() => setShowUserProfile(true)}
 					onLikeMessage={handleLikeMessage}
+					ref={ref}
 				/>
-				<MessageBar onSend={handleSendMessage} />
+				<MessageBar onSend={handleSendMessage} containerRef={ref} />
 			</ChatContainerStyle>
 
 			{showUserProfile && (

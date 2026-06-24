@@ -71,7 +71,8 @@ function SignInPage() {
 				});
 			} else {
 				toast.update(toastId, {
-					render: result.message || "Authorization error",
+					// render: result.message || "Email or password is incorrect",
+					render: "Email or password is incorrect",
 					type: "error",
 					isLoading: false,
 					autoClose: 3000,

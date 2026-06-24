@@ -5,7 +5,7 @@ export const MessageContainerStyle = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
-  padding-x: 2rem;
+  /* padding-x: 2rem; */
   width: 100%;
 
   /* from 768px */
@@ -36,9 +36,12 @@ export const MessagesList = styled.div`
 export const ChatWrapper = styled.div`
   display: flex;
   flex: 1;
-  margin-bottom: 1rem;
+  
+  &:not(:last-child){
+    margin-bottom: 1rem;
+  }
 
-  ${({ isOwner }) =>
+  ${(isOwner) =>
 		isOwner
 			? css`
           justify-content: flex-end;
@@ -62,6 +65,12 @@ export const Avatar = styled.div`
   overflow: hidden;
 `;
 
+export const ChatContainer = styled.div`
+ &:not(:last-child){
+    margin-bottom: 15px;
+  }
+`;
+
 export const ChatHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -83,19 +92,19 @@ export const ChatTime = styled.time`
 
 export const ChatBubble = styled.div`
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  ${({ isOwner }) =>
+word-break: break-word;
+  max-width: 500px;
+  margin-bottom: 6px;
+  border-radius: 0.5rem 0 0.5rem 0.5rem;
+  ${(isOwner) =>
 		isOwner
 			? css`
           background: var(--primary-60);
           color: var(--gray-0);
-          border-radius: 0.5rem 0 0.5rem 0.5rem;
         `
 			: css`
           background: var(--gray-10);
           color: var(--gray-100);
-          border-radius: 0 0.5rem 0.5rem 0.5rem;
         `}
 `;
 
@@ -129,4 +138,54 @@ export const Like = styled.div`
   border: 1px solid var(--gray-20);
   border-radius: 10px;
   cursor: pointer;
+`;
+
+export const FileList = styled.ul`
+  margin-bottom: 6px;
+`;
+
+export const FileItem = styled.li`
+&:not(:last-child){
+  margin-bottom: 6px;
+}
+`;
+
+export const FileContainer = styled.div`
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  border: 1px solid var(--gray-20);
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+export const FileIconContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+width: 32px;
+height: 32px;
+padding: 4px;
+border-radius: 100px;
+background: var(--Primary-10, #D1E9FF);
+`;
+
+export const FileIcon = styled.svg`
+  width: 18px;
+height: 18px;
+`;
+
+export const FileName = styled.p`
+color: var(--Gray-100, #18181A);
+
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 4px;
+`;
+
+export const FileSize = styled.p`
+color: var(--Gray-70, #686970);
+
+font-size: 14px;
+font-weight: 500;
 `;

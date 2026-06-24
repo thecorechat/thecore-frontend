@@ -13,7 +13,7 @@ export const ChatContainerStyle = styled.div`
   /* from 768px */
   @media (min-width: 768px) {
     display: flex;
-    // position: static;
+    position: static;
     flex: 1;
   }
 `;
