@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+// import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import StateProtectedRoute from "../components/StateProtectedRoute/StateProtectedRoute";
 import { workspaceRoutes } from "./workspaceRoutes";
 
@@ -13,7 +13,7 @@ const VerifyCode = lazy(() => import("../pages/VerifyCodePage/VerifyCodePage"));
 const ChangePassword = lazy(
 	() => import("../pages/ChangePasswordPage/ChangePasswordPage"),
 );
-const Chat = lazy(() => import("../pages/ChatPage/ChatPage"));
+// const Chat = lazy(() => import("../pages/ChatPage/ChatPage"));
 const CreateAccount = lazy(
 	() => import("../pages/CreateAccountPage/CreateAccountPage"),
 );

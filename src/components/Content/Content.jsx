@@ -5,26 +5,26 @@ import { GoPlus } from "react-icons/go";
 import { useSearchParams } from "react-router-dom";
 
 import WorkspaceList from "../../module/workspace/components/WorkspaceList/WorkspaceList";
+import { WorkspaceModalEnum } from "../../shared/constants/routes";
 import Button from "../../ui/Button/Button";
 import { SidebarProvider } from "../SidebarRail/SidebarProvider";
+import { AddButtonStyle } from "./Content.styled";
 
-import { AddButtonStyle, AddChatStyle } from "./Content.styled";
-
-const Content = ({ onOpenCreateChat }) => {
+const Content = () => {
 	const [, setSearchParams] = useSearchParams();
 
-	const handleOpenCreateChat = () => {
-		setSearchParams({ modal: "setup" });
+	const handleOpenCreateWorkspace = () => {
+		setSearchParams({ modal: WorkspaceModalEnum.SETUP }, { replace: true });
 	};
 
 	return (
 		<SidebarProvider>
 			<AddButtonStyle>
-				<Button onClick={handleOpenCreateChat} width="48px" height="48px">
+				<Button onClick={handleOpenCreateWorkspace} width="48px" height="48px">
 					<GoPlus size={24} />
 				</Button>
 			</AddButtonStyle>
-			<WorkspaceList onOpenCreateChat={onOpenCreateChat} />
+			<WorkspaceList />
 			{/* <SidebarWrapper>
 				<SidebarRail />
 				{sidebar.navMain.map((group) => {

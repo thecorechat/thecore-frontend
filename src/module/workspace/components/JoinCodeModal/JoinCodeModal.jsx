@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { WorkspaceModalEnum } from "../../../../shared/constants/routes";
 import Button from "../../../../ui/Button/Button";
 import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
-import { useCreateWorkspace } from "../../hooks/useCreateWorkspace";
+import { useJoinCode } from "../../hooks/useJoinCode";
 import {
 	Background,
 	Bottom,
@@ -16,22 +17,22 @@ import {
 	Label,
 	Title,
 	TitleBox,
-} from "./CreateWorkspace.styled";
+} from "./JoinCodeModal.styled";
 
-function CreateWorkspace() {
+function JoinCode() {
 	const [, setSearchParams] = useSearchParams();
-	const [name, setName] = useState("");
+	const [code, setCode] = useState("");
 
-	const { mutate: createWorkspace, isPending } = useCreateWorkspace();
+	const { mutate: joinCode, isPending } = useJoinCode();
 
 	const handleBackClick = () => {
-		setSearchParams({ modal: "setup" });
+		setSearchParams({ modal: WorkspaceModalEnum.SETUP }, { replace: true });
 	};
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (name.trim()) {
-			createWorkspace(name.trim(), {
+		if (code.trim()) {
+			joinCode(code.trim(), {
 				onSuccess: () => {
 					setSearchParams({}, { replace: true });
 				},
@@ -44,7 +45,7 @@ function CreateWorkspace() {
 			<Content>
 				<HeaderBack onClick={handleBackClick} />
 				<TitleBox>
-					<Title>Create Space</Title>
+					<Title>Join a Space</Title>
 				</TitleBox>
 
 				<form
@@ -55,21 +56,21 @@ function CreateWorkspace() {
 					<ContentForm>
 						<InputContent>
 							<InputWrapper>
-								<Label>Space name</Label>
+								<Label>Invite code</Label>
 								<InputBox>
 									<InputStyle
 										type="text"
-										placeholder="Enter space name"
-										value={name}
-										onChange={(e) => setName(e.target.value)}
+										placeholder="Enter invite code"
+										value={code}
+										onChange={(e) => setCode(e.target.value)}
 									/>
 								</InputBox>
 							</InputWrapper>
 						</InputContent>
 						<Bottom>
 							<ButtonBlock>
-								<Button type="submit" nonactive={!name.trim() || isPending}>
-									{isPending ? "Creating..." : "Continue"}
+								<Button type="submit" nonactive={!code.trim() || isPending}>
+									{isPending ? "Joining..." : "Continue"}
 								</Button>
 							</ButtonBlock>
 						</Bottom>
@@ -80,4 +81,4 @@ function CreateWorkspace() {
 	);
 }
 
-export default CreateWorkspace;
+export default JoinCode;
