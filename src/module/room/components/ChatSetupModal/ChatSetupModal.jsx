@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { IoClose } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
 import Radio, {
 	RadioGroup,
 } from "../../../../components/RadioSelect/RadioSelect";
 import { ChatModalEnum } from "../../../../shared/constants/routes";
 import Button from "../../../../ui/Button/Button";
-import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
+// import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
 import {
 	Background,
 	Bottom,
@@ -31,12 +32,16 @@ function RoomSetupModal() {
 		sessionStorage.setItem(STORAGE_KEY, e.target.value);
 	}
 
-	const handleBackClick = () => {
-		setSearchParams((prev) => {
-			prev.set("modal", ChatModalEnum.MAIN_SETUP);
-			prev.delete("type");
-			return prev;
-		});
+	// const handleBackClick = () => {
+	// 	setSearchParams((prev) => {
+	// 		prev.set("modal", ChatModalEnum.MAIN_SETUP);
+	// 		prev.delete("type");
+	// 		return prev;
+	// 	});
+	// };
+
+	const handleClose = () => {
+		setSearchParams({}, { replace: true });
 	};
 
 	function handleSubmit(e) {
@@ -55,7 +60,25 @@ function RoomSetupModal() {
 	return (
 		<Background>
 			<Content>
-				<HeaderBack onClick={handleBackClick}>Create {roomType}</HeaderBack>
+				{/* <HeaderBack onClick={handleBackClick}>Create {roomType}</HeaderBack> */}
+				<button
+					type="button"
+					onClick={handleClose}
+					style={{
+						position: "absolute",
+						top: "20px",
+						left: "20px",
+						background: "none",
+						border: "none",
+						cursor: "pointer",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "4px",
+					}}
+				>
+					<IoClose size={24} color="#555" />
+				</button>
 
 				<TitleBox>
 					<Title>Choose type</Title>

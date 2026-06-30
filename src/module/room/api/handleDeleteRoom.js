@@ -12,6 +12,15 @@ export const handleDeleteRoom = async (workspaceId, roomId) => {
 			.replace("{workspaceId}", workspaceId)
 			.replace("{roomId}", roomId)}`;
 
+		console.log(
+			"[deleteRoom] url:",
+			url,
+			"| workspaceId:",
+			workspaceId,
+			"| roomId:",
+			roomId,
+		);
+
 		const response = await axios.delete(url, {
 			headers: {
 				Authorization: `Bearer ${token}`,
