@@ -13,7 +13,6 @@ export const endpoints = {
 		create_room: "/workspaces/{workspaceId}/rooms",
 		delete_room: "/workspaces/{workspaceId}/rooms/{roomId}",
 		my_rooms: "/workspaces/{workspaceId}/rooms",
-		invite_user: "/workspaces/{workspaceId}/rooms/{roomId}/invite",
 		add_member: "/workspaces/{workspaceId}/rooms/{roomId}/members",
 		room_info: "/workspaces/{workspaceId}/rooms/{roomId}",
 		remove_member:

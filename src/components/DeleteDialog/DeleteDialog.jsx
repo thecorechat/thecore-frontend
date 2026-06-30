@@ -7,7 +7,7 @@ import {
 	DeleteDialogFooter,
 } from "./DeleteDialog.styled";
 
-export function DeleteDialog({ onCancel, onConfirm }) {
+export function DeleteDialog({ onCancel, onConfirm, roomName, isPending }) {
 	const deleteRef = useRef(null);
 
 	useEffect(() => {
@@ -23,11 +23,15 @@ export function DeleteDialog({ onCancel, onConfirm }) {
 	return (
 		<DeleteDialogContainer>
 			<DeleteDialogContent ref={deleteRef}>
-				<h2>Delete chat?</h2>
+				<h2>Delete {roomName ? `"${roomName}"` : "chat"}?</h2>
 				<p>This will permanently delete the chat</p>
 				<DeleteDialogFooter>
-					<ButtonCancel onClick={onCancel}>Cancel</ButtonCancel>
-					<ButtonDelete onClick={onConfirm}>Delete</ButtonDelete>
+					<ButtonCancel disabled={isPending} onClick={onCancel}>
+						Cancel
+					</ButtonCancel>
+					<ButtonDelete disabled={isPending} onClick={onConfirm}>
+						{isPending ? "Deleting…" : "Delete"}
+					</ButtonDelete>
 				</DeleteDialogFooter>
 			</DeleteDialogContent>
 		</DeleteDialogContainer>
