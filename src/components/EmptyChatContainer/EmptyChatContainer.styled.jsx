@@ -7,6 +7,7 @@ export const EmptyChatContainerStyle = styled.div`
   align-items: center;
   justify-content: center;
   transition: all 1s ease;
+  // background-color: #1570ef;
 
   /* from 768px */
   @media (min-width: 768px) {

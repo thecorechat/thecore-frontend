@@ -3,10 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiTrash } from "react-icons/fi";
-import { GoMute, GoUnmute } from "react-icons/go";
+// import { GoMute, GoUnmute } from "react-icons/go";
 import { IoMdSearch } from "react-icons/io";
 import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import icon from "../../assets/icons/sprite.svg";
+import { useAddFavourite } from "../../module/favourite/hooks/useAddFavourite";
+import { useDeleteFavourite } from "../../module/favourite/hooks/useDeleteFavourite";
+import { useGetFavourites } from "../../module/favourite/hooks/useGetFavourites";
+import { useActiveRoom } from "../../module/room/context/ActiveRoomContext";
+import { useDeleteRoom } from "../../module/room/hooks/useDeleteRoom";
 import { DeleteDialog } from "../DeleteDialog/DeleteDialog";
 import {
 	Dots,
@@ -24,11 +29,28 @@ import {
 
 export const DropdownMenuDemo = ({ onSearchClick }) => {
 	const [open, setOpen] = useState(false);
-	const [isFavorite, setIsFavorite] = useState(false);
-	const [isMuted, setIsMuted] = useState(false);
-
+	// const [isMuted, setIsMuted] = useState(false);
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const ref = useRef(null);
+
+	const { activeRoom, setActiveRoom } = useActiveRoom();
+
+	const { data: favourites = [] } = useGetFavourites();
+
+	const { mutate: addFavourite, isPending: isAddingFav } = useAddFavourite();
+	const { mutate: removeFavourite, isPending: isRemovingFav } =
+		useDeleteFavourite();
+	const { mutate: deleteRoom, isPending: isDeleting } = useDeleteRoom(
+		activeRoom?.workspaceId,
+	);
+
+	const isFavouritePending = isAddingFav || isRemovingFav;
+
+	const isFavourited = favourites.some((/** @type {any} */ fav) => {
+		const favRoomId =
+			fav.roomId ?? fav.room?._id ?? fav.room?.id ?? fav._id ?? fav.id;
+		return favRoomId === activeRoom?.roomId;
+	});
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -40,17 +62,36 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
-	const handleToggleFavorite = () => {
-		setIsFavorite((prev) => !prev);
+	const handleToggleFavourite = () => {
+		if (!activeRoom) return;
+		if (isFavourited) {
+			removeFavourite(activeRoom.roomId);
+		} else {
+			addFavourite(activeRoom.roomId);
+		}
 	};
 
-	const handleToggleMute = () => {
-		setIsMuted((prev) => !prev);
-	};
+	// const handleToggleMute = () => {
+	// 	setIsMuted((prev) => !prev);
+	// 	setOpen(false);
+	// };
 
 	const handleDeleteChat = () => {
 		setShowDeleteDialog(true);
 		setOpen(false);
+	};
+
+	const handleConfirmDelete = () => {
+		if (!activeRoom) return;
+		deleteRoom(
+			{ roomId: activeRoom.roomId },
+			{
+				onSuccess: () => {
+					setShowDeleteDialog(false);
+					setActiveRoom(null);
+				},
+			},
+		);
 	};
 
 	return (
@@ -65,17 +106,24 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
 				{open && (
 					<Menu>
 						<Group>
-							<Item onClick={handleToggleMute}>
+							{/* <Item onClick={handleToggleMute}>
 								{isMuted ? <GoMute /> : <GoUnmute />}
 								{isMuted ? "Unmute notifications" : "Mute notifications"}
-							</Item>
+							</Item> */}
 							<Item onClick={onSearchClick}>
 								<IoMdSearch />
 								Search
 							</Item>
-							<Item onClick={handleToggleFavorite}>
-								{isFavorite ? <MdFavorite /> : <MdOutlineFavoriteBorder />}
-								{isFavorite ? "Remove from favorites" : "Add to favorite chats"}
+							<Item
+								disabled={isFavouritePending}
+								onClick={handleToggleFavourite}
+							>
+								{isFavourited ? <MdFavorite /> : <MdOutlineFavoriteBorder />}
+								{isFavouritePending
+									? "Saving…"
+									: isFavourited
+										? "Remove from favorites"
+										: "Add to favorite chats"}
 							</Item>
 							<Item onClick={handleDeleteChat}>
 								<FiTrash />
@@ -88,10 +136,10 @@ export const DropdownMenuDemo = ({ onSearchClick }) => {
 
 			{showDeleteDialog && (
 				<DeleteDialog
+					roomName={activeRoom?.name}
+					isPending={isDeleting}
 					onCancel={() => setShowDeleteDialog(false)}
-					onConfirm={() => {
-						setShowDeleteDialog(false);
-					}}
+					onConfirm={handleConfirmDelete}
 				/>
 			)}
 		</>

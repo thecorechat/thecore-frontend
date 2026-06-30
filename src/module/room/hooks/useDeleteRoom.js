@@ -11,6 +11,7 @@ export const useDeleteRoom = (workspaceId) => {
 
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["rooms", workspaceId] });
+			queryClient.invalidateQueries({ queryKey: ["favourites"] });
 			toast.success("Room deleted successfully!");
 		},
 

@@ -6,6 +6,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { SlOptions } from "react-icons/sl";
 import { useDeleteWorkspace } from "../../../workspace/hooks/useDeleteWorkspace";
 import { handleGetRoomInfo } from "../../api/handleGetRoomInfo";
+import { useActiveRoom } from "../../context/ActiveRoomContext";
 import { useGetRooms } from "../../hooks/useGetRooms";
 import RoomMenuModal from "../RoomMenuModal/RoomMenuModal";
 import {
@@ -25,6 +26,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 	const { data: rooms = [] } = useGetRooms(workspace.id);
 	const [activeRoom, setActiveRoom] = useState(null);
 	const queryClient = useQueryClient();
+	const { setActiveRoom: setGlobalRoom } = useActiveRoom();
 
 	const handlePrefetchRoomInfo = (roomId) => {
 		queryClient.prefetchQuery({
@@ -96,7 +98,18 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 					{rooms.map((room) => (
 						<GroupItem key={room._id}>
 							<RoomRow>
-								<a href={`/workspace/${workspace.id}/${room._id}`}>
+								<a
+									href={`/workspace/${workspace.id}/${room._id}`}
+									onClick={(e) => {
+										e.preventDefault();
+										setGlobalRoom({
+											roomId: room._id ?? room.id,
+											workspaceId: workspace.id,
+											name: room.name,
+											type: room.type,
+										});
+									}}
+								>
 									{room.name}
 								</a>
 								<DotsButton
