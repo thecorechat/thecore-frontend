@@ -4,6 +4,7 @@ import { GoPlus } from "react-icons/go";
 
 import { useSearchParams } from "react-router-dom";
 
+import FavouriteList from "../../module/favourite/components/FavouriteList/FavouriteList";
 import WorkspaceList from "../../module/workspace/components/WorkspaceList/WorkspaceList";
 import { WorkspaceModalEnum } from "../../shared/constants/routes";
 import Button from "../../ui/Button/Button";
@@ -24,6 +25,7 @@ const Content = () => {
 					<GoPlus size={24} />
 				</Button>
 			</AddButtonStyle>
+			<FavouriteList />
 			<WorkspaceList />
 			{/* <SidebarWrapper>
 				<SidebarRail />

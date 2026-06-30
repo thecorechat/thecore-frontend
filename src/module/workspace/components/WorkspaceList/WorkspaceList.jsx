@@ -1,19 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ChatModalEnum } from "../../../../shared/constants/routes";
 import RoomsGroup from "../../../room/components/RoomsGroup/RoomsGroup";
-import { handleGetMyWorkspaces } from "../../api/handleGetMyWorkspaces";
+import { useGetMyWorkspaces } from "../../hooks/useGetMyWorkspaces";
 import { SidebarWrapper } from "./WorkspaceList.styled";
 
 function WorkspaceList() {
 	const [, setSearchParams] = useSearchParams();
 	const [openGroups, setOpenGroups] = useState({});
 
-	const { data: workspaces = [], isLoading } = useQuery({
-		queryKey: ["workspaces"],
-		queryFn: handleGetMyWorkspaces,
-	});
+	const { data: workspaces = [], isLoading } = useGetMyWorkspaces();
 
 	const toggleGroup = (id) => {
 		setOpenGroups((prev) => ({
@@ -24,7 +20,7 @@ function WorkspaceList() {
 
 	const handleAddRoomClick = (workspaceId) => {
 		setSearchParams((prev) => {
-			prev.set("modal", ChatModalEnum.MAIN_SETUP);
+			prev.set("modal", ChatModalEnum.SETUP);
 			prev.set("workspaceId", workspaceId);
 			return prev;
 		});

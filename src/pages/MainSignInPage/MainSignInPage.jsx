@@ -46,8 +46,7 @@ function MainSignIn() {
 					</ButtonBlock>
 
 					<Text>
-						By continuing, you agree to the{" "}
-						<Link>Terms of Service</Link>
+						By continuing, you agree to the <Link>Terms of Service</Link>
 						<br /> and <Link href="#">Privacy Policy</Link>.
 					</Text>
 				</Bottom>

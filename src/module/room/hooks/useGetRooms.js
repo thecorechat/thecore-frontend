@@ -9,5 +9,6 @@ export const useGetRooms = (workspaceId) => {
 		queryKey: ["rooms", workspaceId],
 		queryFn: () => handleGetRooms(workspaceId),
 		enabled: !!token && !!workspaceId,
+		staleTime: 5 * 60 * 1000,
 	});
 };
