@@ -63,6 +63,7 @@ const getUserName = (/** @type {any} */ raw) => {
 
 function RoomMenuModal({ room, workspaceId, onClose }) {
 	const roomId = room._id ?? room.id;
+	const isDirect = room.type?.toUpperCase() === "DIRECT";
 
 	const [showInvite, setShowInvite] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -176,55 +177,59 @@ function RoomMenuModal({ room, workspaceId, onClose }) {
 
 					<Divider />
 
-					<ActionButton onClick={() => setShowInvite((v) => !v)}>
-						<MdOutlinePersonAdd size={18} />
-						Invite User
-					</ActionButton>
+					{!isDirect && (
+						<>
+							<ActionButton onClick={() => setShowInvite((v) => !v)}>
+								<MdOutlinePersonAdd size={18} />
+								Invite User
+							</ActionButton>
 
-					{showInvite && (
-						<InviteSection>
-							<SearchInput
-								placeholder="Search by first or last name…"
-								value={searchQuery}
-								onChange={(e) => handleSearch(e.target.value)}
-								autoFocus
-							/>
-							{isSearching && <SearchHint>Searching…</SearchHint>}
-							{!isSearching &&
-								searchQuery.length >= 2 &&
-								searchResults.length === 0 && (
-									<SearchHint>No users found</SearchHint>
-								)}
-							{searchResults.length > 0 && (
-								<UserList>
-									{searchResults.map((raw) => {
-										const userId = getUserId(raw);
-										const name = getUserName(raw);
-										return (
-											<UserItem key={userId}>
-												<span>{name}</span>
-												<InviteBtn
-													disabled={invitedIds.has(userId) || isInviting}
-													onClick={() => handleInvite(userId)}
-												>
-													{invitedIds.has(userId)
-														? "Invited"
-														: isInviting && invitingUserId === userId
-															? "Inviting…"
-															: "Invite"}
-												</InviteBtn>
-											</UserItem>
-										);
-									})}
-								</UserList>
+							{showInvite && (
+								<InviteSection>
+									<SearchInput
+										placeholder="Search by first or last name…"
+										value={searchQuery}
+										onChange={(e) => handleSearch(e.target.value)}
+										autoFocus
+									/>
+									{isSearching && <SearchHint>Searching…</SearchHint>}
+									{!isSearching &&
+										searchQuery.length >= 2 &&
+										searchResults.length === 0 && (
+											<SearchHint>No users found</SearchHint>
+										)}
+									{searchResults.length > 0 && (
+										<UserList>
+											{searchResults.map((raw) => {
+												const userId = getUserId(raw);
+												const name = getUserName(raw);
+												return (
+													<UserItem key={userId}>
+														<span>{name}</span>
+														<InviteBtn
+															disabled={invitedIds.has(userId) || isInviting}
+															onClick={() => handleInvite(userId)}
+														>
+															{invitedIds.has(userId)
+																? "Invited"
+																: isInviting && invitingUserId === userId
+																	? "Inviting…"
+																	: "Invite"}
+														</InviteBtn>
+													</UserItem>
+												);
+											})}
+										</UserList>
+									)}
+									{searchQuery.length < 2 && (
+										<SearchHint>Type at least 2 characters</SearchHint>
+									)}
+								</InviteSection>
 							)}
-							{searchQuery.length < 2 && (
-								<SearchHint>Type at least 2 characters</SearchHint>
-							)}
-						</InviteSection>
+
+							<Divider />
+						</>
 					)}
-
-					<Divider />
 
 					<DangerButton onClick={() => setShowConfirmDelete(true)}>
 						<MdOutlineDeleteOutline size={18} />
@@ -257,7 +262,7 @@ function RoomMenuModal({ room, workspaceId, onClose }) {
 						</ConfirmSection>
 					)}
 
-					{roomInfo?.roomMembers?.length > 0 && (
+					{!isDirect && roomInfo?.roomMembers?.length > 0 && (
 						<>
 							<Divider />
 							<MemberListSection>

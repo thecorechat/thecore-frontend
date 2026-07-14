@@ -17,6 +17,7 @@ export const endpoints = {
 		room_info: "/workspaces/{workspaceId}/rooms/{roomId}",
 		remove_member:
 			"/workspaces/{workspaceId}/rooms/{roomId}/members/{memberId}",
+		create_direct_room: "/workspaces/{workspaceId}/rooms/direct/{targetUserId}",
 	},
 	favourite: {
 		get_favourite: "/favourites",
@@ -24,6 +25,7 @@ export const endpoints = {
 		delete_favourite: "/favourites/{roomId}",
 	},
 	user: {
-		search: "/user/search",
+		search: "/user",
+		me: "/user/me",
 	},
 };

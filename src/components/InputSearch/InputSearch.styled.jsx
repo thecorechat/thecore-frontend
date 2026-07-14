@@ -45,3 +45,67 @@ export const StyledInput = styled.input`
     cursor: not-allowed;
   }
 `;
+
+export const ResultsDropdown = styled.div`
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+  overflow: hidden;
+`;
+
+export const SearchHint = styled.p`
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+  padding: 10px 12px;
+  text-align: center;
+`;
+
+export const UserList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+`;
+
+export const UserItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+export const MessageBtn = styled.button`
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: transparent;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  padding: 2px 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    background: #2563eb;
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;

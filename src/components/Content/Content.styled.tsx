@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const SidebarWrapper = styled.div`
-  height: 85vh;
-  border-right: 1px solid #e2e2e2;
+  flex: 1;
+  min-height: 0;
   background: white;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@ export const Group = styled.div`
   border-bottom: 1px solid #ececec;
 `;
 
-export const GroupHeader = styled.button`
+export const GroupHeader = styled.button<{ $open: boolean }>`
   width: 100%;
   background: transparent;
   gap: 0.25rem;
@@ -39,7 +39,7 @@ export const GroupHeader = styled.button`
   }
 `;
 
-export const GroupList = styled.ul`
+export const GroupList = styled.ul<{ $open: boolean }>`
   list-style: none;
   margin: 0;
   padding: ${({ $open }) => ($open ? "0.5rem 0 0.5rem 1.5rem" : "0")};
@@ -51,6 +51,9 @@ export const GroupList = styled.ul`
 export const GroupItem = styled.li`
   padding: 0.4rem 0;
   a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: #555;
     text-decoration: none;
     font-size: 0.8rem;
@@ -58,6 +61,18 @@ export const GroupItem = styled.li`
       color: #111;
     }
   }
+`;
+
+export const GroupItemAvatar = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #9ca3af;
+  flex-shrink: 0;
 `;
 
 export const AddChatStyle = styled.div`
