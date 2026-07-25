@@ -11,6 +11,6 @@ export default defineConfig({
 		}),
 	],
 	preview: {
-		allowedHosts: ["thecore-frontend.onrender.com"],
+		allowedHosts: ["thecore-frontend.onrender.com", "thecorechat.com"],
 	},
 });
