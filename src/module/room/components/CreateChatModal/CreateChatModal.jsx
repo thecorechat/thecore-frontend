@@ -56,7 +56,7 @@ function CreateChatModal() {
 						<InputBox>
 							<InputStyle
 								type="text"
-								// placeholder={"# Name your " + roomType}
+								placeholder={"# Name your " + roomType}
 								value={name}
 								onChange={(e) => setName(e.target.value)}
 							/>
