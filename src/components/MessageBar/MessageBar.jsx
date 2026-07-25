@@ -65,7 +65,7 @@ const MessageBar = ({ onSend, containerRef }) => {
 	const handleInput = (e) => {
 		e.preventDefault();
 		e.target.style.height = "22px";
-		e.target.style.height = e.target.scrollHeight + "px";
+		// e.target.style.height = e.target.scrollHeight + "px";
 
 		setTimeout(() => {
 			const container = containerRef.current;
