@@ -8,6 +8,7 @@ import { RouterProvider } from "./providers";
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<RouterProvider />
+
 		<ToastContainer
 			position="top-right"
 			autoClose={4000}

@@ -18,7 +18,7 @@ const MainChatHeader = ({ onSearchClick }) => {
 						<use href={`${icon}#icon-left`}></use>
 					</ReturnArrow>
 				</button>
-				<Avatar />
+				<Avatar userId={activeRoom.id} />
 				{activeRoom ? activeRoom.name : "Select a room"}
 			</ChatHeaderContainerLeftStyle>
 

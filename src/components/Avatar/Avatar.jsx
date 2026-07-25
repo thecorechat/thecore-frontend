@@ -40,9 +40,12 @@ export const Avatar = ({ onClick = () => {} }) => {
 			<ProfileImg src={userInfo?.avatarUrl} alt="Profile image" />
 		</ProfileImgContainerStyle>
 	) : (
-		<LogoBoxContactsContainerStyle onClick={onClick}>
-			<Circle />
-			<IoPersonOutline size={20} />
+		<LogoBoxContactsContainerStyle
+			onClick={onClick}
+			style={{ width: size, height: size }}
+		>
+			<Circle style={{ backgroundColor: circleColor }} />
+			<IoPersonOutline size={iconSize} />
 		</LogoBoxContactsContainerStyle>
 	);
 };
