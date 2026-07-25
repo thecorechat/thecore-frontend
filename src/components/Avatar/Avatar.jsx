@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { IoPersonOutline } from "react-icons/io5";
-import { usePresence } from "../../shared/context/usePresence";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import {
 	Circle,
 	LogoBoxContactsContainerStyle,
@@ -7,29 +8,36 @@ import {
 	ProfileImgContainerStyle,
 } from "./Avatar.styled";
 
-/**
- * @param {{ userId?: string | null, avatarUrl?: string | null, size?: string, iconSize?: string, onClick?: () => void }} props
- */
+export const Avatar = ({ onClick = () => {} }) => {
+	const [userInfo, setUserInfo] = useState(null);
 
-export const Avatar = ({
-	userId = null,
-	avatarUrl = null,
-	size,
-	iconSize = "20px",
-	onClick = () => {},
-}) => {
-	const { isUserOnline } = usePresence();
-	const isOnline = userId ? isUserOnline(userId) : false;
+	async function handleGetInfo() {
+		try {
+			const response = await fetchWithAuth(
+				"https://thecore-backend-nest.onrender.com/user/me",
+			);
 
-	const circleColor = isOnline ? "#7ff999" : "#98a2b3";
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message);
+			}
 
-	return avatarUrl ? (
-		<ProfileImgContainerStyle
-			onClick={onClick}
-			style={{ width: size, height: size }}
-		>
-			<Circle style={{ backgroundColor: circleColor }} />
-			<ProfileImg src={avatarUrl} alt="User avatar" />
+			const data = await response.json();
+			setUserInfo(data);
+			// console.log(data);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+
+	useEffect(() => {
+		handleGetInfo();
+	}, []);
+
+	return userInfo ? (
+		<ProfileImgContainerStyle onClick={onClick}>
+			<Circle />
+			<ProfileImg src={userInfo?.avatarUrl} alt="Profile image" />
 		</ProfileImgContainerStyle>
 	) : (
 		<LogoBoxContactsContainerStyle
