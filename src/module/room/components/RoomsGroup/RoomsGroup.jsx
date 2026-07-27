@@ -1,9 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { FiUserPlus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { IoMdArrowDropright } from "react-icons/io";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { SlOptions } from "react-icons/sl";
+import { useSearchParams } from "react-router-dom";
+import { WorkspaceModalEnum } from "../../../../shared/constants/routes";
 import { useDeleteWorkspace } from "../../../workspace/hooks/useDeleteWorkspace";
 import { handleGetRoomInfo } from "../../api/handleGetRoomInfo";
 import { useActiveRoom } from "../../context/ActiveRoomContext";
@@ -23,6 +26,7 @@ import {
 } from "./RoomsGroup.styled";
 
 function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
+	const [, setSearchParams] = useSearchParams();
 	const { data: allRooms = [] } = useGetRooms(workspace.id);
 	// DIRECT rooms are surfaced in their own "Direct messages" sidebar
 	// section (see DirectMessagesList), not nested under the workspace
@@ -52,6 +56,14 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 		});
 	};
 
+	const handleOpenInviteModal = (e) => {
+		e.stopPropagation();
+		setSearchParams({
+			modal: WorkspaceModalEnum.CREATE_INVITE,
+			workspaceId: workspace.id,
+		});
+	};
+
 	return (
 		<>
 			<Group>
@@ -60,7 +72,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 						<IoMdArrowDropright size={16} />
 						<span>{workspace.name}</span>
 					</GroupHeaderToggle>
-					<TrashButton
+					{/* <TrashButton
 						className="trash-btn"
 						type="button"
 						title="Delete workspace"
@@ -71,7 +83,30 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 						}}
 					>
 						<MdOutlineDeleteOutline size={15} />
-					</TrashButton>
+					</TrashButton> */}
+					<div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+						<TrashButton
+							className="trash-btn"
+							type="button"
+							title="Invite members"
+							onClick={handleOpenInviteModal}
+						>
+							<FiUserPlus size={14} />
+						</TrashButton>
+
+						<TrashButton
+							className="trash-btn"
+							type="button"
+							title="Delete workspace"
+							disabled={isDeleting}
+							onClick={(e) => {
+								e.stopPropagation();
+								setShowConfirm((v) => !v);
+							}}
+						>
+							<MdOutlineDeleteOutline size={15} />
+						</TrashButton>
+					</div>
 				</GroupHeader>
 
 				{showConfirm && (
