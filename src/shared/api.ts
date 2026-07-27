@@ -8,6 +8,8 @@ export const endpoints = {
 		get_all_members: "/workspace/{id}/members",
 		search_members: "/workspace/{id}/members/search",
 		delete_workspace: "/workspace/{id}",
+		create_group_invite: (id) => `/workspace/${id}/invite/group`,
+		create_personal_invite: (id) => `/workspace/${id}/invite/personal`,
 	},
 	room: {
 		create_room: "/workspaces/{workspaceId}/rooms",

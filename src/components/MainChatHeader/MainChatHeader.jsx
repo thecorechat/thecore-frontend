@@ -10,6 +10,17 @@ import {
 const MainChatHeader = ({ onSearchClick }) => {
 	const { activeRoom, setActiveRoom } = useActiveRoom();
 
+	if (!activeRoom) {
+		return (
+			<>
+				<ChatHeaderContainerLeftStyle>
+					Select a room
+				</ChatHeaderContainerLeftStyle>
+				<DropdownMenuDemo onSearchClick={onSearchClick} />
+			</>
+		);
+	}
+
 	return (
 		<>
 			<ChatHeaderContainerLeftStyle>
