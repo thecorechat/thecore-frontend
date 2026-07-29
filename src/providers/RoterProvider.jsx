@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { RouterProvider as ReactRouteProvider } from "react-router-dom";
 import { router } from "../routes";
+import { useAuthToken } from "../shared/stores/auth/tokenStore";
 import { PresenceProvider } from "./PresenceProvider";
 
 // Created once at module scope so the cache (and its persistence) survives
@@ -26,10 +27,11 @@ const persister = createAsyncStoragePersister({
 	key: "thecore-query-cache",
 });
 
-const token =
-	localStorage.getItem("token") || localStorage.getItem("accessToken");
+// const token =
+// 	localStorage.getItem("token") || localStorage.getItem("accessToken");
 
 export const RouterProvider = () => {
+	const token = useAuthToken();
 	return (
 		<PersistQueryClientProvider
 			client={queryClient}

@@ -21,6 +21,14 @@ const MainChatHeader = ({ onSearchClick }) => {
 		);
 	}
 
+	// Пытаемся найти через roomMembers, если бэкенд их передает
+
+	// Запасной вариант: если у вас в комнате приходит recipientId, userId или другие поля
+	const targetUserId = activeRoom.otherUserId;
+
+	console.log("Resolved targetUserId for Avatar:", targetUserId);
+	console.log("activeRoom.roomMembers:", activeRoom);
+
 	return (
 		<>
 			<ChatHeaderContainerLeftStyle>
@@ -29,7 +37,7 @@ const MainChatHeader = ({ onSearchClick }) => {
 						<use href={`${icon}#icon-left`}></use>
 					</ReturnArrow>
 				</button>
-				<Avatar userId={activeRoom.id} />
+				<Avatar userId={targetUserId} avatarUrl={activeRoom.avatarUrl} />
 				{activeRoom ? activeRoom.name : "Select a room"}
 			</ChatHeaderContainerLeftStyle>
 

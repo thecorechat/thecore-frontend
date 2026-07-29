@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { setToken } from "../../shared/stores/auth/tokenStore";
 import Button from "../../ui/Button/Button";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
@@ -55,7 +56,7 @@ function ForgotPassword() {
 				});
 
 				if (result.accessToken) {
-					localStorage.setItem("token", result.accessToken);
+					setToken(result.accessToken);
 				}
 
 				navigate("/verify", {

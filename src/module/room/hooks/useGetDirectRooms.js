@@ -8,8 +8,12 @@ const isDirect = (/** @type {any} */ room) =>
 // The backend's room-list response already includes the other participant
 // as `roomMembers[0]` for DIRECT rooms (self excluded, take: 1) — no need
 // for a separate per-room fetch to resolve the display name.
+
+const getOtherUser = (/** @type {any} */ room) =>
+	room.roomMembers?.[0]?.member?.user ?? null;
+
 const getDirectRoomName = (/** @type {any} */ room) => {
-	const user = room.roomMembers?.[0]?.member?.user;
+	const user = getOtherUser(room);
 	if (!user) return room.name;
 	if (user.firstName || user.lastName) {
 		return `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim();
@@ -23,6 +27,7 @@ const getDirectRoomName = (/** @type {any} */ room) => {
  * (the backend only stores an internal placeholder name for DIRECT rooms,
  * e.g. "direct-<memberId>-<memberId>").
  */
+
 export const useGetDirectRooms = () => {
 	const { data: workspaces = [], isPending: isWorkspacesPending } =
 		useGetMyWorkspaces();
@@ -38,12 +43,17 @@ export const useGetDirectRooms = () => {
 
 	const items = workspaces.flatMap((/** @type {any} */ workspace, index) => {
 		const rooms = /** @type {any[]} */ (roomListQueries[index]?.data) ?? [];
-		return rooms.filter(isDirect).map((room) => ({
-			roomId: room._id ?? room.id,
-			workspaceId: workspace.id,
-			type: room.type,
-			name: getDirectRoomName(room),
-		}));
+		return rooms.filter(isDirect).map((room) => {
+			const otherUser = getOtherUser(room);
+			return {
+				roomId: room._id ?? room.id,
+				workspaceId: workspace.id,
+				type: room.type,
+				name: getDirectRoomName(room),
+				otherUserId: otherUser?.id ?? null,
+				avatarUrl: otherUser?.avatarUrl ?? null,
+			};
+		});
 	});
 
 	const isLoading =

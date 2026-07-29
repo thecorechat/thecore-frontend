@@ -1,3 +1,5 @@
+import { setToken } from "../shared/stores/auth/tokenStore";
+
 export const refreshAccessToken = async () => {
 	const response = await fetch(
 		"https://thecore-backend-nest.onrender.com/auth/refresh",
@@ -15,6 +17,6 @@ export const refreshAccessToken = async () => {
 	}
 
 	const result = await response.json();
-	localStorage.setItem("token", result.accessToken);
+	setToken(result.accessToken);
 	return result.accessToken;
 };
