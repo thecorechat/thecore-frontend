@@ -59,6 +59,8 @@ const Content = () => {
 											workspaceId: room.workspaceId,
 											name: room.name,
 											type: room.type,
+											otherUserId: room.otherUserId,
+											avatarUrl: room.avatarUrl,
 										});
 									}}
 								>

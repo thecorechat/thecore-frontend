@@ -13,7 +13,7 @@ export const PresenceProvider = ({ children, token }) => {
 
 		const socket = io(SERVER_URL, {
 			auth: { token },
-			transports: ["websocket", "polling"],
+			transports: ["polling", "websocket"],
 		});
 
 		socket.on("connect", () => {
