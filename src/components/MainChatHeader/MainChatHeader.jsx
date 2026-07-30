@@ -1,12 +1,13 @@
-import { IoPersonOutline } from "react-icons/io5";
+// import { IoPersonOutline } from "react-icons/io5";
 import icon from "../../assets/icons/sprite.svg";
 // import { Avatar } from "../../components/Avatar/Avatar";
 import { useActiveRoom } from "../../module/room/context/ActiveRoomContext";
+import { Avatar } from "../Avatar/Avatar";
 import { DropdownMenuDemo } from "../DropDownMenu/DropDownMenu";
 import {
 	ChatHeaderContainerLeftStyle,
-	Circle,
-	LogoBoxContactsContainerStyle,
+	// Circle,
+	// LogoBoxContactsContainerStyle,
 	ReturnArrow,
 } from "./MainChatHeader.styled";
 
@@ -41,10 +42,10 @@ const MainChatHeader = ({ onSearchClick }) => {
 					</ReturnArrow>
 				</button>
 
-// 				<LogoBoxContactsContainerStyle>
-// 					<Circle />
-// 					<IoPersonOutline size={20} />
-// 				</LogoBoxContactsContainerStyle>
+				{/* <LogoBoxContactsContainerStyle>
+ 					<Circle />
+					<IoPersonOutline size={20} />
+ 				</LogoBoxContactsContainerStyle> */}
 
 				<Avatar userId={targetUserId} avatarUrl={activeRoom.avatarUrl} />
 
