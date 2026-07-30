@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
@@ -25,6 +26,7 @@ import { useForm } from "react-hook-form";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const EditProfile = ({ isOpen, onClose }) => {
+	const queryClient = useQueryClient();
 	const {
 		register,
 		watch,
@@ -93,6 +95,8 @@ const EditProfile = ({ isOpen, onClose }) => {
 				const error = await response.json();
 				throw new Error(error.message);
 			}
+
+			queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -119,6 +123,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 
 		const data = await response.json();
 		setFormData((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
+		queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 	};
 
 	return (
