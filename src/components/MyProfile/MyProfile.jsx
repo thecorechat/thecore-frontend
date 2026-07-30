@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { MdBlock } from "react-icons/md";
@@ -6,11 +6,11 @@ import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
 // import { ToastContainer, toast } from "react-toastify";
 import { toast } from "react-toastify";
+import { useGetCurrentUser } from "../../module/user/hooks/useGetCurrentUser";
 import { Avatar } from "../../ui/Avatar/Avatar";
 import Button from "../../ui/Button/Button";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import ToggleSwitch from "../../ui/ToggleSwitch/ToggleSwitch";
-import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import {
 	MyProfileStyle,
 	MyProfileStyleBodyCenter,
@@ -27,7 +27,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
-	const [userInfo, setUserInfo] = useState(null);
+	const { data: userInfo } = useGetCurrentUser();
 
 	const handleLogOutClick = async () => {
 		const toastId = toast.loading("Logging out...");
@@ -71,52 +71,6 @@ const MyProfile = ({ onOpenEditProfile, isOpen, onClose }) => {
 		}
 	};
 
-	// 	const handleGetInfo = useCallback(async () => {
-	//   try {
-	//     const response = await fetchWithAuth(
-	//       "https://backend-nest.onrender.com/user/me",
-	//     );
-
-	// 		if (!response.ok) {
-	// 			const error = await response.json();
-	// 			throw new Error(error.message);
-	// 		}
-
-	//     const data = await response.json();
-	//     setUserInfo(data);
-	//     console.log(data);
-	//   } catch (error) {
-	//     console.error(error.message);
-	//   }
-	// }, [])
-
-	// useEffect(() => {
-	// 	handleGetInfo();
-	// }, [handleGetInfo]);
-	useEffect(() => {
-		async function handleGetInfo() {
-			try {
-				const response = await fetchWithAuth(
-					"https://thecore-backend-nest.onrender.com/user/me",
-				);
-
-				if (!response.ok) {
-					const error = await response.json();
-					throw new Error(error.message);
-				}
-
-				const data = await response.json();
-				setUserInfo(data);
-				// console.log(data);
-			} catch (error) {
-				console.error(error.message);
-			}
-		}
-
-		handleGetInfo();
-	}, []);
-
-	// console.log(userInfo);
 	return (
 		<MyProfileStyle $open={isOpen}>
 			<div>
