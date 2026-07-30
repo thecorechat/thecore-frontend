@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PrivacyPolicy from "../../components/PrivacyPolicy/PrivacyPolicy";
+import TermsOfService from "../../components/TermsOfService/TermsOfService";
 import Button from "../../ui/Button/Button";
 import {
 	Background,
@@ -11,6 +14,9 @@ import {
 } from "./MainSignInPage.styled";
 
 function MainSignIn() {
+	const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+	const [isTermsOpen, setIsTermsOpen] = useState(false);
+
 	const navigate = useNavigate();
 	const handleSignInClick = () => {
 		navigate("/signin");
@@ -46,10 +52,21 @@ function MainSignIn() {
 					</ButtonBlock>
 
 					<Text>
-						By continuing, you agree to the <Link>Terms of Service</Link>
-						<br /> and <Link href="#">Privacy Policy</Link>.
+						By continuing, you agree to the{" "}
+						<Link onClick={() => setIsTermsOpen(true)}>Terms of Service</Link>
+						<br /> and{" "}
+						<Link onClick={() => setIsPrivacyOpen(true)}>Privacy Policy</Link>.
 					</Text>
 				</Bottom>
+
+				<PrivacyPolicy
+					isOpen={isPrivacyOpen}
+					onClose={() => setIsPrivacyOpen(false)}
+				/>
+				<TermsOfService
+					isOpen={isTermsOpen}
+					onClose={() => setIsTermsOpen(false)}
+				/>
 			</Content>
 		</Background>
 	);

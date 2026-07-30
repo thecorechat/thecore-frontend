@@ -18,6 +18,14 @@ export const endpoints = {
 		remove_member:
 			"/workspaces/{workspaceId}/rooms/{roomId}/members/{memberId}",
 	},
+	message: {
+		send_message: "/messages",
+		edit_message: "/messages/{id}",
+		delete_message: "/messages/{id}",
+		get_all_messages: "/messages/room/{roomId}",
+		get_last_message: "/messages/workspace/{workspaceId}",
+		upload_files: "/messages/upload",
+	},
 	favourite: {
 		get_favourite: "/favourites",
 		add_favourite: "/favourites/{roomId}",

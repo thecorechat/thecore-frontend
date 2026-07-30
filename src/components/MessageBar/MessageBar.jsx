@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { IoSend } from "react-icons/io5";
 // import { RiEmojiStickerLine } from "react-icons/ri";
 import icon from "../../assets/icons/sprite.svg";
+// import { useSearchParams } from "react-router-dom";
+// import { useSendMessage } from "../../module/messages/hooks/useSendMessage";
 import Button from "../../ui/Button/Button";
 import {
 	DropDownEmojiList,
@@ -80,6 +82,17 @@ const MessageBar = ({ onSend, containerRef }) => {
 	const handleAddFile = (e) => {
 		setFiles((prev) => [...prev, e.target.files[0]]);
 	};
+
+	const formData = new FormData();
+	formData.append("file", someFile);
+
+	fetch("https://thecore-backend-nest.onrender.com/messages/upload", {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${token}`, // якщо потрібна автентифікація
+		},
+		body: formData,
+	});
 
 	return (
 		<MessageBarMainContainerStyle>
@@ -160,7 +173,12 @@ const MessageBar = ({ onSend, containerRef }) => {
 					onChange={handleAddFile}
 				/>
 			</MessageBarSemiContainerStyle>
-			<Button onClick={handleSend} width="48px" height="48px">
+			<Button
+				onClick={handleSend}
+				// nonactive={isPending}
+				width="48px"
+				height="48px"
+			>
 				<IoSend size={20} />
 			</Button>
 		</MessageBarMainContainerStyle>

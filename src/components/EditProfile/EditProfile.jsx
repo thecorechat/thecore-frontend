@@ -57,7 +57,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 			}
 
 			const data = await response.json();
-			console.log(data);
+			// console.log(data);
 			const { avatarUrl, firstName, lastName, email, username } = data;
 
 			setFormData({ avatarUrl, firstName, lastName, email, username });

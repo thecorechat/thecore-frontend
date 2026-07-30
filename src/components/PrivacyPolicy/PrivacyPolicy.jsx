@@ -1,13 +1,10 @@
-import icon from "../../assets/icons/sprite.svg";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
+import { PrivacyContainer } from "./PrivacyPolicy.styled";
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy = ({ isOpen, onClose }) => {
 	return (
-		<>
-			<button type="button">
-				<svg aria-hidden="true">
-					<use href={`${icon}#icon-left`}></use>
-				</svg>
-			</button>
+		<PrivacyContainer $open={isOpen}>
+			<HeaderBack onClick={onClose} />
 			<h2>Privacy policy</h2>
 
 			<ul>
@@ -90,7 +87,7 @@ const PrivacyPolicy = () => {
 					</p>
 				</li>
 			</ul>
-		</>
+		</PrivacyContainer>
 	);
 };
 

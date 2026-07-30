@@ -96,10 +96,10 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 
 				<GroupList $open={isOpen}>
 					{rooms.map((room) => (
-						<GroupItem key={room._id}>
+						<GroupItem key={room.id}>
 							<RoomRow>
 								<a
-									href={`/workspace/${workspace.id}/${room._id}`}
+									href={`/workspace/${workspace.id}/${room.id}`}
 									onClick={(e) => {
 										e.preventDefault();
 										setGlobalRoom({
@@ -113,7 +113,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 									{room.name}
 								</a>
 								<DotsButton
-									onMouseEnter={() => handlePrefetchRoomInfo(room._id)}
+									onMouseEnter={() => handlePrefetchRoomInfo(room.id)}
 									onClick={(e) => {
 										e.preventDefault();
 										setActiveRoom(room);
