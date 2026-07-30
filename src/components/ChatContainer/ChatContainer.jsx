@@ -118,29 +118,29 @@ const ChatContainer = () => {
 		);
 	};
 
-	const uploadFile = async (file) => {
-		const token = localStorage.getItem("token");
-		const formData = new FormData();
-		formData.append("file", file); // якщо "file" не підійде — спробуємо іншу назву
+	// const uploadFile = async (file) => {
+	// 	const token = localStorage.getItem("token");
+	// 	const formData = new FormData();
+	// 	formData.append("file", file); // якщо "file" не підійде — спробуємо іншу назву
 
-		const response = await fetch(
-			"https://thecore-backend-nest.onrender.com/messages/upload",
-			{
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-				body: formData,
-			},
-		);
+	// 	const response = await fetch(
+	// 		"https://thecore-backend-nest.onrender.com/messages/upload",
+	// 		{
+	// 			method: "POST",
+	// 			headers: {
+	// 				Authorization: `Bearer ${token}`,
+	// 			},
+	// 			body: formData,
+	// 		},
+	// 	);
 
-		if (!response.ok) {
-			const errorData = await response.json().catch(() => null);
-			throw new Error(errorData?.message || "Upload failed");
-		}
+	// 	if (!response.ok) {
+	// 		const errorData = await response.json().catch(() => null);
+	// 		throw new Error(errorData?.message || "Upload failed");
+	// 	}
 
-		return response.json(); // очікуємо щось типу { fileUrl, fileType, fileName, fileSize }
-	};
+	// 	return response.json(); // очікуємо щось типу { fileUrl, fileType, fileName, fileSize }
+	// };
 	return (
 		<>
 			<ChatContainerStyle>
