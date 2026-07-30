@@ -25,11 +25,11 @@ const ChatContainer = () => {
 		if (messages) setRealMessages(messages);
 	}, [messages]);
 
-	// useEffect(() => {
-	// 	const container = ref.current;
-	// 	if (!container) return;
-	// 	container.scrollTop = container.scrollHeight;
-	// }, [realMessages]);
+	useEffect(() => {
+		const container = ref.current;
+		if (!container) return;
+		container.scrollTop = container.scrollHeight;
+	}, [realMessages]);
 
 	useEffect(() => {
 		if (!roomId) return;
