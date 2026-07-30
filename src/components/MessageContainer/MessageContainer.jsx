@@ -62,7 +62,7 @@ const MessageContainer = ({
 										Number(new Date(b.createdAt)),
 								)
 								.map((message) => (
-									// console.log(message),
+									console.log(message),
 									<ChatWrapper
 										key={message.id}
 										// isOwner={message.name === owner}
