@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { IoMdArrowDropright } from "react-icons/io";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useActiveRoom } from "../../../room/context/ActiveRoomContext";
+import { useGetDirectRooms } from "../../../room/hooks/useGetDirectRooms";
 import { useDeleteFavourite } from "../../hooks/useDeleteFavourite";
 import { useGetFavourites } from "../../hooks/useGetFavourites";
 import {
@@ -17,8 +19,15 @@ function FavouriteList() {
 	const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
 	const { data: favourites = [], isLoading } = useGetFavourites();
+	const { data: directRooms = [] } = useGetDirectRooms();
 	const { mutate: deleteFavourite, isPending: isDeleting } =
 		useDeleteFavourite();
+	const { setActiveRoom } = useActiveRoom();
+
+	const directRoomById = useMemo(
+		() => new Map(directRooms.map((room) => [room.roomId, room])),
+		[directRooms],
+	);
 
 	if (isLoading) return null;
 
@@ -42,7 +51,11 @@ function FavouriteList() {
 				{favourites.map((fav) => {
 					const room = fav.room ?? fav;
 					const roomId = fav.roomId ?? room._id ?? fav._id;
-					const workspaceId = room.workspaceId ?? fav.workspaceId;
+					const workspaceId =
+						room.workspaceId ?? room.workspace?.id ?? fav.workspaceId;
+					const isDirect = room.type?.toUpperCase() === "DIRECT";
+					const directRoom = isDirect ? directRoomById.get(roomId) : null;
+					const displayName = directRoom?.name || room.name || "Room";
 
 					return (
 						<>
@@ -51,8 +64,20 @@ function FavouriteList() {
 									href={
 										workspaceId ? `/workspace/${workspaceId}/${roomId}` : "#"
 									}
+									onClick={(e) => {
+										e.preventDefault();
+										if (!workspaceId) return;
+										setActiveRoom({
+											roomId,
+											workspaceId,
+											name: displayName,
+											type: room.type,
+											otherUserId: directRoom?.otherUserId ?? null,
+											avatarUrl: directRoom?.avatarUrl ?? null,
+										});
+									}}
 								>
-									{room.name ?? "Room"}
+									{displayName}
 								</a>
 								<button
 									type="button"
@@ -66,9 +91,7 @@ function FavouriteList() {
 
 							{pendingDeleteId === roomId && (
 								<FavouriteConfirmBox key={`confirm-${roomId}`}>
-									<p>
-										Remove &ldquo;{room.name ?? "Room"}&rdquo; from favourites?
-									</p>
+									<p>Remove &ldquo;{displayName}&rdquo; from favourites?</p>
 									<div className="confirm-buttons">
 										<button
 											type="button"
