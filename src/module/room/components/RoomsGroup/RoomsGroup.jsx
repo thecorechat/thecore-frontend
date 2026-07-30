@@ -136,6 +136,37 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 				)}
 
 				<GroupList $open={isOpen}>
+// 					{rooms.map((room) => (
+// 						<GroupItem key={room.id}>
+// 							<RoomRow>
+// 								<a
+// 									href={`/workspace/${workspace.id}/${room.id}`}
+// 									onClick={(e) => {
+// 										e.preventDefault();
+// 										setGlobalRoom({
+// 											roomId: room._id ?? room.id,
+// 											workspaceId: workspace.id,
+// 											name: room.name,
+// 											type: room.type,
+// 										});
+// 									}}
+// 								>
+// 									{room.name}
+// 								</a>
+// 								<DotsButton
+// 									onMouseEnter={() => handlePrefetchRoomInfo(room.id)}
+// 									onClick={(e) => {
+// 										e.preventDefault();
+// 										setActiveRoom(room);
+// 									}}
+// 									title="Room options"
+// 								>
+// 									<SlOptions size={12} />
+// 								</DotsButton>
+// 							</RoomRow>
+// 						</GroupItem>
+// 					))}
+
 					{rooms.map((room) => {
 						const roomId = room._id ?? room.id;
 						return (
@@ -169,6 +200,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 							</GroupItem>
 						);
 					})}
+
 					<AddChatStyle onClick={onAddRoom}>
 						<GoPlus />
 						<span>Add Chat</span>

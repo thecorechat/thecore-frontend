@@ -1,13 +1,10 @@
-import icon from "../../assets/icons/sprite.svg";
+import HeaderBack from "../../ui/HeaderBack/HeaderBack";
+import { TermsOfServiceContainer } from "./TermsOfService.styled";
 
-const TermsOfService = () => {
+const TermsOfService = ({ isOpen, onClose }) => {
 	return (
-		<>
-			<button type="button">
-				<svg aria-hidden="true">
-					<use href={`${icon}#icon-left`}></use>
-				</svg>
-			</button>
+		<TermsOfServiceContainer $open={isOpen}>
+			<HeaderBack onClick={onClose} />
 			<h2>Terms Of Service</h2>
 
 			<ul>
@@ -81,7 +78,7 @@ const TermsOfService = () => {
 					<p>For questions, contact [insert email].</p>
 				</li>
 			</ul>
-		</>
+		</TermsOfServiceContainer>
 	);
 };
 

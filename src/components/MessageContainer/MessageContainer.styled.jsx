@@ -24,7 +24,7 @@ export const MessageContainerStyle = styled.div`
   }
 `;
 
-export const MessagesList = styled.div`
+export const MessagesList = styled.ul`
   flex: 1;
   overflow-y: auto;
   padding: 1rem;

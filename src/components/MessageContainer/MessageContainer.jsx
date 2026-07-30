@@ -1,5 +1,3 @@
-// import { useRef } from "react";
-
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {
 	formatDividerDate,
@@ -7,13 +5,12 @@ import {
 	getDateKey,
 } from "../../../lib/utils";
 import icon from "../../assets/icons/sprite.svg";
-// import { messages } from "../../../../../../mock/data";
 import {
-	Avatar,
+	// Avatar,
 	ChatBubble,
 	ChatContainer,
 	ChatHeader,
-	ChatImage,
+	// ChatImage,
 	ChatImageAttachment,
 	ChatName,
 	ChatTime,
@@ -31,13 +28,14 @@ import {
 	MessagesList,
 } from "./MessageContainer.styled";
 
-const owner = "Peter Parker";
+// const owner = "Peter Parker";
 
 const MessageContainer = ({
 	onOpenUserProfile,
 	messages,
 	onLikeMessage,
 	ref,
+	isLoading,
 }) => {
 	const grouped = (messages || []).reduce((acc, msg) => {
 		const key = getDateKey(msg.createdAt);
@@ -47,19 +45,33 @@ const MessageContainer = ({
 	}, {});
 
 	const sortedDates = Object.keys(grouped).sort();
-	console.log(messages);
 
 	return (
 		<MessageContainerStyle>
-			<MessagesList ref={ref}>
-				{sortedDates.map((dateKey) => (
-					<div key={dateKey}>
-						<DateDivider>{formatDividerDate(dateKey)}</DateDivider>
-						{grouped[dateKey].map((message) => (
-							// console.log(message),
-							<ChatWrapper key={message._id} isOwner={message.name === owner}>
-								<ChatImage>
-									{message.name !== owner && (
+			{isLoading ? (
+				"loading..."
+			) : (
+				<MessagesList ref={ref}>
+					{sortedDates.map((dateKey) => (
+						<li key={dateKey}>
+							<DateDivider>{formatDividerDate(dateKey)}</DateDivider>
+							{grouped[dateKey]
+								.sort(
+									(a, b) =>
+										Number(new Date(a.createdAt)) -
+										Number(new Date(b.createdAt)),
+								)
+								.map(
+									(message) => (
+										console.log(message),
+										(
+											<ChatWrapper
+												key={message.id}
+												// isOwner={message.name === owner}
+											>
+												{/* <ChatImage> - повідомлення співрозмовника
+									{
+										// message.name !== owner &&
 										<Avatar>
 											{/* <img
                 src={
@@ -68,96 +80,101 @@ const MessageContainer = ({
                     : selectedUser.profilePic || "/avatar.png"
                 }
                 alt="profile pic"
-              /> */}
+              /> 
 										</Avatar>
-									)}
-								</ChatImage>
+									
+								</ChatImage> */}
 
-								{(message.message || message.files.length > 0) && (
-									<ChatContainer>
-										<ChatHeader>
-											<ChatName onClick={onOpenUserProfile}>
-												{message.name === owner ? "You" : message.name}
-											</ChatName>
-											<ChatTime>
-												{formatMessageTime(message.createdAt)}
-											</ChatTime>
-										</ChatHeader>
+												{(message.content || message.fileUrl !== null) && (
+													<ChatContainer>
+														<ChatHeader>
+															<ChatName onClick={onOpenUserProfile}>
+																{message.member.user.firstName === "owner"
+																	? "You"
+																	: message.member.user.firstName}
+															</ChatName>
+															<ChatTime>
+																{formatMessageTime(message.createdAt)}
+															</ChatTime>
+														</ChatHeader>
 
-										<FileList>
-											{message.files.length > 0 &&
-												message.files.map((file) => (
-													<FileItem key={Math.random()}>
-														<FileContainer>
-															<FileIconContainer>
-																<FileIcon>
-																	<use href={`${icon}#icon-image`}></use>
-																</FileIcon>
-															</FileIconContainer>
+														<FileList>
+															{message.fileUrl?.map((file) => (
+																<FileItem key={Math.random()}>
+																	<FileContainer>
+																		<FileIconContainer>
+																			<FileIcon>
+																				<use href={`${icon}#icon-image`}></use>
+																			</FileIcon>
+																		</FileIconContainer>
 
-															<div>
-																<FileName>{file.name}</FileName>
-																<FileSize>
-																	{file.size >= 1024 * 1024
-																		? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
-																		: `${Math.round(file.size / 1024)} KB`}
-																</FileSize>
-															</div>
-														</FileContainer>
-													</FileItem>
-												))}
-										</FileList>
+																		<div>
+																			<FileName>{file.name}</FileName>
+																			<FileSize>
+																				{file.size >= 1024 * 1024
+																					? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+																					: `${Math.round(file.size / 1024)} KB`}
+																			</FileSize>
+																		</div>
+																	</FileContainer>
+																</FileItem>
+															))}
+														</FileList>
 
-										{message.message && (
-											<ChatBubble isOwner={message.name === owner}>
-												{message.image && (
-													<ChatImageAttachment
-														src={message.image}
-														alt="Attachment"
-													/>
+														{message.content && (
+															<ChatBubble
+															//  isOwner={message.name === owner}
+															>
+																{message.image && (
+																	<ChatImageAttachment
+																		src={message.image}
+																		alt="Attachment"
+																	/>
+																)}
+																{message.content && message.content}
+																{/* {message.message && <p>{message.message}</p>} */}
+															</ChatBubble>
+														)}
+
+														<button
+															type="button"
+															onClick={() => onLikeMessage?.(message.id)}
+															style={{
+																// right: message.name === owner ? "0" : "auto",
+																// left: message.name === owner ? "auto" : "0",
+																color: message.isLiked ? "#ff4d4d" : "#888",
+																// zIndex: 10,
+															}}
+														>
+															<Like>
+																{message.isLiked ? (
+																	<FaHeart size={14} />
+																) : (
+																	<FaRegHeart size={14} />
+																)}
+																{message.likesCount > 0 && (
+																	<span
+																		style={{
+																			fontSize: "12px",
+																			fontWeight: "bold",
+																			marginLeft: "5px",
+																		}}
+																	>
+																		{message.likesCount}
+																	</span>
+																)}
+															</Like>
+														</button>
+													</ChatContainer>
 												)}
-												{message.message && message.message}
-												{/* {message.message && <p>{message.message}</p>} */}
-											</ChatBubble>
-										)}
-
-										<button
-											type="button"
-											onClick={() => onLikeMessage?.(message._id)}
-											style={{
-												// right: message.name === owner ? "0" : "auto",
-												// left: message.name === owner ? "auto" : "0",
-												color: message.isLiked ? "#ff4d4d" : "#888",
-												// zIndex: 10,
-											}}
-										>
-											<Like>
-												{message.isLiked ? (
-													<FaHeart size={14} />
-												) : (
-													<FaRegHeart size={14} />
-												)}
-												{message.likesCount > 0 && (
-													<span
-														style={{
-															fontSize: "12px",
-															fontWeight: "bold",
-															marginLeft: "5px",
-														}}
-													>
-														{message.likesCount}
-													</span>
-												)}
-											</Like>
-										</button>
-									</ChatContainer>
+											</ChatWrapper>
+										)
+									),
 								)}
-							</ChatWrapper>
-						))}
-					</div>
-				))}
-				{/* <div ref={ref} /> */}
-			</MessagesList>
+						</li>
+					))}
+				</MessagesList>
+			)}
 		</MessageContainerStyle>
 	);
 };
