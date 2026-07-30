@@ -61,15 +61,13 @@ const MessageContainer = ({
 										Number(new Date(a.createdAt)) -
 										Number(new Date(b.createdAt)),
 								)
-								.map(
-									(message) => (
-										console.log(message),
-										(
-											<ChatWrapper
-												key={message.id}
-												// isOwner={message.name === owner}
-											>
-												{/* <ChatImage> - повідомлення співрозмовника
+								.map((message) => (
+									// console.log(message),
+									<ChatWrapper
+										key={message.id}
+										// isOwner={message.name === owner}
+									>
+										{/* <ChatImage> - повідомлення співрозмовника
 									{
 										// message.name !== owner &&
 										<Avatar>
@@ -85,92 +83,90 @@ const MessageContainer = ({
 									
 								</ChatImage> */}
 
-												{(message.content || message.fileUrl !== null) && (
-													<ChatContainer>
-														<ChatHeader>
-															<ChatName onClick={onOpenUserProfile}>
-																{message.member.user.firstName === "owner"
-																	? "You"
-																	: message.member.user.firstName}
-															</ChatName>
-															<ChatTime>
-																{formatMessageTime(message.createdAt)}
-															</ChatTime>
-														</ChatHeader>
+										{(message.content || message.fileUrl !== null) && (
+											<ChatContainer>
+												<ChatHeader>
+													<ChatName onClick={onOpenUserProfile}>
+														{message.member.user.firstName === "owner"
+															? "You"
+															: message.member.user.firstName}
+													</ChatName>
+													<ChatTime>
+														{formatMessageTime(message.createdAt)}
+													</ChatTime>
+												</ChatHeader>
 
-														<FileList>
-															{message.fileUrl?.map((file) => (
-																<FileItem key={Math.random()}>
-																	<FileContainer>
-																		<FileIconContainer>
-																			<FileIcon>
-																				<use href={`${icon}#icon-image`}></use>
-																			</FileIcon>
-																		</FileIconContainer>
+												<FileList>
+													{message.fileUrl?.map((file) => (
+														<FileItem key={Math.random()}>
+															<FileContainer>
+																<FileIconContainer>
+																	<FileIcon>
+																		<use href={`${icon}#icon-image`}></use>
+																	</FileIcon>
+																</FileIconContainer>
 
-																		<div>
-																			<FileName>{file.name}</FileName>
-																			<FileSize>
-																				{file.size >= 1024 * 1024
-																					? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
-																					: `${Math.round(file.size / 1024)} KB`}
-																			</FileSize>
-																		</div>
-																	</FileContainer>
-																</FileItem>
-															))}
-														</FileList>
+																<div>
+																	<FileName>{file.name}</FileName>
+																	<FileSize>
+																		{file.size >= 1024 * 1024
+																			? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+																			: `${Math.round(file.size / 1024)} KB`}
+																	</FileSize>
+																</div>
+															</FileContainer>
+														</FileItem>
+													))}
+												</FileList>
 
-														{message.content && (
-															<ChatBubble
-															//  isOwner={message.name === owner}
-															>
-																{message.image && (
-																	<ChatImageAttachment
-																		src={message.image}
-																		alt="Attachment"
-																	/>
-																)}
-																{message.content && message.content}
-																{/* {message.message && <p>{message.message}</p>} */}
-															</ChatBubble>
+												{message.content && (
+													<ChatBubble
+													//  isOwner={message.name === owner}
+													>
+														{message.image && (
+															<ChatImageAttachment
+																src={message.image}
+																alt="Attachment"
+															/>
 														)}
-
-														<button
-															type="button"
-															onClick={() => onLikeMessage?.(message.id)}
-															style={{
-																// right: message.name === owner ? "0" : "auto",
-																// left: message.name === owner ? "auto" : "0",
-																color: message.isLiked ? "#ff4d4d" : "#888",
-																// zIndex: 10,
-															}}
-														>
-															<Like>
-																{message.isLiked ? (
-																	<FaHeart size={14} />
-																) : (
-																	<FaRegHeart size={14} />
-																)}
-																{message.likesCount > 0 && (
-																	<span
-																		style={{
-																			fontSize: "12px",
-																			fontWeight: "bold",
-																			marginLeft: "5px",
-																		}}
-																	>
-																		{message.likesCount}
-																	</span>
-																)}
-															</Like>
-														</button>
-													</ChatContainer>
+														{message.content && message.content}
+														{/* {message.message && <p>{message.message}</p>} */}
+													</ChatBubble>
 												)}
-											</ChatWrapper>
-										)
-									),
-								)}
+
+												<button
+													type="button"
+													onClick={() => onLikeMessage?.(message.id)}
+													style={{
+														// right: message.name === owner ? "0" : "auto",
+														// left: message.name === owner ? "auto" : "0",
+														color: message.isLiked ? "#ff4d4d" : "#888",
+														// zIndex: 10,
+													}}
+												>
+													<Like>
+														{message.isLiked ? (
+															<FaHeart size={14} />
+														) : (
+															<FaRegHeart size={14} />
+														)}
+														{message.likesCount > 0 && (
+															<span
+																style={{
+																	fontSize: "12px",
+																	fontWeight: "bold",
+																	marginLeft: "5px",
+																}}
+															>
+																{message.likesCount}
+															</span>
+														)}
+													</Like>
+												</button>
+											</ChatContainer>
+										)}
+									</ChatWrapper>
+								))}
 						</li>
 					))}
 				</MessagesList>

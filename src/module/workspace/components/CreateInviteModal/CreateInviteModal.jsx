@@ -2,9 +2,7 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { WorkspaceModalEnum } from "../../../../shared/constants/routes";
 import Button from "../../../../ui/Button/Button";
-import HeaderBack from "../../../../ui/HeaderBack/HeaderBack";
 import {
 	handleCreateGroupInvite,
 	handleCreatePersonalInvite,

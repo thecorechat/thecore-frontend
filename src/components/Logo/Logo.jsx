@@ -15,7 +15,11 @@ export const Logo = ({ onOpenProfile }) => {
 				<LogoTitleContactsContainerStyle>
 					The Core
 				</LogoTitleContactsContainerStyle>
-				<Avatar onClick={onOpenProfile} userId={currentUser?.id} />
+				<Avatar
+					onClick={onOpenProfile}
+					userId={currentUser?.id}
+					avatarUrl={currentUser?.avatarUrl}
+				/>
 			</LogoContactsContainerStyle>
 			<InputSearch />
 		</LogoMainContactsContainerStyle>

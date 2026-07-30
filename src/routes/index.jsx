@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 // import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import StateProtectedRoute from "../components/StateProtectedRoute/StateProtectedRoute";
+import Spinner from "../ui/Spinner/Spinner";
 import { workspaceRoutes } from "./workspaceRoutes";
 
 const MainSignIn = lazy(() => import("../pages/MainSignInPage/MainSignInPage"));
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
 	{
 		path: "/",
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<MainSignIn />
 			</Suspense>
 		),
@@ -36,7 +37,7 @@ export const router = createBrowserRouter([
 	{
 		path: "/signin",
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<SignIn />
 			</Suspense>
 		),
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
 	{
 		path: "/forgot-password",
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<ForgotPassword />
 			</Suspense>
 		),
@@ -52,7 +53,7 @@ export const router = createBrowserRouter([
 	{
 		path: "/change-password",
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<ChangePassword />
 			</Suspense>
 		),
@@ -60,7 +61,7 @@ export const router = createBrowserRouter([
 	{
 		path: "/create-account",
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<CreateAccount />
 			</Suspense>
 		),
@@ -69,7 +70,7 @@ export const router = createBrowserRouter([
 		path: "/create-account/email-password",
 		element: (
 			<StateProtectedRoute requiredState={["firstName", "lastName"]}>
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense fallback={<Spinner />}>
 					<EmailPassword />
 				</Suspense>
 			</StateProtectedRoute>
@@ -79,7 +80,7 @@ export const router = createBrowserRouter([
 		path: "/verify",
 		element: (
 			<StateProtectedRoute requiredState={["email"]}>
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense fallback={<Spinner />}>
 					<VerifyCode />
 				</Suspense>
 			</StateProtectedRoute>
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
 		path: "/change-password/success",
 		element: (
 			<StateProtectedRoute requiredState={["passwordChanged"]}>
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense fallback={<Spinner />}>
 					<SuccessMessage />
 				</Suspense>
 			</StateProtectedRoute>
