@@ -136,7 +136,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 				)}
 
 				<GroupList $open={isOpen}>
-// 					{rooms.map((room) => (
+					{/* {rooms.map((room) => (
 // 						<GroupItem key={room.id}>
 // 							<RoomRow>
 // 								<a
@@ -165,7 +165,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 // 								</DotsButton>
 // 							</RoomRow>
 // 						</GroupItem>
-// 					))}
+// 					))} */}
 
 					{rooms.map((room) => {
 						const roomId = room._id ?? room.id;
