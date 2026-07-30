@@ -83,17 +83,6 @@ const MessageBar = ({ onSend, containerRef }) => {
 		setFiles((prev) => [...prev, e.target.files[0]]);
 	};
 
-	const formData = new FormData();
-	formData.append("file", someFile);
-
-	fetch("https://thecore-backend-nest.onrender.com/messages/upload", {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${token}`, // якщо потрібна автентифікація
-		},
-		body: formData,
-	});
-
 	return (
 		<MessageBarMainContainerStyle>
 			{files.length > 0 && (
