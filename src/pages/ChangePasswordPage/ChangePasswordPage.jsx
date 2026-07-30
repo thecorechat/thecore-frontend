@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { setToken } from "../../shared/stores/auth/tokenStore";
 import Button from "../../ui/Button/Button";
 import HeaderBack from "../../ui/HeaderBack/HeaderBack";
 import {
@@ -61,7 +62,7 @@ function ChangePassword() {
 				});
 
 				if (result.accessToken) {
-					localStorage.setItem("token", result.accessToken);
+					setToken(result.accessToken);
 				}
 
 				navigate("/verify", {

@@ -13,6 +13,25 @@ import {
 const MainChatHeader = ({ onSearchClick }) => {
 	const { activeRoom, setActiveRoom } = useActiveRoom();
 
+	if (!activeRoom) {
+		return (
+			<>
+				<ChatHeaderContainerLeftStyle>
+					Select a room
+				</ChatHeaderContainerLeftStyle>
+				<DropdownMenuDemo onSearchClick={onSearchClick} />
+			</>
+		);
+	}
+
+	// Пытаемся найти через roomMembers, если бэкенд их передает
+
+	// Запасной вариант: если у вас в комнате приходит recipientId, userId или другие поля
+	const targetUserId = activeRoom.otherUserId;
+
+	console.log("Resolved targetUserId for Avatar:", targetUserId);
+	console.log("activeRoom.roomMembers:", activeRoom);
+
 	return (
 		<>
 			<ChatHeaderContainerLeftStyle>
@@ -21,10 +40,14 @@ const MainChatHeader = ({ onSearchClick }) => {
 						<use href={`${icon}#icon-left`}></use>
 					</ReturnArrow>
 				</button>
-				<LogoBoxContactsContainerStyle>
-					<Circle />
-					<IoPersonOutline size={20} />
-				</LogoBoxContactsContainerStyle>
+
+// 				<LogoBoxContactsContainerStyle>
+// 					<Circle />
+// 					<IoPersonOutline size={20} />
+// 				</LogoBoxContactsContainerStyle>
+
+				<Avatar userId={targetUserId} avatarUrl={activeRoom.avatarUrl} />
+
 				{activeRoom ? activeRoom.name : "Select a room"}
 			</ChatHeaderContainerLeftStyle>
 

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import ChatSetupModal from "../../../module/room/components/ChatSetupModal/ChatSetupModal";
 import CreateChatModal from "../../../module/room/components/CreateChatModal/CreateChatModal";
 import InviteChatSetupModal from "../../../module/room/components/InviteChatSetupModal/InviteChatSetupModal";
+import CreateInviteModal from "../../../module/workspace/components/CreateInviteModal/CreateInviteModal";
 import CreateWorkspaceModal from "../../../module/workspace/components/CreateWorkspaceModal/CreateWorkspaceModal";
 import JoinCodeModal from "../../../module/workspace/components/JoinCodeModal/JoinCodeModal";
 import WorkspaceSetupModal from "../../../module/workspace/components/WorkspaceSetupModal/WorkspaceSetupModal";
@@ -70,6 +71,9 @@ function WorkspaceLayout() {
 		setSearchParams({}, { replace: true });
 	};
 
+	const targetWorkspaceId =
+		searchParams.get("workspaceId") || workspaces[0]?.id;
+
 	const renderModalContent = () => {
 		switch (modalType) {
 			case WorkspaceModalEnum.SETUP:
@@ -78,6 +82,8 @@ function WorkspaceLayout() {
 				return <CreateWorkspaceModal />;
 			case WorkspaceModalEnum.JOIN:
 				return <JoinCodeModal />;
+			case WorkspaceModalEnum.CREATE_INVITE:
+				return <CreateInviteModal workspaceId={targetWorkspaceId} />;
 			case ChatModalEnum.SETUP:
 				return <ChatSetupModal />;
 			case ChatModalEnum.CREATE:

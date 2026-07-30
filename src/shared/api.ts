@@ -8,6 +8,8 @@ export const endpoints = {
 		get_all_members: "/workspace/{id}/members",
 		search_members: "/workspace/{id}/members/search",
 		delete_workspace: "/workspace/{id}",
+		create_group_invite: (id) => `/workspace/${id}/invite/group`,
+		create_personal_invite: (id) => `/workspace/${id}/invite/personal`,
 	},
 	room: {
 		create_room: "/workspaces/{workspaceId}/rooms",
@@ -17,6 +19,7 @@ export const endpoints = {
 		room_info: "/workspaces/{workspaceId}/rooms/{roomId}",
 		remove_member:
 			"/workspaces/{workspaceId}/rooms/{roomId}/members/{memberId}",
+		create_direct_room: "/workspaces/{workspaceId}/rooms/direct/{targetUserId}",
 	},
 	message: {
 		send_message: "/messages",
@@ -32,6 +35,7 @@ export const endpoints = {
 		delete_favourite: "/favourites/{roomId}",
 	},
 	user: {
-		search: "/user/search",
+		search: "/user",
+		me: "/user/me",
 	},
 };

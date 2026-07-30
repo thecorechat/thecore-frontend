@@ -1,9 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { FiUserPlus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { IoMdArrowDropright } from "react-icons/io";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { SlOptions } from "react-icons/sl";
+import { useSearchParams } from "react-router-dom";
+import { WorkspaceModalEnum } from "../../../../shared/constants/routes";
 import { useDeleteWorkspace } from "../../../workspace/hooks/useDeleteWorkspace";
 import { handleGetRoomInfo } from "../../api/handleGetRoomInfo";
 import { useActiveRoom } from "../../context/ActiveRoomContext";
@@ -23,7 +26,14 @@ import {
 } from "./RoomsGroup.styled";
 
 function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
-	const { data: rooms = [] } = useGetRooms(workspace.id);
+	const [, setSearchParams] = useSearchParams();
+	const { data: allRooms = [] } = useGetRooms(workspace.id);
+	// DIRECT rooms are surfaced in their own "Direct messages" sidebar
+	// section (see DirectMessagesList), not nested under the workspace
+	// they happen to live in on the backend.
+	const rooms = allRooms.filter(
+		(room) => room.type?.toUpperCase() !== "DIRECT",
+	);
 	const [activeRoom, setActiveRoom] = useState(null);
 	const queryClient = useQueryClient();
 	const { setActiveRoom: setGlobalRoom } = useActiveRoom();
@@ -46,6 +56,14 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 		});
 	};
 
+	const handleOpenInviteModal = (e) => {
+		e.stopPropagation();
+		setSearchParams({
+			modal: WorkspaceModalEnum.CREATE_INVITE,
+			workspaceId: workspace.id,
+		});
+	};
+
 	return (
 		<>
 			<Group>
@@ -54,7 +72,7 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 						<IoMdArrowDropright size={16} />
 						<span>{workspace.name}</span>
 					</GroupHeaderToggle>
-					<TrashButton
+					{/* <TrashButton
 						className="trash-btn"
 						type="button"
 						title="Delete workspace"
@@ -65,7 +83,30 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 						}}
 					>
 						<MdOutlineDeleteOutline size={15} />
-					</TrashButton>
+					</TrashButton> */}
+					<div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+						<TrashButton
+							className="trash-btn"
+							type="button"
+							title="Invite members"
+							onClick={handleOpenInviteModal}
+						>
+							<FiUserPlus size={14} />
+						</TrashButton>
+
+						<TrashButton
+							className="trash-btn"
+							type="button"
+							title="Delete workspace"
+							disabled={isDeleting}
+							onClick={(e) => {
+								e.stopPropagation();
+								setShowConfirm((v) => !v);
+							}}
+						>
+							<MdOutlineDeleteOutline size={15} />
+						</TrashButton>
+					</div>
 				</GroupHeader>
 
 				{showConfirm && (
@@ -95,36 +136,71 @@ function RoomsGroup({ workspace, isOpen, onToggle, onAddRoom }) {
 				)}
 
 				<GroupList $open={isOpen}>
-					{rooms.map((room) => (
-						<GroupItem key={room.id}>
-							<RoomRow>
-								<a
-									href={`/workspace/${workspace.id}/${room.id}`}
-									onClick={(e) => {
-										e.preventDefault();
-										setGlobalRoom({
-											roomId: room._id ?? room.id,
-											workspaceId: workspace.id,
-											name: room.name,
-											type: room.type,
-										});
-									}}
-								>
-									{room.name}
-								</a>
-								<DotsButton
-									onMouseEnter={() => handlePrefetchRoomInfo(room.id)}
-									onClick={(e) => {
-										e.preventDefault();
-										setActiveRoom(room);
-									}}
-									title="Room options"
-								>
-									<SlOptions size={12} />
-								</DotsButton>
-							</RoomRow>
-						</GroupItem>
-					))}
+// 					{rooms.map((room) => (
+// 						<GroupItem key={room.id}>
+// 							<RoomRow>
+// 								<a
+// 									href={`/workspace/${workspace.id}/${room.id}`}
+// 									onClick={(e) => {
+// 										e.preventDefault();
+// 										setGlobalRoom({
+// 											roomId: room._id ?? room.id,
+// 											workspaceId: workspace.id,
+// 											name: room.name,
+// 											type: room.type,
+// 										});
+// 									}}
+// 								>
+// 									{room.name}
+// 								</a>
+// 								<DotsButton
+// 									onMouseEnter={() => handlePrefetchRoomInfo(room.id)}
+// 									onClick={(e) => {
+// 										e.preventDefault();
+// 										setActiveRoom(room);
+// 									}}
+// 									title="Room options"
+// 								>
+// 									<SlOptions size={12} />
+// 								</DotsButton>
+// 							</RoomRow>
+// 						</GroupItem>
+// 					))}
+
+					{rooms.map((room) => {
+						const roomId = room._id ?? room.id;
+						return (
+							<GroupItem key={roomId}>
+								<RoomRow>
+									<a
+										href={`/workspace/${workspace.id}/${roomId}`}
+										onClick={(e) => {
+											e.preventDefault();
+											setGlobalRoom({
+												roomId,
+												workspaceId: workspace.id,
+												name: room.name,
+												type: room.type,
+											});
+										}}
+									>
+										{room.name}
+									</a>
+									<DotsButton
+										onMouseEnter={() => handlePrefetchRoomInfo(roomId)}
+										onClick={(e) => {
+											e.preventDefault();
+											setActiveRoom(room);
+										}}
+										title="Room options"
+									>
+										<SlOptions size={12} />
+									</DotsButton>
+								</RoomRow>
+							</GroupItem>
+						);
+					})}
+
 					<AddChatStyle onClick={onAddRoom}>
 						<GoPlus />
 						<span>Add Chat</span>
