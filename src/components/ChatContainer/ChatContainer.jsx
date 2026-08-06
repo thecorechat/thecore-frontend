@@ -15,8 +15,6 @@ const ChatContainer = () => {
 	const roomId = activeRoom?.roomId;
 	const { data: messages, isLoading } = useGetMessages(roomId);
 
-	console.log("isLoading", isLoading);
-
 	const token = localStorage.getItem("token");
 	const userId = token ? JSON.parse(atob(token.split(".")[1])).id : null;
 
@@ -25,6 +23,7 @@ const ChatContainer = () => {
 	const ref = useRef(null);
 
 	const [allMembers, setAllMembers] = useState([]);
+	const [isMembersLoading, setIsMembersLoading] = useState(true);
 	const currentMember = allMembers.find((m) => m.member.user.id === userId);
 	const currentMemberId = currentMember?.memberId;
 
@@ -115,6 +114,7 @@ const ChatContainer = () => {
 
 	const handleGetInfoUser = useCallback(async () => {
 		try {
+			setIsMembersLoading(true);
 			const response = await fetchWithAuth(
 				`https://thecore-backend-nest.onrender.com/workspaces/${workspaceId}/rooms/${roomId}`,
 			);
@@ -129,6 +129,8 @@ const ChatContainer = () => {
 			setAllMembers(data.roomMembers);
 		} catch (err) {
 			console.error(err.message);
+		} finally {
+			setIsMembersLoading(false);
 		}
 	}, [roomId, workspaceId]);
 
@@ -212,6 +214,7 @@ const ChatContainer = () => {
 					onLikeMessage={handleLikeMessage}
 					ref={ref}
 					isLoading={isLoading}
+					isMembersLoading={isMembersLoading}
 				/>
 				<MessageBar
 					onSend={handleSendMessage}

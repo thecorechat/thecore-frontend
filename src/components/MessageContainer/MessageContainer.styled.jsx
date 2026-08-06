@@ -97,7 +97,7 @@ export const ChatTime = styled.time`
 
 export const ChatBubble = styled.div`
   padding: 1rem;
-word-break: break-word;
+  word-break: break-word;
   max-width: 500px;
   margin-bottom: 6px;
 
@@ -112,7 +112,7 @@ word-break: break-word;
 			: css`
 					background: var(--gray-10);
 					color: var(--gray-100);
-            border-radius: 0 0.5rem 0.5rem 0.5rem ;
+            border-radius: 0 0.5rem 0.5rem 0.5rem;
 				`}
 `;
 

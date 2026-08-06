@@ -21,6 +21,8 @@ export const Avatar = ({
 	const { isUserOnline } = usePresence();
 	const isOnline = userId ? isUserOnline(userId) : false;
 
+	console.log("userId", userId);
+
 	const circleColor = isOnline ? "#7ff999" : "#98a2b3";
 
 	return avatarUrl ? (
@@ -28,7 +30,7 @@ export const Avatar = ({
 			onClick={onClick}
 			style={{ width: size, height: size }}
 		>
-			<Circle style={{ backgroundColor: circleColor }} />
+			{userId && <Circle style={{ backgroundColor: circleColor }} />}
 			<ProfileImg src={avatarUrl} alt="User avatar" />
 		</ProfileImgContainerStyle>
 	) : (
@@ -36,7 +38,7 @@ export const Avatar = ({
 			onClick={onClick}
 			style={{ width: size, height: size }}
 		>
-			<Circle style={{ backgroundColor: circleColor }} />
+			{userId && <Circle style={{ backgroundColor: circleColor }} />}
 			<IoPersonOutline size={iconSize} />
 		</LogoBoxContactsContainerStyle>
 	);

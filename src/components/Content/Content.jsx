@@ -14,6 +14,7 @@ import Button from "../../ui/Button/Button";
 import { SidebarProvider } from "../SidebarRail/SidebarProvider";
 import {
 	AddButtonStyle,
+	AvatarImg,
 	GroupItem,
 	GroupItemAvatar,
 	GroupList,
@@ -64,9 +65,15 @@ const Content = () => {
 										});
 									}}
 								>
-									<GroupItemAvatar>
-										<IoPersonOutline size={13} />
-									</GroupItemAvatar>
+									{room.avatarUrl ? (
+										<GroupItemAvatar>
+											<AvatarImg src={room.avatarUrl} alt="User avatar" />
+										</GroupItemAvatar>
+									) : (
+										<GroupItemAvatar>
+											<IoPersonOutline size={13} />
+										</GroupItemAvatar>
+									)}
 									{room.name}
 								</a>
 							</GroupItem>

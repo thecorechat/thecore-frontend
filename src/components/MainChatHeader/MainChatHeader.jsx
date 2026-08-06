@@ -30,8 +30,8 @@ const MainChatHeader = ({ onSearchClick }) => {
 	// Запасной вариант: если у вас в комнате приходит recipientId, userId или другие поля
 	const targetUserId = activeRoom.otherUserId;
 
-	console.log("Resolved targetUserId for Avatar:", targetUserId);
-	console.log("activeRoom.roomMembers:", activeRoom);
+	// console.log("Resolved targetUserId for Avatar:", targetUserId);
+	// console.log("activeRoom.roomMembers:", activeRoom);
 
 	return (
 		<>

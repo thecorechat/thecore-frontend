@@ -7,6 +7,7 @@ import {
 	trimFileName,
 } from "../../../lib/utils";
 import icon from "../../assets/icons/sprite.svg";
+import SkeletonLoader from "../../ui/SkeletonLoader/SkeletonLoader";
 import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import {
 	AvatarContainer,
@@ -23,8 +24,6 @@ import {
 	FileContainer,
 	FileIcon,
 	FileIconContainer,
-	// FileItem,
-	// FileList,
 	FileName,
 	FileSize,
 	Like,
@@ -39,6 +38,7 @@ const MessageContainer = ({
 	onLikeMessage,
 	ref,
 	isLoading,
+	isMembersLoading,
 }) => {
 	const [owner, setOwner] = useState(null);
 	const [isOwnerLoading, setIsOwnerLoading] = useState(true);
@@ -64,14 +64,10 @@ const MessageContainer = ({
 					throw new Error(error.message);
 				}
 
-				console.log(response);
-
-				// response ? setIsOwnerLoading(true) : setIsOwnerLoading(false);
 				const data = await response.json();
 
 				setOwner(data.id);
 				setIsOwnerLoading(false);
-				// console.log(data.id);
 			} catch (error) {
 				console.error(error.message);
 			}
@@ -106,8 +102,8 @@ const MessageContainer = ({
 
 	return (
 		<MessageContainerStyle>
-			{isLoading || isOwnerLoading ? (
-				"loading..."
+			{isLoading || isOwnerLoading || isMembersLoading ? (
+				<SkeletonLoader />
 			) : (
 				<MessagesList ref={ref}>
 					{sortedDates.map((dateKey) => (
@@ -152,12 +148,6 @@ const MessageContainer = ({
 												{message.fileUrl && (
 													// <FileList>
 													// 	<FileItem key={Math.random()}>
-													// <a
-													// 	href={message.fileUrl}
-													// 	download={message.fileName}
-													// 	target="_blank"
-													// 	rel="noopener noreferrer"
-													// >
 													<FileContainer
 														onClick={() =>
 															handleDownload(message.fileUrl, message.fileName)
@@ -181,7 +171,6 @@ const MessageContainer = ({
 															</FileSize>
 														</div>
 													</FileContainer>
-													// </a>
 													// 	</FileItem>
 													// </FileList>
 												)}
