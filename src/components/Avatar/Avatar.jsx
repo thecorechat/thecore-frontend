@@ -21,8 +21,6 @@ export const Avatar = ({
 	const { isUserOnline } = usePresence();
 	const isOnline = userId ? isUserOnline(userId) : false;
 
-	console.log("userId", userId);
-
 	const circleColor = isOnline ? "#7ff999" : "#98a2b3";
 
 	return avatarUrl ? (

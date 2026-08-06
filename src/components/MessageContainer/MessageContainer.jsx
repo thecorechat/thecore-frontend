@@ -39,9 +39,10 @@ const MessageContainer = ({
 	ref,
 	isLoading,
 	isMembersLoading,
+	setIsOwnerLoading,
+	isOwnerLoading,
 }) => {
 	const [owner, setOwner] = useState(null);
-	const [isOwnerLoading, setIsOwnerLoading] = useState(true);
 
 	const grouped = (messages || []).reduce((acc, msg) => {
 		const key = getDateKey(msg.createdAt);

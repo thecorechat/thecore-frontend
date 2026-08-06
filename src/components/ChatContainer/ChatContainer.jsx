@@ -23,9 +23,11 @@ const ChatContainer = () => {
 	const ref = useRef(null);
 
 	const [allMembers, setAllMembers] = useState([]);
-	const [isMembersLoading, setIsMembersLoading] = useState(true);
 	const currentMember = allMembers.find((m) => m.member.user.id === userId);
 	const currentMemberId = currentMember?.memberId;
+
+	const [isMembersLoading, setIsMembersLoading] = useState(true);
+	const [isOwnerLoading, setIsOwnerLoading] = useState(true);
 
 	useEffect(() => {
 		if (messages) {
@@ -215,11 +217,18 @@ const ChatContainer = () => {
 					ref={ref}
 					isLoading={isLoading}
 					isMembersLoading={isMembersLoading}
+					isOwnerLoading={isOwnerLoading}
+					setIsOwnerLoading={setIsOwnerLoading}
 				/>
 				<MessageBar
 					onSend={handleSendMessage}
 					containerRef={ref}
 					uploadFile={uploadFile}
+					key={roomId}
+					isLoading={isLoading}
+					isMembersLoading={isMembersLoading}
+					isOwnerLoading={isOwnerLoading}
+					setIsOwnerLoading={setIsOwnerLoading}
 				/>
 			</ChatContainerStyle>
 
