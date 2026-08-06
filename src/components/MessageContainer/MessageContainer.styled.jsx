@@ -5,7 +5,6 @@ export const MessageContainerStyle = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
-  /* padding-x: 2rem; */
   width: 100%;
 
   /* from 768px */
@@ -41,12 +40,12 @@ export const ChatWrapper = styled.div`
     margin-bottom: 1rem;
   }
 
-  ${(isOwner) =>
-		isOwner
-			? css`
+  	${({ $isOwner }) =>
+			$isOwner
+				? css`
           justify-content: flex-end;
         `
-			: css`
+				: css`
           justify-content: flex-start;
         `}
 `;
@@ -57,12 +56,18 @@ export const ChatImage = styled.div`
   margin-right: 0.5rem;
 `;
 
-export const Avatar = styled.div`
+export const AvatarContainer = styled.div`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 10px;
   border: 1px solid #ccc;
   overflow: hidden;
+`;
+
+export const AvatarImg = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
 `;
 
 export const ChatContainer = styled.div`
@@ -95,17 +100,20 @@ export const ChatBubble = styled.div`
 word-break: break-word;
   max-width: 500px;
   margin-bottom: 6px;
-  border-radius: 0.5rem 0 0.5rem 0.5rem;
-  ${(isOwner) =>
-		isOwner
+
+
+ 	${({ $isOwner }) =>
+		$isOwner
 			? css`
-          background: var(--primary-60);
-          color: var(--gray-0);
-        `
+					background: var(--primary-60);
+					color: var(--gray-0);
+            border-radius: 0.5rem 0 0.5rem 0.5rem;
+				`
 			: css`
-          background: var(--gray-10);
-          color: var(--gray-100);
-        `}
+					background: var(--gray-10);
+					color: var(--gray-100);
+            border-radius: 0 0.5rem 0.5rem 0.5rem ;
+				`}
 `;
 
 export const ChatImageAttachment = styled.img`
@@ -131,6 +139,23 @@ export const DateDivider = styled.div`
   }
 `;
 
+export const LikeBtn = styled.button`
+display: block;
+/* margin-left: auto;
+margin-right: 0; */
+ 	${({ $isOwner }) =>
+		$isOwner
+			? css`
+          margin-right: auto;
+          margin-left: 0;
+				`
+			: css`
+          margin-left: auto;
+          margin-right: 0;
+				`}
+
+`;
+
 export const Like = styled.div`
   padding: 6px 12px;
   display: flex;
@@ -152,6 +177,7 @@ export const FileItem = styled.li`
 
 export const FileContainer = styled.div`
   padding: 12px 16px;
+  margin-bottom: 6px;
   display: flex;
   gap: 8px;
   border: 1px solid var(--gray-20);

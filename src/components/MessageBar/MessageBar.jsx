@@ -4,6 +4,7 @@ import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 // import { GrAttachment } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
+import { trimFileName } from "../../../lib/utils";
 // import { RiEmojiStickerLine } from "react-icons/ri";
 import icon from "../../assets/icons/sprite.svg";
 // import { useSearchParams } from "react-router-dom";
@@ -24,10 +25,11 @@ import {
 	MessageBarSemiContainerStyle,
 } from "./MessageBar.styled";
 
-const MessageBar = ({ onSend, containerRef }) => {
+const MessageBar = ({ onSend, containerRef, uploadFile }) => {
 	const [message, setMessage] = useState("");
 	const emojiRef = useRef(null);
-	const [files, setFiles] = useState([]);
+	const [file, setFile] = useState(null);
+	// const [files, setFiles] = useState([]);
 	const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 	const heightRef = useRef(null);
 	const hiddenFileInput = useRef(null);
@@ -49,11 +51,14 @@ const MessageBar = ({ onSend, containerRef }) => {
 	};
 
 	const handleSend = () => {
-		if (!message.trim() && files.length === 0) return;
+		if (!message.trim() && file === null) return;
+		// if (!message.trim() && files.length === 0) return;
 
-		onSend(message, files);
+		onSend(message, file);
+		// onSend(message, files);
 		setMessage("");
-		setFiles([]);
+		setFile(null);
+		// setFiles([]);
 		heightRef.current.style.height = "22px";
 		// scrollIntoView({ behavior: "instant", block: "end" });
 
@@ -80,33 +85,38 @@ const MessageBar = ({ onSend, containerRef }) => {
 	};
 
 	const handleAddFile = (e) => {
-		setFiles((prev) => [...prev, e.target.files[0]]);
+		setFile(e.target.files[0]);
+		uploadFile(e.target.files[0]);
+		// setFiles((prev) => [...prev, e.target.files[0]]);
 	};
+
+	// console.log(file);
 
 	return (
 		<MessageBarMainContainerStyle>
-			{files.length > 0 && (
+			{file && (
+				// {files.length > 0 && (
 				<FileList>
-					{files.map((file) => (
-						<li key={Math.random()}>
-							<FileContainer>
-								<FileIconContainer>
-									<FileIcon>
-										<use href={`${icon}#icon-image`}></use>
-									</FileIcon>
-								</FileIconContainer>
+					{/* {files.map((file) => ( */}
+					<li key={Math.random()}>
+						<FileContainer>
+							<FileIconContainer>
+								<FileIcon>
+									<use href={`${icon}#icon-image`}></use>
+								</FileIcon>
+							</FileIconContainer>
 
-								<div>
-									<FileName>{file.name}</FileName>
-									<FileSize>
-										{file.size >= 1024 * 1024
-											? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
-											: `${Math.round(file.size / 1024)} KB`}
-									</FileSize>
-								</div>
-							</FileContainer>
-						</li>
-					))}
+							<div>
+								<FileName>{trimFileName(file.name)}</FileName>
+								<FileSize>
+									{file.size >= 1024 * 1024
+										? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+										: `${Math.round(file.size / 1024)} KB`}
+								</FileSize>
+							</div>
+						</FileContainer>
+					</li>
+					{/* ))} */}
 				</FileList>
 			)}
 
@@ -160,6 +170,7 @@ const MessageBar = ({ onSend, containerRef }) => {
 					ref={hiddenFileInput}
 					style={{ display: "none" }}
 					onChange={handleAddFile}
+					// onClick={uploadFile}
 				/>
 			</MessageBarSemiContainerStyle>
 			<Button

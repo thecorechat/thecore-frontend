@@ -1,16 +1,20 @@
+import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {
 	formatDividerDate,
 	formatMessageTime,
 	getDateKey,
+	trimFileName,
 } from "../../../lib/utils";
 import icon from "../../assets/icons/sprite.svg";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import {
-	// Avatar,
+	AvatarContainer,
+	AvatarImg,
 	ChatBubble,
 	ChatContainer,
 	ChatHeader,
-	// ChatImage,
+	ChatImage,
 	ChatImageAttachment,
 	ChatName,
 	ChatTime,
@@ -19,16 +23,15 @@ import {
 	FileContainer,
 	FileIcon,
 	FileIconContainer,
-	FileItem,
-	FileList,
+	// FileItem,
+	// FileList,
 	FileName,
 	FileSize,
 	Like,
+	LikeBtn,
 	MessageContainerStyle,
 	MessagesList,
 } from "./MessageContainer.styled";
-
-// const owner = "Peter Parker";
 
 const MessageContainer = ({
 	onOpenUserProfile,
@@ -37,6 +40,9 @@ const MessageContainer = ({
 	ref,
 	isLoading,
 }) => {
+	const [owner, setOwner] = useState(null);
+	const [isOwnerLoading, setIsOwnerLoading] = useState(true);
+
 	const grouped = (messages || []).reduce((acc, msg) => {
 		const key = getDateKey(msg.createdAt);
 		if (!acc[key]) acc[key] = [];
@@ -46,9 +52,61 @@ const MessageContainer = ({
 
 	const sortedDates = Object.keys(grouped).sort();
 
+	useEffect(() => {
+		async function handleGetInfo() {
+			try {
+				const response = await fetchWithAuth(
+					"https://thecore-backend-nest.onrender.com/user/me",
+				);
+
+				if (!response.ok) {
+					const error = await response.json();
+					throw new Error(error.message);
+				}
+
+				console.log(response);
+
+				// response ? setIsOwnerLoading(true) : setIsOwnerLoading(false);
+				const data = await response.json();
+
+				setOwner(data.id);
+				setIsOwnerLoading(false);
+				// console.log(data.id);
+			} catch (error) {
+				console.error(error.message);
+			}
+		}
+
+		handleGetInfo();
+	}, []);
+
+	const handleDownload = async (fileUrl, fileName) => {
+		try {
+			const response = await fetch(fileUrl);
+
+			if (!response.ok) {
+				throw new Error(`Не вдалося завантажити файл: ${response.status}`);
+			}
+
+			const blob = await response.blob();
+			const blobUrl = URL.createObjectURL(blob);
+
+			const link = document.createElement("a");
+			link.href = blobUrl;
+			link.download = fileName;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+
+			URL.revokeObjectURL(blobUrl);
+		} catch (err) {
+			console.error("Помилка завантаження файлу:", err);
+		}
+	};
+
 	return (
 		<MessageContainerStyle>
-			{isLoading ? (
+			{isLoading || isOwnerLoading ? (
 				"loading..."
 			) : (
 				<MessagesList ref={ref}>
@@ -62,32 +120,27 @@ const MessageContainer = ({
 										Number(new Date(b.createdAt)),
 								)
 								.map((message) => (
-									console.log(message),
+									// console.log(message),
 									<ChatWrapper
 										key={message.id}
-										// isOwner={message.name === owner}
+										$isOwner={message.member.user.id === owner}
 									>
-										{/* <ChatImage> - повідомлення співрозмовника
-									{
-										// message.name !== owner &&
-										<Avatar>
-											{/* <img
-                src={
-                  message.name === owner
-                    ? authUser.profilePic || "/avatar.png"
-                    : selectedUser.profilePic || "/avatar.png"
-                }
-                alt="profile pic"
-              /> 
-										</Avatar>
-									
-								</ChatImage> */}
+										<ChatImage>
+											{message.member.user.id !== owner && (
+												<AvatarContainer>
+													<AvatarImg
+														src={message.member.user.avatarUrl}
+														alt="Profile pic"
+													/>
+												</AvatarContainer>
+											)}
+										</ChatImage>
 
 										{(message.content || message.fileUrl !== null) && (
 											<ChatContainer>
 												<ChatHeader>
 													<ChatName onClick={onOpenUserProfile}>
-														{message.member.user.firstName === "owner"
+														{message.member.user.id === owner
 															? "You"
 															: message.member.user.firstName}
 													</ChatName>
@@ -96,32 +149,46 @@ const MessageContainer = ({
 													</ChatTime>
 												</ChatHeader>
 
-												<FileList>
-													{message.fileUrl?.map((file) => (
-														<FileItem key={Math.random()}>
-															<FileContainer>
-																<FileIconContainer>
-																	<FileIcon>
-																		<use href={`${icon}#icon-image`}></use>
-																	</FileIcon>
-																</FileIconContainer>
+												{message.fileUrl && (
+													// <FileList>
+													// 	<FileItem key={Math.random()}>
+													// <a
+													// 	href={message.fileUrl}
+													// 	download={message.fileName}
+													// 	target="_blank"
+													// 	rel="noopener noreferrer"
+													// >
+													<FileContainer
+														onClick={() =>
+															handleDownload(message.fileUrl, message.fileName)
+														}
+														style={{ cursor: "pointer" }}
+													>
+														<FileIconContainer>
+															<FileIcon>
+																<use href={`${icon}#icon-image`}></use>
+															</FileIcon>
+														</FileIconContainer>
 
-																<div>
-																	<FileName>{file.name}</FileName>
-																	<FileSize>
-																		{file.size >= 1024 * 1024
-																			? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
-																			: `${Math.round(file.size / 1024)} KB`}
-																	</FileSize>
-																</div>
-															</FileContainer>
-														</FileItem>
-													))}
-												</FileList>
+														<div>
+															<FileName>
+																{trimFileName(message.fileName)}
+															</FileName>
+															<FileSize>
+																{message.fileSize >= 1024 * 1024
+																	? `${(message.fileSize / (1024 * 1024)).toFixed(1)} MB`
+																	: `${Math.round(message.fileSize / 1024)} KB`}
+															</FileSize>
+														</div>
+													</FileContainer>
+													// </a>
+													// 	</FileItem>
+													// </FileList>
+												)}
 
 												{message.content && (
 													<ChatBubble
-													//  isOwner={message.name === owner}
+														$isOwner={message.member.user.id === owner}
 													>
 														{message.image && (
 															<ChatImageAttachment
@@ -130,18 +197,15 @@ const MessageContainer = ({
 															/>
 														)}
 														{message.content && message.content}
-														{/* {message.message && <p>{message.message}</p>} */}
 													</ChatBubble>
 												)}
 
-												<button
+												<LikeBtn
 													type="button"
 													onClick={() => onLikeMessage?.(message.id)}
+													$isOwner={message.member.user.id === owner}
 													style={{
-														// right: message.name === owner ? "0" : "auto",
-														// left: message.name === owner ? "auto" : "0",
 														color: message.isLiked ? "#ff4d4d" : "#888",
-														// zIndex: 10,
 													}}
 												>
 													<Like>
@@ -150,7 +214,7 @@ const MessageContainer = ({
 														) : (
 															<FaRegHeart size={14} />
 														)}
-														{message.likesCount > 0 && (
+														{message.likes.length > 0 && (
 															<span
 																style={{
 																	fontSize: "12px",
@@ -158,11 +222,11 @@ const MessageContainer = ({
 																	marginLeft: "5px",
 																}}
 															>
-																{message.likesCount}
+																{message.likes.length}
 															</span>
 														)}
 													</Like>
-												</button>
+												</LikeBtn>
 											</ChatContainer>
 										)}
 									</ChatWrapper>
