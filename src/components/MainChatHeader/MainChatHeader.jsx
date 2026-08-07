@@ -9,6 +9,7 @@ import {
 	// Circle,
 	// LogoBoxContactsContainerStyle,
 	ReturnArrow,
+	UserInfoContainer,
 } from "./MainChatHeader.styled";
 
 const MainChatHeader = ({ onSearchClick }) => {
@@ -46,10 +47,11 @@ const MainChatHeader = ({ onSearchClick }) => {
  					<Circle />
 					<IoPersonOutline size={20} />
  				</LogoBoxContactsContainerStyle> */}
+				<UserInfoContainer>
+					<Avatar userId={targetUserId} avatarUrl={activeRoom.avatarUrl} />
 
-				<Avatar userId={targetUserId} avatarUrl={activeRoom.avatarUrl} />
-
-				{activeRoom ? activeRoom.name : "Select a room"}
+					{activeRoom ? activeRoom.name : "Select a room"}
+				</UserInfoContainer>
 			</ChatHeaderContainerLeftStyle>
 
 			<DropdownMenuDemo onSearchClick={onSearchClick} />

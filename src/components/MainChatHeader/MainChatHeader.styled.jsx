@@ -52,3 +52,9 @@ export const ProfileImg = styled.img`
   border-radius: 7px;
   object-fit: cover;
 `;
+
+export const UserInfoContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;

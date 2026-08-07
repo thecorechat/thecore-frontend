@@ -18,7 +18,7 @@ const ChatContainer = () => {
 	const token = localStorage.getItem("token");
 	const userId = token ? JSON.parse(atob(token.split(".")[1])).id : null;
 
-	const [showUserProfile, setShowUserProfile] = useState(false);
+	// const [showUserProfile, setShowUserProfile] = useState(false);
 	const [realMessages, setRealMessages] = useState([]);
 	const ref = useRef(null);
 
@@ -28,6 +28,7 @@ const ChatContainer = () => {
 
 	const [isMembersLoading, setIsMembersLoading] = useState(true);
 	const [isOwnerLoading, setIsOwnerLoading] = useState(true);
+	const [selectedUser, setSelectedUser] = useState(null);
 
 	useEffect(() => {
 		if (messages) {
@@ -206,13 +207,29 @@ const ChatContainer = () => {
 		return response.json();
 	};
 
+	const handleOpenUserProfile = async (username) => {
+		try {
+			const response = await fetchWithAuth(
+				`https://thecore-backend-nest.onrender.com/user/${username}`,
+			);
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message);
+			}
+			const data = await response.json();
+			setSelectedUser(data);
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
 	return (
 		<>
 			<ChatContainerStyle>
 				<ChatHeader />
 				<MessageContainer
 					messages={realMessages}
-					onOpenUserProfile={() => setShowUserProfile(true)}
+					onOpenUserProfile={handleOpenUserProfile}
 					onLikeMessage={handleLikeMessage}
 					ref={ref}
 					isLoading={isLoading}
@@ -228,16 +245,14 @@ const ChatContainer = () => {
 					isLoading={isLoading}
 					isMembersLoading={isMembersLoading}
 					isOwnerLoading={isOwnerLoading}
-					setIsOwnerLoading={setIsOwnerLoading}
 				/>
 			</ChatContainerStyle>
 
-			{showUserProfile && (
+			{selectedUser && (
 				<UserProfile
-					onCancel={() => setShowUserProfile(false)}
-					onConfirm={() => {
-						setShowUserProfile(false);
-					}}
+					user={selectedUser}
+					onCancel={() => setSelectedUser(null)}
+					onConfirm={() => setSelectedUser(null)}
 				/>
 			)}
 		</>

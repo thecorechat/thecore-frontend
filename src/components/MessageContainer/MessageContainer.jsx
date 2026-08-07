@@ -75,7 +75,7 @@ const MessageContainer = ({
 		}
 
 		handleGetInfo();
-	}, []);
+	}, [setIsOwnerLoading]);
 
 	const handleDownload = async (fileUrl, fileName) => {
 		try {
@@ -136,7 +136,11 @@ const MessageContainer = ({
 										{(message.content || message.fileUrl !== null) && (
 											<ChatContainer>
 												<ChatHeader>
-													<ChatName onClick={onOpenUserProfile}>
+													<ChatName
+														onClick={() =>
+															onOpenUserProfile(message.member.user.username)
+														}
+													>
 														{message.member.user.id === owner
 															? "You"
 															: message.member.user.firstName}
