@@ -28,7 +28,7 @@ export const Avatar = ({
 			onClick={onClick}
 			style={{ width: size, height: size }}
 		>
-			<Circle style={{ backgroundColor: circleColor }} />
+			{userId && <Circle style={{ backgroundColor: circleColor }} />}
 			<ProfileImg src={avatarUrl} alt="User avatar" />
 		</ProfileImgContainerStyle>
 	) : (
@@ -36,7 +36,7 @@ export const Avatar = ({
 			onClick={onClick}
 			style={{ width: size, height: size }}
 		>
-			<Circle style={{ backgroundColor: circleColor }} />
+			{userId && <Circle style={{ backgroundColor: circleColor }} />}
 			<IoPersonOutline size={iconSize} />
 		</LogoBoxContactsContainerStyle>
 	);

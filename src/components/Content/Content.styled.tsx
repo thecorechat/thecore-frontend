@@ -73,6 +73,13 @@ export const GroupItemAvatar = styled.span`
   background: #f3f4f6;
   color: #9ca3af;
   flex-shrink: 0;
+  overflow: hidden;
+`;
+
+export const AvatarImg = styled.img`
+    object-fit: cover;
+    width: 1.5rem;
+    height: 1.5rem;
 `;
 
 export const AddChatStyle = styled.div`
