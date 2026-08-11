@@ -72,6 +72,7 @@ const ChatContainer = () => {
 	const queryClient = useQueryClient();
 
 	const handleSendMessage = async (text, file) => {
+		const trimmedText = text.trim();
 		let fileData = null;
 
 		if (file) {
@@ -83,12 +84,14 @@ const ChatContainer = () => {
 			}
 		}
 
+		if (!trimmedText && !fileData) return;
+
 		socket.emit("sendMessage", {
 			userId,
 			dto: {
 				workspaceId,
 				roomId,
-				content: text,
+				content: trimmedText,
 				userId,
 				...(fileData && {
 					fileUrl: fileData.fileUrl,
