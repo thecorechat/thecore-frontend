@@ -1,23 +1,20 @@
 import styled from "styled-components";
 
 export const MessageBarMainContainerStyle = styled.div`
-  /* height: 9vh; */
   background-color: white;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: end;
   padding: 24px;
   column-gap: 1.5rem;
   row-gap: 10px;
   border-top: 1px solid var(--gray-20);
-
-  @media(min-width: 768px){
-  flex-wrap: wrap;
-  }
 `;
 
 export const MessageBarSemiContainerStyle = styled.div`
   background-color: white;
+  min-width: 200px;
   display: flex;
   flex: 1;
   align-items: flex-end;

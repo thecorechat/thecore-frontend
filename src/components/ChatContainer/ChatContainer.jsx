@@ -38,11 +38,20 @@ const ChatContainer = () => {
 		}));
 	}, [messages, currentMemberId]);
 
+	// useEffect(() => {
+	// 	const container = ref.current;
+	// 	if (!container) return;
+	// 	container.scrollTop = container.scrollHeight;
+	// }, [realMessages]);
+
+	const isChatReady = !isLoading && !isMembersLoading && !isOwnerLoading;
+
 	useEffect(() => {
+		if (!isChatReady) return;
 		const container = ref.current;
 		if (!container) return;
 		container.scrollTop = container.scrollHeight;
-	}, [realMessages]);
+	}, [realMessages, isChatReady]);
 
 	useEffect(() => {
 		if (!roomId) return;
@@ -214,9 +223,10 @@ const ChatContainer = () => {
 					onOpenUserProfile={handleOpenUserProfile}
 					onLikeMessage={handleLikeMessage}
 					ref={ref}
-					isLoading={isLoading}
-					isMembersLoading={isMembersLoading}
-					isOwnerLoading={isOwnerLoading}
+					// isLoading={isLoading}
+					// isMembersLoading={isMembersLoading}
+					// isOwnerLoading={isOwnerLoading}
+					isChatReady={isChatReady}
 					setIsOwnerLoading={setIsOwnerLoading}
 				/>
 				<MessageBar
@@ -224,9 +234,10 @@ const ChatContainer = () => {
 					containerRef={ref}
 					uploadFile={uploadFile}
 					key={roomId}
-					isLoading={isLoading}
-					isMembersLoading={isMembersLoading}
-					isOwnerLoading={isOwnerLoading}
+					// isLoading={isLoading}
+					// isMembersLoading={isMembersLoading}
+					// isOwnerLoading={isOwnerLoading}
+					isChatReady={isChatReady}
 				/>
 			</ChatContainerStyle>
 
