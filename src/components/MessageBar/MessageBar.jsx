@@ -25,14 +25,7 @@ import {
 	MessageBarSemiContainerStyle,
 } from "./MessageBar.styled";
 
-const MessageBar = ({
-	onSend,
-	containerRef,
-	uploadFile,
-	isLoading,
-	isOwnerLoading,
-	isMembersLoading,
-}) => {
+const MessageBar = ({ onSend, containerRef, uploadFile, isChatReady }) => {
 	const [message, setMessage] = useState("");
 	const emojiRef = useRef(null);
 	const [file, setFile] = useState(null);
@@ -126,7 +119,7 @@ const MessageBar = ({
 					<EmojiStickerButton
 						type="button"
 						onClick={() => setEmojiPickerOpen(!emojiPickerOpen)}
-						disabled={isLoading || isOwnerLoading || isMembersLoading}
+						disabled={isChatReady}
 					>
 						<svg width={22} height={22} aria-hidden="true">
 							<use href={`${icon}#icon-smile`}></use>
@@ -155,7 +148,7 @@ const MessageBar = ({
 					onKeyDown={(e) => e.key === "Enter" && handleSend()}
 					onInput={handleInput}
 					ref={heightRef}
-					disabled={isLoading || isOwnerLoading || isMembersLoading}
+					disabled={isChatReady}
 				/>
 
 				<button type="button" onClick={handleClick}>
@@ -173,13 +166,13 @@ const MessageBar = ({
 					ref={hiddenFileInput}
 					style={{ display: "none" }}
 					onChange={handleAddFile}
-					disabled={isLoading || isOwnerLoading || isMembersLoading}
+					disabled={isChatReady}
 					// onClick={uploadFile}
 				/>
 			</MessageBarSemiContainerStyle>
 			<Button
 				onClick={handleSend}
-				nonactive={isLoading || isOwnerLoading || isMembersLoading}
+				nonactive={isChatReady}
 				width="48px"
 				height="48px"
 			>

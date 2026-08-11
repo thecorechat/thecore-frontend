@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { socket } from "../../../helper/socket";
 import ChatHeader from "../../components/ChatHeader/ChatHeader";
 import MessageBar from "../../components/MessageBar/MessageBar";
@@ -18,9 +19,8 @@ const ChatContainer = () => {
 	const token = localStorage.getItem("token");
 	const userId = token ? JSON.parse(atob(token.split(".")[1])).id : null;
 
-	// const [showUserProfile, setShowUserProfile] = useState(false);
-	const [realMessages, setRealMessages] = useState([]);
 	const ref = useRef(null);
+	const pendingLikesRef = useRef(new Set());
 
 	const [allMembers, setAllMembers] = useState([]);
 	const currentMember = allMembers.find((m) => m.member.user.id === userId);
@@ -30,24 +30,28 @@ const ChatContainer = () => {
 	const [isOwnerLoading, setIsOwnerLoading] = useState(true);
 	const [selectedUser, setSelectedUser] = useState(null);
 
-	useEffect(() => {
-		if (messages) {
-			setRealMessages(
-				messages.map((msg) => ({
-					...msg,
-					isLiked:
-						msg.likes?.some((like) => like.memberId === currentMemberId) ??
-						false,
-				})),
-			);
-		}
+	const realMessages = useMemo(() => {
+		return (messages ?? []).map((msg) => ({
+			...msg,
+			isLiked:
+				msg.likes?.some((like) => like.memberId === currentMemberId) ?? false,
+		}));
 	}, [messages, currentMemberId]);
 
+	// useEffect(() => {
+	// 	const container = ref.current;
+	// 	if (!container) return;
+	// 	container.scrollTop = container.scrollHeight;
+	// }, [realMessages]);
+
+	const isChatReady = !isLoading && !isMembersLoading && !isOwnerLoading;
+
 	useEffect(() => {
+		if (!isChatReady) return;
 		const container = ref.current;
 		if (!container) return;
 		container.scrollTop = container.scrollHeight;
-	}, [realMessages]);
+	}, [realMessages, isChatReady]);
 
 	useEffect(() => {
 		if (!roomId) return;
@@ -64,6 +68,8 @@ const ChatContainer = () => {
 			socket.off("connect");
 		};
 	}, [roomId]);
+
+	const queryClient = useQueryClient();
 
 	const handleSendMessage = async (text, file) => {
 		let fileData = null;
@@ -96,24 +102,18 @@ const ChatContainer = () => {
 
 	useEffect(() => {
 		const handleNewMessage = (newMessage) => {
-			if (newMessage.roomId === roomId) {
-				setRealMessages((prev) => {
-					const exists = prev.some(
-						(msg) => newMessage.id !== undefined && msg.id === newMessage.id,
-					);
+			if (newMessage.roomId !== roomId) return;
 
-					if (exists) return prev;
-					return [...prev, newMessage];
-				});
-			}
+			queryClient.setQueryData(["room", roomId], (old = []) => {
+				const exists = old.some((msg) => msg.id === newMessage.id);
+				if (exists) return old;
+				return [...old, newMessage];
+			});
 		};
 
 		socket.on("newMessage", handleNewMessage);
-
-		return () => {
-			socket.off("newMessage", handleNewMessage);
-		};
-	}, [roomId]);
+		return () => socket.off("newMessage", handleNewMessage);
+	}, [roomId, queryClient]);
 
 	const handleGetInfoUser = useCallback(async () => {
 		try {
@@ -142,40 +142,31 @@ const ChatContainer = () => {
 	}, [handleGetInfoUser]);
 
 	useEffect(() => {
-		socket.on("messageLikeUpdated", ({ messageId, likes }) => {
-			return setRealMessages((prev) =>
-				prev.map((msg) =>
-					msg.id === messageId
-						? {
-								...msg,
-								likes,
-								isLiked: likes.some(
-									(like) => like.memberId === currentMemberId,
-								),
-							}
-						: msg,
-				),
+		const handleLikeUpdate = ({ messageId, likes }) => {
+			pendingLikesRef.current.delete(messageId);
+			queryClient.setQueryData(["room", roomId], (old = []) =>
+				old.map((msg) => (msg.id === messageId ? { ...msg, likes } : msg)),
 			);
-		});
-
-		return () => {
-			socket.off("messageLikeUpdated");
 		};
-	}, [currentMemberId]);
+
+		socket.on("messageLikeUpdated", handleLikeUpdate);
+		return () => socket.off("messageLikeUpdated", handleLikeUpdate);
+	}, [roomId, queryClient]);
 
 	const handleLikeMessage = (messageId) => {
-		socket.emit("toggleLike", { dto: { messageId } });
-		setRealMessages((prev) =>
-			prev.map((msg) => {
-				if (msg.id !== messageId) return msg;
+		if (pendingLikesRef.current.has(messageId)) return;
+		pendingLikesRef.current.add(messageId);
 
+		socket.emit("toggleLike", { dto: { messageId } });
+
+		queryClient.setQueryData(["room", roomId], (old = []) =>
+			old.map((msg) => {
+				if (msg.id !== messageId) return msg;
 				const isLiked = msg.likes?.some(
 					(like) => like.memberId === currentMemberId,
 				);
-
 				return {
 					...msg,
-					isLiked: !isLiked,
 					likes: isLiked
 						? msg.likes.filter((like) => like.memberId !== currentMemberId)
 						: [...(msg.likes ?? []), { memberId: currentMemberId }],
@@ -232,9 +223,10 @@ const ChatContainer = () => {
 					onOpenUserProfile={handleOpenUserProfile}
 					onLikeMessage={handleLikeMessage}
 					ref={ref}
-					isLoading={isLoading}
-					isMembersLoading={isMembersLoading}
-					isOwnerLoading={isOwnerLoading}
+					// isLoading={isLoading}
+					// isMembersLoading={isMembersLoading}
+					// isOwnerLoading={isOwnerLoading}
+					isChatReady={isChatReady}
 					setIsOwnerLoading={setIsOwnerLoading}
 				/>
 				<MessageBar
@@ -242,9 +234,10 @@ const ChatContainer = () => {
 					containerRef={ref}
 					uploadFile={uploadFile}
 					key={roomId}
-					isLoading={isLoading}
-					isMembersLoading={isMembersLoading}
-					isOwnerLoading={isOwnerLoading}
+					// isLoading={isLoading}
+					// isMembersLoading={isMembersLoading}
+					// isOwnerLoading={isOwnerLoading}
+					isChatReady={isChatReady}
 				/>
 			</ChatContainerStyle>
 

@@ -37,10 +37,8 @@ const MessageContainer = ({
 	messages,
 	onLikeMessage,
 	ref,
-	isLoading,
-	isMembersLoading,
 	setIsOwnerLoading,
-	isOwnerLoading,
+	isChatReady,
 }) => {
 	const [owner, setOwner] = useState(null);
 
@@ -103,7 +101,7 @@ const MessageContainer = ({
 
 	return (
 		<MessageContainerStyle>
-			{isLoading || isOwnerLoading || isMembersLoading ? (
+			{!isChatReady ? (
 				<SkeletonLoader />
 			) : (
 				<MessagesList ref={ref}>
@@ -117,7 +115,6 @@ const MessageContainer = ({
 										Number(new Date(b.createdAt)),
 								)
 								.map((message) => (
-									// console.log(message),
 									<ChatWrapper
 										key={message.id}
 										$isOwner={message.member.user.id === owner}
