@@ -117,7 +117,6 @@ const MessageContainer = ({
 										Number(new Date(b.createdAt)),
 								)
 								.map((message) => (
-									// console.log(message),
 									<ChatWrapper
 										key={message.id}
 										$isOwner={message.member.user.id === owner}
