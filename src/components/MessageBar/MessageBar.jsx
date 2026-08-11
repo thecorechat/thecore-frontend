@@ -54,7 +54,7 @@ const MessageBar = ({ onSend, containerRef, uploadFile, isChatReady }) => {
 		if (!message.trim() && file === null) return;
 		// if (!message.trim() && files.length === 0) return;
 
-		onSend(message, file);
+		onSend(message.trim(), file);
 		// onSend(message, files);
 		setMessage("");
 		setFile(null);
